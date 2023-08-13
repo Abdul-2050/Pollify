@@ -109,9 +109,13 @@
     <div class="create_poll">
         <div class="create_poll_container">
             <div class="create_poll_header">
-                <h2 class="grandient-tex">Vote Now <span class="createdBy" id="createdBy">Created by </span></h2>
+                <h2 class="grandient-tex">Vote Now <span class="createdBy" id="createdBy">Created by </span> <img
+                        id="copyLinkImg" src="share.png" class="shareBtn" alt="Copy Link">
+                </h2>
                 <!-- <p>Complete the below fields to create your poll.</p> -->
             </div>
+
+            <div id="notification" class="notification">Group link copied!</div>
 
             <style>
                 .createdBy {
@@ -126,6 +130,32 @@
                     /* Center horizontally */
                     padding: 3px;
                     /* border: 1px solid rgb(0, 90, 234); */
+                }
+
+                .shareBtn {
+                    width: 20px;
+                }
+
+                .shareBtn:hover {
+                    cursor: pointer;
+                }
+
+                .notification {
+                    position: fixed;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    background-color: #333;
+                    color: white;
+                    padding: 10px 20px;
+                    border-radius: 5px;
+                    opacity: 0;
+                    transition: opacity 0.5s;
+                    z-index: 1000;
+                }
+
+                .show-notification {
+                    opacity: 1;
                 }
             </style>
 
@@ -430,6 +460,7 @@
                     }
                 });
 
+
                 // Listen for changes to match progress data
                 groupRef.on('value', snapshot => {
                     const matchProgressData = snapshot.val();
@@ -452,6 +483,35 @@
                         }
                     }
                 });
+
+
+
+
+                const copyLinkImg = document.getElementById("copyLinkImg");
+                const notification = document.getElementById("notification");
+
+                copyLinkImg.addEventListener("click", () => {
+                    const groupKey = user.uid;
+                    const groupLink = `https://abdul-2050.github.io/Pollify/group.html?groupKey=${groupKey}`;
+
+                    const tempInput = document.createElement("input");
+                    document.body.appendChild(tempInput);
+                    tempInput.value = groupLink;
+                    tempInput.select();
+                    document.execCommand("copy");
+                    document.body.removeChild(tempInput);
+
+                    // Show the notification
+                    notification.classList.add("show-notification");
+
+                    // Hide the notification after a delay
+                    setTimeout(() => {
+                        notification.classList.remove("show-notification");
+                    }, 2000); // Hide after 2 seconds
+                });
+
+
+
 
 
             } else {
