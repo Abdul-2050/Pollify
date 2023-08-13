@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Poll 2-version</title>
+
+    <link rel="stylesheet" href="index.css" />
+    <link rel="stylesheet" href="gradient-border.css" />
+    <link rel="stylesheet" href="gradient-text-color.css" />
+    <link rel="stylesheet" href="createNowPoll.css" />
+
+    <link rel="stylesheet" href="awesome_nav.css" />
+    <link rel="stylesheet" href="awesome_nav.js" />
+
+    <link rel="stylesheet" hrefl="index.JS" />
+
+
+    <style>
+        body {
+            /* border: 1px solid greenyellow; */
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1600 900'%3E%3Cdefs%3E%3ClinearGradient id='a' x1='0' x2='0' y1='1' y2='0' gradientTransform='rotate(0,0.5,0.5)'%3E%3Cstop offset='0' stop-color='%23ff057c'/%3E%3Cstop offset='1' stop-color='%23321575'/%3E%3C/linearGradient%3E%3ClinearGradient id='b' x1='0' x2='0' y1='0' y2='1'%3E%3Cstop offset='0' stop-color='%23F00'/%3E%3Cstop offset='1' stop-color='%23FC0'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cg fill='%23FFF' fill-opacity='0' stroke-miterlimit='10'%3E%3Cg stroke='url(%23a)' stroke-width='7.26'%3E%3Cpath d='M1409 581 1450.35 511 1490 581z'/%3E%3Ccircle stroke-width='2.4200000000000004' transform='' cx='500' cy='100' r='40'/%3E%3Cpath transform='' d='M400.86 735.5h-83.73c0-23.12 18.74-41.87 41.87-41.87S400.86 712.38 400.86 735.5z'/%3E%3C/g%3E%3Cg stroke='url(%23b)' stroke-width='2.2'%3E%3Cpath transform='' d='M149.8 345.2 118.4 389.8 149.8 434.4 181.2 389.8z'/%3E%3Crect stroke-width='4.840000000000001' transform='' x='1039' y='709' width='100' height='100'/%3E%3Cpath transform='' d='M1426.8 132.4 1405.7 168.8 1363.7 168.8 1342.7 132.4 1363.7 96 1405.7 96z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+
+
+
+
+        .main {
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+
+
+
+
+        @import url(https://fonts.googleapis.com/css?family=Quicksand:400,300,700);
+
+
+        .main {
+            width: 100%;
+            margin: 0 auto;
+            background-color: #1c1c1c;
+            font-family: "Quicksand", sans-serif;
+            overflow: hidden;
+        }
+
+       .main #background {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            z-index: -100;
+            -webkit-transform: translateX(-50%) translateY(-50%);
+            transform: translateX(-50%) translateY(-50%);
+            background: url(polina.jpg) no-repeat;
+            background-size: cover;
+            overflow: hidden;
+            -webkit-filter: blur(5px);
+            -moz-filter: blur(5px);
+            -o-filter: blur(5px);
+            -ms-filter: blur(5px);
+            filter: blur(5px);
+        }
+
+        .main {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 50%;
+            left: 50%;
+            margin: 0 auto;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        .main #content {
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+            min-height: 24px;
+            height: 100%;
+            position: relative;
+            text-align: center;
+            top: 33%;
+        }
+
+        main .title {
+            color: white;
+            font-family: "Quicksand", sans-serif;
+            font-size: 4rem;
+            text-transform: uppercase;
+            padding-bottom: 0px;
+            margin-bottom: 0px;
+        }
+
+        .main .title span {
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+        .main .title {
+            -webkit-animation: MISSION-HOVER 3s infinite;
+            -moz-animation: MISSION-HOVER 3s infinite;
+            -o-animation: MISSION-HOVER 3s infinite;
+            animation: MISSION-HOVER 3s infinite;
+            animation-direction: alternate;
+            animation-timing-function: ease;
+        }
+
+        @-webkit-keyframes MISSION-HOVER {
+
+            0%,
+            100% {
+                font-size: 4rem;
+                color: white;
+            }
+
+            50% {
+                color: #bffcff;
+                letter-spacing: 5px;
+                text-shadow: 0px 0px 30px rgba(191, 252, 255, 1);
+            }
+        }
+
+        .main p {
+            color: #e6dbae;
+            font-family: "Quicksand", sans-serif;
+            font-size: 1.5rem;
+            margin: 0 auto;
+            padding: 0;
+            letter-spacing: 0.5rem;
+            text-transform: uppercase;
+        }
+
+        .main p:last-child {
+            font-size: 0.75rem;
+            font-weight: 700;
+            margin: 3em auto;
+            padding: 0;
+            letter-spacing: 0.1rem;
+        }
+
+        .main p:last-child a {
+            text-decoration: none;
+            color: inherit;
+            -moz-transition: all 0.2s ease-in;
+            -o-transition: all 0.2s ease-in;
+            -webkit-transition: all 0.2s ease-in;
+            transition: all 0.2s ease-in;
+        }
+
+        p:last-child a:hover {
+            color: #fff;
+        }
+
+        .main section {
+            color: #fff;
+            margin: 0 auto;
+            line-height: 24px;
+            font-size: 1rem;
+            font-weight: 700;
+        }
+
+        .main ul {
+            list-style-type: none;
+            margin-bottom: 0;
+            margin-left: 0;
+        }
+
+        .main li {
+            display: inline-block;
+            margin-right: 2rem;
+            width: 6rem;
+        }
+
+        .main .timenumbers {
+            display: block;
+            font-size: 1.3rem;
+            font-weight: 400;
+            line-height: 1.5rem;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .main p.timedescription {
+            font-size: 0.5rem;
+            font-variant: small-caps;
+            line-height: 1.5rem;
+            margin: 0 auto;
+            text-align: center;
+            position: relative;
+            top: 0px;
+        }
+    </style>
+
+
+</head>
+
+<body>
+    <header>
+        <nav class="nav">
+            <div class="navigation-bar container">
+                <div class="item-left">
+                    <a href="index.html">
+                        <h2 class="grandient-tex">Pollify</h2>
+                    </a>
+                </div>
+
+                <div class="item-center desktop">
+                    <ul class="menu-list">
+                        <li><a href="comingSoon.html">Create Poll</a></li>
+                        <li><a href="comingSoon.html">Sport Poll</a></li>
+                        <li><a href="comingSoon.html">Dashboard</a></li>
+                        <li><a href="comingSoon.html">Schedule Meeting</a></li>
+                        <li><a href="comingSoon.html">Pricing</a></li>
+                    </ul>
+                </div>
+
+                <div class="item-right">
+                    <ul class="menu-list desktop">
+                        <li><a href="javascript:void(0)">Support </a></li>
+                        <li><a href="javascript:void(0)">Login</a></li>
+                    </ul>
+                    <ul class="menu-list">
+                        <li><a href="javascript:void(0)" id="menuBtn">Menu</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="menu-backdrop"></div>
+        </nav>
+    </header>
+
+
+
+    <div class="backdrop"></div>
+
+    <aside>
+        <button class="close">&times;</button>
+        <a href="comingSoon.html">Create Poll</a>
+        <a href="comingSoon.html">Sport Poll</a>
+        <a href="comingSoon.html">Dashboard</a>
+        <a href="comingSoon.html">Schedule Meeting</a>
+        <a href="comingSoon.html">Pricing</a>
+        <a href="comingSoon.html">Support </a>
+        <a href="comingSoon.html">Login</a>
+    </aside>
+
+
+
+    <div class="main">
+        <div id='content'>
+            <div class='title'>
+                <span>pollify.online</span>
+            </div>
+            <p>COMING SOON!</p>
+            <section>
+                <ul id="countdown">
+                    <li><span class="days timenumbers">07</span>
+                        <p class="timeRefDays timedescription">days</p>
+                    </li>
+                    <li><span class="hours timenumbers">00</span>
+                        <p class="timeRefHours timedescription">hours</p>
+                    </li>
+                    <li><span class="minutes timenumbers">00</span>
+                        <p class="timeRefMinutes timedescription">minutes</p>
+                    </li>
+                    <li><span class="seconds timenumbers yellow-text">00</span>
+                        <p class="timeRefSeconds timedescription">seconds</p>
+                    </li>
+                </ul>
+            </section>
+            <p>OUR SITE IS CURRENTLY ON MAINTANENCE.</br></br>WE'LL BE BACK WITH OUR NEW DESIGNED WEBSITE SOON!</a></p>
+        </div>
+    </div>
+
+
+
+
+    <script src="index.JS"></script>
+    <script src="awesome_nav.js"></script>
+
+    <script>
+        (function ($) {
+            $.fn.countdown = function (options, callback) {
+                //custom 'this' selector
+                thisEl = $(this);
+
+                // array of custom settings
+                var settings = {
+                    date: null,
+                    format: null
+                };
+
+                // append the settings array to options
+                if (options) {
+                    $.extend(settings, options);
+                }
+
+                //create the countdown processing function
+                function countdown_proc() {
+                    var eventDate = Date.parse(settings.date) / 1000;
+                    var currentDate = Math.floor($.now() / 1000);
+
+                    if (eventDate <= currentDate) {
+                        callback.call(this);
+                        clearInterval(interval);
+                    }
+
+                    var seconds = eventDate - currentDate;
+
+                    var days = Math.floor(seconds / (60 * 60 * 24));
+                    //calculate the number of days
+
+                    seconds -= days * 60 * 60 * 24;
+                    //update the seconds variable with number of days removed
+
+                    var hours = Math.floor(seconds / (60 * 60));
+                    seconds -= hours * 60 * 60;
+                    //update the seconds variable with number of hours removed
+
+                    var minutes = Math.floor(seconds / 60);
+                    seconds -= minutes * 60;
+                    //update the seconds variable with number of minutes removed
+
+                    //conditional statements
+                    if (days == 1) {
+                        thisEl.find(".timeRefDays").text("day");
+                    } else {
+                        thisEl.find(".timeRefDays").text("days");
+                    }
+                    if (hours == 1) {
+                        thisEl.find(".timeRefHours").text("hour");
+                    } else {
+                        thisEl.find(".timeRefHours").text("hours");
+                    }
+                    if (minutes == 1) {
+                        thisEl.find(".timeRefMinutes").text("minute");
+                    } else {
+                        thisEl.find(".timeRefMinutes").text("minutes");
+                    }
+                    if (seconds == 1) {
+                        thisEl.find(".timeRefSeconds").text("second");
+                    } else {
+                        thisEl.find(".timeRefSeconds").text("seconds");
+                    }
+
+                    //logic for the two_digits ON setting
+                    if (settings.format == "on") {
+                        days = String(days).length >= 2 ? days : "0" + days;
+                        hours = String(hours).length >= 2 ? hours : "0" + hours;
+                        minutes = String(minutes).length >= 2 ? minutes : "0" + minutes;
+                        seconds = String(seconds).length >= 2 ? seconds : "0" + seconds;
+                    }
+
+                    //update the countdown's html values.
+                    thisEl.find(".days").text(days);
+                    thisEl.find(".hours").text(hours);
+                    thisEl.find(".minutes").text(minutes);
+                    thisEl.find(".seconds").text(seconds);
+                }
+
+                //run the function
+                countdown_proc();
+
+                //loop the function
+                interval = setInterval(countdown_proc, 1000);
+            };
+        })(jQuery);
+
+        //Provide the plugin settings
+        $("#countdown").countdown(
+            {
+                //The countdown end date
+                date: "10 January 2022 20:00:00",
+
+                // on (03:07:52) | off (3:7:52) - two_digits set to ON maintains layout consistency
+                format: "on"
+            },
+
+            function () {
+                // This will run when the countdown ends
+                alert("We're Out Now");
+            }
+        );
+
+        function setHeights() {
+            var windowHeight = $(window).height();
+            $(".slide").height(windowHeight);
+        }
+
+        setHeights();
+
+        $(window).resize(function () {
+            setHeights();
+        });
+
+        function addSticky() {
+            $(".slide").each(function () {
+                var scrollerAnchor = $(this).offset().top;
+                if (window.scrollY >= scrollerAnchor) {
+                    $(this).addClass("fix-it");
+                } else {
+                    $(this).removeClass("fix-it");
+                }
+            });
+        }
+
+        $(window).scroll(function () {
+            addSticky();
+        });
+
+    </script>
+</body>
+
+</html>

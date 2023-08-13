@@ -1,0 +1,158 @@
+@import url("https://fonts.googleapis.com/css2?family=M+PLUS+1:wght@400;500&family=M+PLUS+1p:wght@100;300;400;500;700;800;900&family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300&family=Work+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,900;1,100&display=swap");
+
+header {
+  z-index: -1;
+  font-family: "M PLUS 1", sans-serif;
+}
+
+nav a {
+  color: #96b5c0;
+  text-decoration: none;
+}
+
+.container {
+  max-width: 90%;
+  margin: auto;
+}
+
+.nav {
+  position: relative;
+}
+
+.navigation-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  /* padding: 10px 0; */
+  position: relative;
+  z-index: 2;
+}
+
+.item-left svg {
+  width: 120px;
+}
+
+.item-left h1 {
+  /* height: 20px; */
+}
+
+.item-left,
+.item-right {
+  display: flex;
+  flex: 0 0 20%;
+}
+
+.item-center {
+  flex: 0 0 50%;
+  display: flex;
+  justify-content: center;
+}
+.item-right .menu-list {
+  justify-content: end;
+}
+.menu-list {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  display: flex;
+  /* font-weight: 500; */
+}
+
+.menu-list li {
+  padding: 4px 8px;
+}
+
+.menu-list li a {
+  align-items: center;
+  display: inline-flex;
+  margin: 0 8px;
+  min-block-size: 24px;
+}
+
+.desktop {
+  display: none;
+}
+
+@media (min-width: 1400px) {
+  .desktop {
+    display: flex;
+  }
+}
+
+aside {
+  position: fixed;
+  transition: right 0.5s ease;
+  top: 0;
+  /* right: calc(-45vw - 80px);
+width: 45vw; */
+  right: -305px;
+  width: 225px;
+  background-color: aliceblue;
+  padding: 80px 40px;
+  z-index: 100;
+  height: 100vh;
+}
+
+@media (max-width: 680px) {
+  aside {
+    width: 150px;
+  }
+}
+
+aside.active {
+  right: 0;
+}
+
+aside a {
+  display: block;
+  text-decoration: none;
+  padding: 12px 0;
+  font-size: 14px;
+  color: black;
+  font-weight: 500;
+}
+
+aside button.close {
+  font-size: 24px;
+  border: 0;
+  background-color: transparent;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  padding: 10px;
+  font-family: sans-serif;
+  font-weight: 100;
+  cursor: pointer;
+}
+
+.menu-backdrop {
+  position: absolute;
+  top: var(--block-top);
+  left: var(--block-left);
+  height: var(--block-height);
+  width: var(--block-width);
+  top: 50%;
+  border-radius: 4px;
+  transform: translateY(-50%);
+  background-color: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+
+  opacity: 0;
+  visibility: hidden;
+
+  transition: 0.5s cubic-bezier(0.75, 0, 0, 1);
+}
+
+.backdrop {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 3;
+  background-color: rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(5px);
+}
+
+.backdrop.active {
+  display: block;
+}

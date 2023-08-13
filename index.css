@@ -1,0 +1,68 @@
+/* Fonts */
+@import url("https://fonts.googleapis.com/css2?family=M+PLUS+1:wght@400;500&family=M+PLUS+1p:wght@100;300;400;500;700;800;900&family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300&family=Work+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,900;1,100&display=swap");
+
+:root {
+  --fontsize: 12px;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+body {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	font-family: 'Montserrat', sans-serif;
+}
+
+html,
+body {
+  height: 100%;
+  font-family: "M PLUS 1", sans-serif;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+
+
+body {
+  height: 100%;
+  /* secondary */
+  /* background: #212534; */
+  /* background: #320073; */
+  background-color: #1c1c1c;
+  color: white;
+}
+
+.under_construction👷 {
+  border: 1px solid;
+  border-image: linear-gradient(to right, #00ffff, #ff0000, #ffa500) 1;
+}
+
+header {
+  border-bottom: 1px solid rgb(94, 92, 96);
+}
+
+.selected::after {
+  content: "";
+  background: url("img/arrow-down.svg");
+  background-size: contain;
+  background-repeat: no-repeat;
+
+  position: absolute;
+  height: 100%;
+  width: 32px;
+  right: 10px;
+  top: 4px;
+
+  transition: all 0.4s;
+}
+
+
+
+/* new input css animation */
+.new-input-field {
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+}
