@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Poll 2-version</title>
+
+    <link rel="stylesheet" href="index.css" />
+    <link rel="stylesheet" href="gradient-border.css" />
+    <link rel="stylesheet" href="gradient-text-color.css" />
+
+    <link rel="stylesheet" href="createNowPoll.css" />
+
+    <link rel="stylesheet" href="awesome_nav.css" />
+    <link rel="stylesheet" href="awesome_nav.js" />
+
+    <link rel="stylesheet" hrefl="index.JS" />
+
+    <style>
+        body {
+            /* border: 1px solid greenyellow; */
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1600 900'%3E%3Cdefs%3E%3ClinearGradient id='a' x1='0' x2='0' y1='1' y2='0' gradientTransform='rotate(0,0.5,0.5)'%3E%3Cstop offset='0' stop-color='%23ff057c'/%3E%3Cstop offset='1' stop-color='%23321575'/%3E%3C/linearGradient%3E%3ClinearGradient id='b' x1='0' x2='0' y1='0' y2='1'%3E%3Cstop offset='0' stop-color='%23F00'/%3E%3Cstop offset='1' stop-color='%23FC0'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cg fill='%23FFF' fill-opacity='0' stroke-miterlimit='10'%3E%3Cg stroke='url(%23a)' stroke-width='7.26'%3E%3Cpath d='M1409 581 1450.35 511 1490 581z'/%3E%3Ccircle stroke-width='2.4200000000000004' transform='' cx='500' cy='100' r='40'/%3E%3Cpath transform='' d='M400.86 735.5h-83.73c0-23.12 18.74-41.87 41.87-41.87S400.86 712.38 400.86 735.5z'/%3E%3C/g%3E%3Cg stroke='url(%23b)' stroke-width='2.2'%3E%3Cpath transform='' d='M149.8 345.2 118.4 389.8 149.8 434.4 181.2 389.8z'/%3E%3Crect stroke-width='4.840000000000001' transform='' x='1039' y='709' width='100' height='100'/%3E%3Cpath transform='' d='M1426.8 132.4 1405.7 168.8 1363.7 168.8 1342.7 132.4 1363.7 96 1405.7 96z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+
+
+        .btn {
+            position: relative;
+            display: inline-block;
+            padding: 10px 20px;
+            color: #289bb8;
+            font-size: 16px;
+            text-decoration: none;
+            overflow: hidden;
+            transition: .5s;
+            margin-top: 15px;
+            letter-spacing: 2px
+        }
+
+        .btn:hover {
+            background: #289bb8;
+            color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 5px #289bb8,
+                0 0 25px #289bb8,
+                0 0 50px #289bb8,
+                0 0 100px #289bb8;
+        }
+
+        .btn span {
+            position: absolute;
+            display: block;
+        }
+
+        .btn span:nth-child(1) {
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #289bb8);
+            animation: btn-anim1 1s linear infinite;
+        }
+
+        @keyframes btn-anim1 {
+            0% {
+                left: -100%;
+            }
+
+            50%,
+            100% {
+                left: 100%;
+            }
+        }
+
+        .btn span:nth-child(2) {
+            top: -100%;
+            right: 0;
+            width: 2px;
+            height: 100%;
+            background: linear-gradient(180deg, transparent, #289bb8);
+            animation: btn-anim2 1s linear infinite;
+            animation-delay: .25s
+        }
+
+        @keyframes btn-anim2 {
+            0% {
+                top: -100%;
+            }
+
+            50%,
+            100% {
+                top: 100%;
+            }
+        }
+
+        .btn span:nth-child(3) {
+            bottom: 0;
+            right: -100%;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(270deg, transparent, #289bb8);
+            animation: btn-anim3 1s linear infinite;
+            animation-delay: .5s
+        }
+
+        @keyframes btn-anim3 {
+            0% {
+                right: -100%;
+            }
+
+            50%,
+            100% {
+                right: 100%;
+            }
+        }
+
+        .btn span:nth-child(4) {
+            bottom: -100%;
+            left: 0;
+            width: 2px;
+            height: 100%;
+            background: linear-gradient(360deg, transparent, #289bb8);
+            animation: btn-anim4 1s linear infinite;
+            animation-delay: .75s
+        }
+
+        @keyframes btn-anim4 {
+            0% {
+                bottom: -100%;
+            }
+
+            50%,
+            100% {
+                bottom: 100%;
+            }
+        }
+    </style>
+
+</head>
+
+<body>
+
+
+    <header>
+        <nav class="nav">
+            <div class="navigation-bar container">
+                <div class="item-left">
+                    <a href="index.html">
+                        <h2 class="grandient-tex">Pollify</h2>
+                    </a>
+                </div>
+
+                <div class="item-center desktop">
+                    <ul class="menu-list">
+                        <li><a href="comingSoon.html">Create Poll</a></li>
+                        <li><a href="comingSoon.html">Sport Poll</a></li>
+                        <li><a href="comingSoon.html">Dashboard</a></li>
+                        <li><a href="comingSoon.html">Schedule Meeting</a></li>
+                        <li><a href="comingSoon.html">Pricing</a></li>
+                    </ul>
+                </div>
+
+                <div class="item-right">
+                    <ul class="menu-list desktop">
+                        <li><a href="javascript:void(0)">Support </a></li>
+                        <li><a href="javascript:void(0)">Login</a></li>
+                    </ul>
+                    <ul class="menu-list">
+                        <li><a href="javascript:void(0)" id="menuBtn">Menu</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="menu-backdrop"></div>
+        </nav>
+    </header>
+
+
+
+    <div class="backdrop"></div>
+
+    <aside>
+        <button class="close">&times;</button>
+        <a href="comingSoon.html">Create Poll</a>
+        <a href="comingSoon.html">Sport Poll</a>
+        <a href="comingSoon.html">Dashboard</a>
+        <a href="comingSoon.html">Schedule Meeting</a>
+        <a href="comingSoon.html">Pricing</a>
+        <a href="comingSoon.html">Support </a>
+        <a href="comingSoon.html">Login</a>
+    </aside>
+
+    <link href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined" rel="stylesheet" />
+
+
+    <h3 style="text-align: center;">Member Auth</h3>
+
+
+    <div class="container" style="display: flex; justify-content: center;align-items: center; height: 100vh;">
+        <a id="googleBtn" class="btn">
+
+
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            Login</a>
+
+    </div>
+
+
+
+    <!-- <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+        // TODO: Add SDKs for Firebase products that you want to use
+        // https://firebase.google.com/docs/web/setup#available-libraries
+
+        import { getAuth, GoogleAuthProvider, signInWithRedirect, getRedirectResult, signInWithPopup } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
+
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyAuYoZO_ExZiKY2t2MnrzO_UnLk6ecvHUo",
+            authDomain: "taxi-unternehmerschein.firebaseapp.com",
+            databaseURL: "https://taxi-unternehmerschein-default-rtdb.firebaseio.com",
+            projectId: "taxi-unternehmerschein",
+            storageBucket: "taxi-unternehmerschein.appspot.com",
+            messagingSenderId: "753758307661",
+            appId: "1:753758307661:web:c2a4fcbedbd0eb9a2a2304"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const provider = new GoogleAuthProvider(app);
+
+        const auth = getAuth(app);
+
+        const googleBtn = document.getElementById("googleBtn");
+
+
+        // Check if user is already signed in on page load
+        auth.onAuthStateChanged((user) => {
+            if (user) {
+                // User is logged in, redirect to index.html
+                const redirectURL = "index.html?" + getUserQueryParams(user);
+                window.location.href = redirectURL;
+            } else {
+                // User is not logged in, stay on the current page
+                // or redirect to auth_google.html
+                // ...
+            }
+        });
+
+
+        googleBtn.addEventListener('click', function () {
+            // Code to execute when the button is clicked
+            console.log('Button clicked!');
+
+            signInWithPopup(auth, provider)
+                .then((result) => {
+                    // This gives you a Google Access Token. You can use it to access the Google API.
+                    const credential = GoogleAuthProvider.credentialFromResult(result);
+                    const token = credential.accessToken;
+                    // The signed-in user info.
+                    const user = result.user;
+                    // IdP data available using getAdditionalUserInfo(result)
+                    // ...
+
+
+                    if (user) {
+                        // Redirect to index.html and pass user details as query parameters
+                        const redirectURL = "index.html?" + getUserQueryParams(user);
+                        window.location.href = redirectURL;
+                    } else {
+                        // Redirect to auth_google.html
+                        window.location.href = "authentication.html";
+                    }
+
+                }).catch((error) => {
+                    // Handle Errors here.
+                    const errorCode = error.code;
+                    const errorMessage = error.message;
+                    // The email of the user's account used.
+                    const email = error.customData.email;
+                    // The AuthCredential type that was used.
+                    const credential = GoogleAuthProvider.credentialFromError(error);
+                    // ...
+
+                    alert(errorMessage);
+                });
+
+        });
+
+
+
+        function getUserQueryParams(user) {
+            const params = {
+                uid: user.uid,
+                email: user.email,
+                displayName: user.displayName,
+                photoURL: user.photoURL
+                // Add any additional user properties you want to pass as query parameters
+            };
+
+            return Object.keys(params)
+                .map((key) => encodeURIComponent(key) + "=" + encodeURIComponent(params[key]))
+                .join("&");
+        }
+
+
+    </script> -->
+
+    <!-- bootrap -->
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+
+
+
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-app.js";
+        import { getAuth, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-auth.js";
+
+
+        // This is for firebase taxi-unternehmerschein
+
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyC6QbAS32BJ8DS26rlWAKke8Mai63TujNg",
+            authDomain: "polify-42ea4.firebaseapp.com",
+            databaseURL: "https://polify-42ea4-default-rtdb.europe-west1.firebasedatabase.app",
+            projectId: "polify-42ea4",
+            storageBucket: "polify-42ea4.appspot.com",
+            messagingSenderId: "92933707190",
+            appId: "1:92933707190:web:814cbac948fec6f9089d17"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const provider = new GoogleAuthProvider(app);
+        const auth = getAuth(app);
+        const googleBtn = document.getElementById("googleBtn");
+
+
+        // Get the URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+
+        // Extract the groupKey parameter
+        const groupKey = urlParams.get('groupKey');
+
+        // Now you can use the extracted groupKey as needed
+        console.log("Group Key:", groupKey);
+
+        // Check if user is already signed in on page load
+        // auth.onAuthStateChanged((user) => {
+        //     if (user) {
+        //         // User is logged in, redirect to index.html
+        //         const redirectURL = "index.html?" + getUserQueryParams(user);
+        //         window.location.href = redirectURL;
+        //     } else {
+        //         // User is not logged in, redirect to auth_google.html
+        //         window.location.href = "authentication.html";
+        //     }
+        // });
+
+        googleBtn.addEventListener('click', function () {
+            // Code to execute when the button is clicked
+            console.log('Button clicked!');
+
+            signInWithPopup(auth, provider)
+                .then((result) => {
+                    // This gives you a Google Access Token. You can use it to access the Google API.
+                    const credential = GoogleAuthProvider.credentialFromResult(result);
+                    const token = credential.accessToken;
+                    // The signed-in user info.
+                    const user = result.user;
+                    // ...
+
+
+
+                    // Redirect to index.html and pass user details and groupKey as query parameters
+                    const redirectURL = `memberLogin.html?${getUserQueryParams(user)}&groupKey=${groupKey}`;
+                    window.location.href = redirectURL;
+                })
+                .catch((error) => {
+                    // Handle Errors here.
+                    const errorCode = error.code;
+                    const errorMessage = error.message;
+                    // ...
+
+                    alert(errorMessage);
+                });
+        });
+
+
+
+
+        function getUserQueryParams(user) {
+            const params = {
+                uid: user.uid,
+                email: user.email,
+                displayName: user.displayName,
+                photoURL: user.photoURL,
+                // Add any additional user properties you want to pass as query parameters
+            };
+
+            return Object.keys(params)
+                .map((key) => encodeURIComponent(key) + "=" + encodeURIComponent(params[key]))
+                .join("&");
+        }
+    </script>
+
+
+    <script src="login_check.js"></script>
+    <script src="index.JS"></script>
+    <script src="awesome_nav.js"></script>
+
+</body>
+
+</html>

@@ -28,6 +28,51 @@
         }
     </style>
 
+
+    <style>
+        .createdBy {
+            color: rgb(196, 194, 189);
+            font-size: 8px;
+            /* background-color: aliceblue; */
+            border-radius: 3px;
+            position: absolute;
+            top: 65px;
+            left: 50%;
+            transform: translateX(-50%);
+            /* Center horizontally */
+            padding: 3px;
+            /* border: 1px solid rgb(0, 90, 234); */
+        }
+
+
+        .shareBtn {
+            width: 20px;
+        }
+
+        .shareBtn:hover {
+            cursor: pointer;
+        }
+
+        .notification {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #333;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            opacity: 0;
+            transition: opacity 0.5s;
+            z-index: 1000;
+        }
+
+        .show-notification {
+            opacity: 1;
+        }
+    </style>
+
+
 </head>
 
 <body>
@@ -110,55 +155,14 @@
     <div class="create_poll">
         <div class="create_poll_container">
             <div class="create_poll_header">
-                <h2 class="grandient-tex">Vote Now <span class="createdBy" id="createdBy">Created by </span> <img
-                        id="copyLinkImg" src="share.png" class="shareBtn" alt="Copy Link">
+                <h2 class="grandient-tex">Vote Now
+                    <span class="createdBy" id="createdBy">Created by </span>
+                    <img id="copyLinkImg" src="share.png" class="shareBtn" alt="Copy Link">
                 </h2>
                 <!-- <p>Complete the below fields to create your poll.</p> -->
             </div>
 
             <div id="notification" class="notification">Group link copied!</div>
-
-            <style>
-                .createdBy {
-                    color: rgb(196, 194, 189);
-                    font-size: 8px;
-                    /* background-color: aliceblue; */
-                    border-radius: 3px;
-                    position: absolute;
-                    top: 65px;
-                    left: 50%;
-                    transform: translateX(-50%);
-                    /* Center horizontally */
-                    padding: 3px;
-                    /* border: 1px solid rgb(0, 90, 234); */
-                }
-
-                .shareBtn {
-                    width: 20px;
-                }
-
-                .shareBtn:hover {
-                    cursor: pointer;
-                }
-
-                .notification {
-                    position: fixed;
-                    top: 50%;
-                    left: 50%;
-                    transform: translate(-50%, -50%);
-                    background-color: #333;
-                    color: white;
-                    padding: 10px 20px;
-                    border-radius: 5px;
-                    opacity: 0;
-                    transition: opacity 0.5s;
-                    z-index: 1000;
-                }
-
-                .show-notification {
-                    opacity: 1;
-                }
-            </style>
 
             <div class="card" id="card">
                 <div class="card_container">
@@ -312,7 +316,6 @@
 
 
 
-
         // JavaScript code to create and display .match elements with descriptions and flags from the table
         const matchesContainer = document.getElementById('matchesContainer');
 
@@ -373,6 +376,10 @@
             matchesContainer.appendChild(matchDiv);
         }
 
+        // Get the group key from the URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const adminUid = urlParams.get('groupKey'); // Make sure you pass the groupKey as a parameter when redirecting
+
 
 
         // Keep track of selected options and their progress bars for each match
@@ -429,10 +436,11 @@
                     //     selectionTime
                     // });
 
-                    database.ref(`Admin/${user.uid}/groups/groupMembers/${user.uid}/matchProgress/${matchIndex}`).set({
+                    database.ref(`Admin/${adminUid}/groups/groupMembers/${user.uid}/matchProgress/${matchIndex}`).set({
                         [selectedTeam]: selectedOptions[matchIndex][selectedTeam],
                         selectionTime
                     });
+
 
                 } else {
                     console.log("User not authenticated.");
@@ -440,17 +448,17 @@
             });
         });
 
-        // Get the group key from the URL parameters
-        const urlParams = new URLSearchParams(window.location.search);
-        const groupKey = urlParams.get('groupKey'); // Make sure you pass the groupKey as a parameter when redirecting
 
         // Get current user info
         auth.onAuthStateChanged(user => {
             if (user) {
                 // User is authenticated, retrieve match progress data from the database and update progress bars
-                const groupRef = database.ref(`Admin/${user.uid}/groups/groupMembers/${user.uid}/matchProgress`);
+                const groupRef = database.ref(`Admin/${adminUid}/groups/groupMembers/${user.uid}/matchProgress`);
                 const createdByNameElement = document.getElementById('createdBy');
-                const userNameRef = database.ref(`Admin/${user.uid}/userName`);
+                const userNameRef = database.ref(`Admin/${adminUid}/userName`);
+
+                console.log("Admin uid " + adminUid);
+                console.log("Member uid " + user.uid);
 
                 userNameRef.once('value', snapshot => {
                     const userName = snapshot.val(); // Fetch the user's name
@@ -490,7 +498,7 @@
 
                 copyLinkImg.addEventListener("click", () => {
                     const groupKey = user.uid;
-                    const groupLink = `http://172.20.22.189:5500/code/index.html?group.html?groupKey=${groupKey}`;
+                    const groupLink = `http://127.0.0.1:5500/code/memberAuthentication.html?groupKey=${adminUid}`;
                     //                 https://abdul-2050.github.io/Pollify/index.html?groupKey=agXYzeiiUOYmDs4W9Olg0TrGMB53  
 
 
