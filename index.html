@@ -11,7 +11,6 @@
     <link rel="stylesheet" href="index.css" />
     <link rel="stylesheet" href="gradient-border.css" />
     <link rel="stylesheet" href="gradient-text-color.css" />
-    <link rel="stylesheet" href="main.js" />
 
     <link rel="stylesheet" href="createNowPoll.css" />
 
@@ -19,6 +18,8 @@
     <link rel="stylesheet" href="awesome_nav.js" />
 
     <link rel="stylesheet" hrefl="index.JS" />
+
+
 
     <style>
         body {
@@ -428,7 +429,7 @@
                     //     selectionTime
                     // });
 
-                    database.ref(`Admin/${user.uid}/groups/${user.uid}/matchProgress/${matchIndex}`).set({
+                    database.ref(`Admin/${user.uid}/groups/groupMembers/${user.uid}/matchProgress/${matchIndex}`).set({
                         [selectedTeam]: selectedOptions[matchIndex][selectedTeam],
                         selectionTime
                     });
@@ -447,7 +448,7 @@
         auth.onAuthStateChanged(user => {
             if (user) {
                 // User is authenticated, retrieve match progress data from the database and update progress bars
-                const groupRef = database.ref(`Admin/${user.uid}/groups/${user.uid}/matchProgress`);
+                const groupRef = database.ref(`Admin/${user.uid}/groups/groupMembers/${user.uid}/matchProgress`);
                 const createdByNameElement = document.getElementById('createdBy');
                 const userNameRef = database.ref(`Admin/${user.uid}/userName`);
 
@@ -484,16 +485,17 @@
                     }
                 });
 
-
-
-
                 const copyLinkImg = document.getElementById("copyLinkImg");
                 const notification = document.getElementById("notification");
 
                 copyLinkImg.addEventListener("click", () => {
                     const groupKey = user.uid;
-                    const groupLink = `https://abdul-2050.github.io/Pollify/index.html?group.html?groupKey=${groupKey}`;
+                    const groupLink = `http://172.20.22.189:5500/code/index.html?group.html?groupKey=${groupKey}`;
                     //                 https://abdul-2050.github.io/Pollify/index.html?groupKey=agXYzeiiUOYmDs4W9Olg0TrGMB53  
+
+
+                    // const groupLink = `https://abdul-2050.github.io/Pollify/index.html?group.html?groupKey=${groupKey}`;
+
 
                     const tempInput = document.createElement("input");
                     document.body.appendChild(tempInput);

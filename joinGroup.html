@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+  <!-- Required meta tags -->
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -10,12 +11,13 @@
   <link rel="stylesheet" href="index.css" />
   <link rel="stylesheet" href="gradient-border.css" />
   <link rel="stylesheet" href="gradient-text-color.css" />
+
   <link rel="stylesheet" href="createNowPoll.css" />
 
   <link rel="stylesheet" href="awesome_nav.css" />
-  <link href="awesome_nav.js" />
+  <link rel="stylesheet" href="awesome_nav.js" />
 
-  <link href="index.JS" />
+  <link rel="stylesheet" hrefl="index.JS" />
 
 
   <style>
@@ -218,19 +220,39 @@
     }
   </style>
 
+
+
 </head>
 
 <body>
-
 
   <header>
     <nav class="nav">
       <div class="navigation-bar container">
         <div class="item-left">
           <a href="index.html">
-            <h2 class="grandient-tex">Pollify</h2>
+            <h2 class="grandient-tex">Pollify <span class="wc grandient-text">ICC WC 23 India</span></h2>
           </a>
         </div>
+
+        <style>
+          .item-left {
+            display: flex;
+            align-items: center;
+          }
+
+          .wc {
+            /* color: orange; */
+            font-size: 8px;
+            /* background-color: aliceblue; */
+            border-radius: 3px;
+            position: absolute;
+            top: 23px;
+            left: 73px;
+            padding: 3px;
+            /* border: 1px solid rgb(0, 90, 234); */
+          }
+        </style>
 
         <div class="item-center desktop">
           <ul class="menu-list">
@@ -258,7 +280,6 @@
 
 
 
-
   <div class="backdrop"></div>
 
   <aside>
@@ -273,12 +294,7 @@
     <a href="settings.html">Settings</a>
   </aside>
 
-
-  <!-- <div class="container">
-    <div class="container_wrapper">
-
-    </div>
-  </div> -->
+  <link href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined" rel="stylesheet" />
 
 
   <div class="login_container">
@@ -299,45 +315,25 @@
           </a>
           <p class="message">Already registered? <a href="#">Sign In</a></p>
         </form>
+
+
         <form class="login-form" method="post">
-          <h2></i>Admin</h2>
+          <h2></i>Join The Group</h2>
           <input type="text" placeholder="Your name" id="userName" required />
-          <input type="text" placeholder="Group name" id="groupNameInput" required />
+          <!-- <input type="text" placeholder="Group name" id="groupNameInput" required /> -->
           <a class="btn" id="createAdminButton"
             style="background: transparent; border: none; text-decoration: none;font-size: inherit;">
             <span></span>
             <span></span>
             <span></span>
             <span></span>
-            Create
+            Join
           </a>
           <!-- <p class="message">Not registered? <a href="#">Create an account</a></p> -->
         </form>
       </div>
     </div>
   </div>
-
-
-  <script src="index.JS"></script>
-  <script src="awesome_nav.js"></script>
-  <!-- <script type="module" src="login_check.js"></script> -->
-
-  <!-- <script>
-    $('.message a').click(function () {
-      $('form').animate({ height: "toggle", opacity: "toggle" }, "slow");
-    });
-  </script> -->
-
-
-
-  <!-- Include the older version of Firebase -->
-  <!-- <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script> -->
-
-
-
-
 
 
 
@@ -360,7 +356,6 @@
 
 
 
-
     // Initialize Firebase
     const app = initializeApp(firebaseConfig);
     const provider = new GoogleAuthProvider();
@@ -371,7 +366,7 @@
     auth.onAuthStateChanged((user) => {
       if (!user) {
         // User is not logged in, redirect to authentication.html
-        window.location.href = "authentication.html";
+        // window.location.href = "authentication.html";
       }
     });
 
@@ -427,9 +422,6 @@
       ];
 
 
-
-
-
       // Initialize match progress data for each match
       const matchProgressData = {};
       for (let i = 0; i < matchDataArray.length; i++) {
@@ -447,6 +439,7 @@
         groups: {
           [groupKey]: {
             groupName: groupName,
+            matchProgress: matchProgressData  // Initialize match progress data
           },
         },
       };
@@ -461,23 +454,22 @@
           console.log("User data saved to the database successfully!");
 
           // After saving user data, add information about the group members
-          const groupMembersRef = ref(database, 'Admin/' + user.uid + '/groups/groupMembers' + '/'+groupKey);
+          // const groupMembersRef = ref(database, 'Admin/' + user.uid + '/groups/' + groupKey + '/groupMembers');
+          const groupMembersRef = ref(database, 'Admin/' + user.uid + '/groups/' + user.uid + '/groupMembers');
+
           const memberData = {
             displayName: yourName,
             email: user.email,   // Assuming you want to associate the admin's email with the group
             userName: yourName,
             joinTime: new Date().toISOString(),
-            matchProgress: matchProgressData  // Initialize match progress data
           };
-
-          set(groupMembersRef, memberData)
+          push(groupMembersRef, memberData)
             .then(() => {
               console.log("Group member data saved to the database successfully!");
 
               // After saving group member data, navigate to the voting page
               // After creating the group, redirect to the index page with the group key as a parameter
               window.location.href = `index.html?groupKey=${groupKey}`;
-
             })
             .catch((error) => {
               console.error("Error saving group member data:", error);
@@ -486,7 +478,6 @@
         .catch((error) => {
           console.error("Error saving user data:", error);
         });
-
     }
 
     // Function to save user details on button click
@@ -518,8 +509,21 @@
 
 
 
+
+
+
+
+
+
+
+
   </script>
 
+
+
+
+  <script src="index.JS"></script>
+  <script src="awesome_nav.js"></script>
 
 </body>
 
