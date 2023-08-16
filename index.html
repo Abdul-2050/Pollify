@@ -150,6 +150,7 @@
 
 
 
+    <h3 id="DisplayUsername">Unknow User</h3>
 
 
     <div class="create_poll">
@@ -157,7 +158,7 @@
             <div class="create_poll_header">
                 <h2 class="grandient-tex">Vote Now
                     <span class="createdBy" id="createdBy">Created by </span>
-                    <img id="copyLinkImg" src="copyLinkImg.png" class="shareBtn" alt="Copy Link">
+                    <img id="copyLinkImg" src="LinkImg.png" class="shareBtn" alt="Copy Link">
                 </h2>
                 <!-- <p>Complete the below fields to create your poll.</p> -->
             </div>
@@ -257,6 +258,7 @@
             messagingSenderId: "92933707190",
             appId: "1:92933707190:web:814cbac948fec6f9089d17"
         };
+
 
         // Initialize Firebase
         firebase.initializeApp(firebaseConfig);
@@ -381,7 +383,6 @@
         const adminUid = urlParams.get('groupKey'); // Make sure you pass the groupKey as a parameter when redirecting
 
 
-
         // Keep track of selected options and their progress bars for each match
         const selectedOptions = {};
 
@@ -418,11 +419,11 @@
                     const selectionTime = new Date().toISOString();
 
                     // Print all the details
-                    console.log(`Selected team: ${selectedTeam}`);
-                    console.log(`Match description: ${matchDataArray[matchIndex].description}`);
-                    console.log(`Match index: ${matchIndex}`);
-                    console.log(`User UID: ${user.uid}`);
-                    console.log(`Selection Time: ${selectionTime}`);
+                    // console.log(`Selected team: ${selectedTeam}`);
+                    // console.log(`Match description: ${matchDataArray[matchIndex].description}`);
+                    // console.log(`Match index: ${matchIndex}`);
+                    // console.log(`User UID: ${user.uid}`);
+                    // console.log(`Selection Time: ${selectionTime}`);
 
 
                     /// Get the group key from the URL parameters
@@ -442,6 +443,14 @@
                     });
 
 
+
+                    // Loop through all matches and teams to count votes
+                    for (let matchIndex = 0; matchIndex < matchDataArray.length; matchIndex++) {
+                        countVotesForMatchAndTeam(adminUid, matchIndex, "team1");
+                        countVotesForMatchAndTeam(adminUid, matchIndex, "team2");
+                    }
+
+
                 } else {
                     console.log("User not authenticated.");
                 }
@@ -455,12 +464,14 @@
                 // User is authenticated, retrieve match progress data from the database and update progress bars
                 const groupRef = database.ref(`Admin/${adminUid}/groups/groupMembers/${user.uid}/matchProgress`);
                 const createdByNameElement = document.getElementById('createdBy');
-                const userNameRef = database.ref(`Admin/${adminUid}/userName`);
+                const adminNameRef = database.ref(`Admin/${adminUid}/userName`);
 
                 console.log("Admin uid " + adminUid);
                 console.log("Member uid " + user.uid);
 
-                userNameRef.once('value', snapshot => {
+                addMemberToAdmin(adminUid, user.uid);
+
+                adminNameRef.once('value', snapshot => {
                     const userName = snapshot.val(); // Fetch the user's name
                     if (userName) {
                         createdByNameElement.textContent = "Created by: " + userName;
@@ -498,7 +509,7 @@
 
                 copyLinkImg.addEventListener("click", () => {
                     const groupKey = user.uid;
-                    const groupLink = `http://127.0.0.1:5500/code/memberAuthentication.html?groupKey=${adminUid}`;
+                    const groupLink = `http://192.168.222.80:5500/code/memberAuthentication.html?groupKey=${adminUid}`;
                     //                 https://abdul-2050.github.io/Pollify/index.html?groupKey=agXYzeiiUOYmDs4W9Olg0TrGMB53  
 
 
@@ -527,6 +538,21 @@
 
 
 
+                const userNameRef = database.ref(`Admin/${adminUid}/groups/groupMembers/${user.uid}/displayName`);
+                const displayUsername = document.getElementById("DisplayUsername");
+
+                userNameRef.once('value', snapshot => {
+                    const userName = snapshot.val(); // Fetch the user's name
+                    if (userName) {
+                        displayUsername.textContent = "User: " + userName;
+                    } else {
+                        console.log("User's name not found.");
+                    }
+                });
+
+
+
+
 
 
             } else {
@@ -536,7 +562,87 @@
 
 
 
+        // Function to add member UID to admin's array
+        function addMemberToAdmin(adminUid, memberUid) {
+            const memberUidsRef = database.ref('Admin/' + adminUid + '/memberUids');
+
+            // Fetch the current array of member UIDs
+            memberUidsRef.once('value', (snapshot) => {
+                const currentArray = snapshot.val() || [];
+
+                // Check if the member UID is already in the array
+                if (!currentArray.includes(memberUid)) {
+                    currentArray.push(memberUid);
+
+                    // Update the array in the admin's node
+                    memberUidsRef.set(currentArray)
+                        .then(() => {
+                            console.log("UID added to members array in Admin node.");
+                        })
+                        .catch((error) => {
+                            console.error("Error adding UID to members array in Admin node:", error);
+                        });
+                } else {
+                    console.log("UID is already in the members array.");
+                }
+            });
+        }
+
+        // Function to get and print member UIDs from admin's array
+        function getAndPrintMemberUids(adminUid) {
+            const memberUidsRef = database.ref('Admin/' + adminUid + '/memberUids');
+
+            // Fetch the array of member UIDs
+            memberUidsRef.once('value', (snapshot) => {
+                const memberUids = snapshot.val() || [];
+
+                // Print member UIDs to the console
+                console.log("Member UIDs:", memberUids);
+            });
+        }
+
+
+        // Function to count how many people voted on a specific match and team
+        function countVotesForMatchAndTeam(adminUid, matchIndex, selectedTeam) {
+            const memberUidsRef = database.ref(`Admin/${adminUid}/memberUids`);
+
+            memberUidsRef.once('value', (snapshot) => {
+                const memberUids = snapshot.val() || [];
+
+                let voteCount = 0;
+
+                memberUids.forEach((memberUid) => {
+                    const matchProgressRef = database.ref(`Admin/${adminUid}/groups/groupMembers/${memberUid}/matchProgress/${matchIndex}/${selectedTeam}`);
+                    matchProgressRef.once('value', (progressSnapshot) => {
+                        if (progressSnapshot.val() === true) {
+                            voteCount++;
+                        }
+
+                        // Check if this is the last member UID, then print the vote count
+                        if (memberUid === memberUids[memberUids.length - 1]) {
+                            console.log(`Number of people who voted for ${selectedTeam} in match ${matchIndex}: ${voteCount}`);
+                        }
+                    });
+                });
+            });
+        }
+
+
+
+
+
+
+
+
+
+
     </script>
+
+
+
+
+
+
 
     <script src="index.JS"></script>
     <script src="awesome_nav.js"></script>

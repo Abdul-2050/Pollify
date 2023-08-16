@@ -346,7 +346,7 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-app.js";
         import { getAuth, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-auth.js";
-        import { getDatabase, ref, push, set } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-database.js";
+        import { getDatabase, ref, push, set, onValue } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-database.js";
 
         // Your web app's Firebase configuration
         const firebaseConfig = {
@@ -451,16 +451,17 @@
             };
 
 
+
             // Get the URL parameters
             const urlParams = new URLSearchParams(window.location.search);
             // const groupKey = urlParams.get('groupKey');
             const AdminUid = urlParams.get('groupKey');
             console.log(AdminUid);
 
-
             // Get a reference to the database service
             const database = getDatabase(app);
             const usersRef = ref(database, 'Admin/' + AdminUid);
+
 
 
             // Save group member data under the specific groupKey
@@ -478,8 +479,40 @@
                 });
 
 
-
         }
+
+
+        // Function to add member UID to admin's array
+        function addMemberToAdmin(adminUid, memberUid) {
+            const memberUidsRef = ref(database, 'Admin/' + adminUid + '/memberUids');
+
+            // Fetch the current array of member UIDs
+            onValue(memberUidsRef, (snapshot) => {
+                const currentArray = snapshot.val() || [];
+
+                // Check if the member UID is already in the array
+                if (!currentArray.includes(memberUid)) {
+                    currentArray.push(memberUid);
+
+                    // Update the array in the admin's node
+                    set(memberUidsRef, currentArray)
+                        .then(() => {
+                            console.log("UID added to members array in Admin node.");
+                        })
+                        .catch((error) => {
+                            console.error("Error adding UID to members array in Admin node:", error);
+                        });
+                } else {
+                    console.log("UID is already in the members array.");
+                }
+            });
+        }
+
+
+
+
+
+
 
         // Function to save user details on button click
         document.getElementById("createAdminButton").addEventListener("click", () => {
@@ -497,6 +530,14 @@
                     // const groupKey = push(ref(database, 'Admin/' + user.uid + '/groups')).key;
                     const groupKey = user.uid;
 
+                    // Get the URL parameters
+                    const urlParams = new URLSearchParams(window.location.search);
+                    // const groupKey = urlParams.get('groupKey');
+                    const AdminUid = urlParams.get('groupKey');
+                    addMemberToAdmin(AdminUid, user.uid);
+
+
+
                     // Save user data including the group
                     saveUserData(user, yourName/*, groupName,*/, groupKey);
                 } else {
@@ -510,7 +551,12 @@
 
 
 
+
+
+
     </script>
+
+
 
 
 </body>
