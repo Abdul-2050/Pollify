@@ -244,7 +244,7 @@
 
 
 
-    <!-- Add the latest Firebase JavaScript libraries using ES modules -->
+
     <script>
 
 
@@ -287,7 +287,7 @@
                     <label for="team1_${uniqueId}"><img src="${matchData.team1.replace(/ /g, '-').toLowerCase()}.png" alt="" style="width: 25px;"></label>
                 </div>
                 <!--  This is for how many persons -->
-                <span class="members">0</span>
+                <span class="members" data-match-index="" data-team="team1">0</span>
             </div>
             <div class="first_team_container2">
                 <div style="min-width: 55px;"></div>
@@ -301,7 +301,7 @@
                     <label for="team2_${uniqueId}"><img src="${matchData.team2.replace(/ /g, '-').toLowerCase()}.png" alt="" style="width: 25px;"></label>
                 </div>
                 <!--  This is for how many persons -->
-                <span class="members">0</span>
+                <span class="members" data-match-index="" data-team="team2">0</span>
             </div>
             <div class="first_team_container2">
                 <div style="min-width: 55px;"></div>
@@ -310,6 +310,18 @@
         </div>
     `;
 
+
+            /// Add data attributes for match index and team to the vote count spans
+            const team1VoteCountSpan = matchDiv.querySelector('.members[data-team="team1"]');
+            const team2VoteCountSpan = matchDiv.querySelector('.members[data-team="team2"]');
+
+            if (team1VoteCountSpan) {
+                team1VoteCountSpan.dataset.matchIndex = matchIndex;
+            }
+
+            if (team2VoteCountSpan) {
+                team2VoteCountSpan.dataset.matchIndex = matchIndex;
+            }
 
 
             return matchDiv;
@@ -450,6 +462,9 @@
                         countVotesForMatchAndTeam(adminUid, matchIndex, "team2");
                     }
 
+                    // Update the vote count display for the selected team in the corresponding match
+                    updateVoteCount(adminUid, matchIndex, selectedTeam);
+
 
                 } else {
                     console.log("User not authenticated.");
@@ -470,6 +485,145 @@
                 console.log("Member uid " + user.uid);
 
                 addMemberToAdmin(adminUid, user.uid);
+
+
+
+
+
+
+                // Listen for changes to match progress data for all members
+                const allMembersRef = database.ref(`Admin/${adminUid}/groups/groupMembers`);
+                allMembersRef.on('value', snapshot => {
+                    // Initialize an array to keep track of team votes for each match
+                    const matchTeamVotes = new Array(matchDataArray.length).fill({ team1: 0, team2: 0 });
+
+                    snapshot.forEach(memberSnapshot => {
+                        const matchProgressData = memberSnapshot.child('matchProgress').val();
+
+                        if (matchProgressData) {
+                            for (let i = 0; i < matchDataArray.length; i++) {
+                                const matchIndex = i;
+
+                                // Count the votes for each team for this match
+                                let team1Votes = 0;
+                                let team2Votes = 0;
+
+                                for (const option in matchProgressData[matchIndex]) {
+                                    if (matchProgressData[matchIndex][option] === true) {
+                                        if (option === "team1") {
+                                            team1Votes++;
+                                        } else if (option === "team2") {
+                                            team2Votes++;
+                                        }
+                                    }
+                                }
+
+                                // Update the array with team votes for this match
+                                matchTeamVotes[matchIndex] = {
+                                    team1: matchTeamVotes[matchIndex].team1 + team1Votes,
+                                    team2: matchTeamVotes[matchIndex].team2 + team2Votes,
+                                };
+                            }
+                        }
+                    });
+
+                    // Iterate over the match data and update the progress bars
+                    for (let matchIndex = 0; matchIndex < matchDataArray.length; matchIndex++) {
+                        const team1Votes = matchTeamVotes[matchIndex].team1;
+                        const team2Votes = matchTeamVotes[matchIndex].team2;
+
+                        // Calculate the total number of votes
+                        const totalVotes = team1Votes + team2Votes;
+
+                        // Calculate the percentages for each team
+                        let team1Percentage = 0;
+                        let team2Percentage = 0;
+
+                        if (totalVotes > 0) {
+                            team1Percentage = (team1Votes / totalVotes) * 100;
+                            team2Percentage = (team2Votes / totalVotes) * 100;
+                        }
+
+                        // Update progress bars based on the calculated percentages
+                        const progressElementTeam1 = document.getElementById(`progress_${matchIndex}_team1`);
+                        const progressElementTeam2 = document.getElementById(`progress_${matchIndex}_team2`);
+
+                        if (progressElementTeam1 && progressElementTeam2) {
+                            progressElementTeam1.value = team1Percentage;
+                            progressElementTeam2.value = team2Percentage;
+                        }
+
+                        // Update vote count display for both teams
+                        updateVoteCount(adminUid, matchIndex, "team1");
+                        updateVoteCount(adminUid, matchIndex, "team2");
+                    }
+                });
+
+
+
+
+                // Listen for changes to match progress data
+                groupRef.on('value', snapshot => {
+                    const matchProgressData = snapshot.val();
+                    if (matchProgressData) {
+                        // Update selected options and progress bars based on retrieved match progress data
+                        for (let i = 0; i < matchDataArray.length; i++) {
+                            const matchIndex = i;
+                            for (const option in matchProgressData[matchIndex]) {
+                                const progressElement = document.getElementById(`progress_${matchIndex}_${option}`);
+                                if (progressElement) {
+                                    // Update selectedOptions object
+                                    selectedOptions[matchIndex] = selectedOptions[matchIndex] || {};
+                                    selectedOptions[matchIndex][option] = matchProgressData[matchIndex][option];
+
+                                    // Update progress bars based on selectedOptions
+                                    progressElement.value = selectedOptions[matchIndex][option] ? 100 : 0;
+                                }
+                            }
+
+                            // Update vote count display for both teams
+                            updateVoteCount(adminUid, matchIndex, "team1");
+                            updateVoteCount(adminUid, matchIndex, "team2");
+                        }
+                    }
+                });
+
+
+
+                groupRef.once('value', snapshot => {
+                    const matchProgressData = snapshot.val();
+                    if (matchProgressData) {
+                        console.log("matchProgressData:", matchProgressData);
+                        for (let i = 0; i < matchDataArray.length; i++) {
+                            const matchIndex = i;
+                            const userSelections = matchProgressData[matchIndex];
+
+                            if (userSelections) {
+                                const team1Selection = userSelections.team1;
+                                const team2Selection = userSelections.team2;
+
+                                if (team1Selection) {
+                                    const selectedRadioButton = document.getElementById(`team1_${matchIndex}_${matchDataArray[matchIndex].team1.replace(/ /g, '-').toLowerCase()}_${matchDataArray[matchIndex].team2.replace(/ /g, '-').toLowerCase()}`);
+                                    if (selectedRadioButton) {
+                                        selectedRadioButton.checked = true;
+                                    }
+                                } else if (team2Selection) {
+                                    const selectedRadioButton = document.getElementById(`team2_${matchIndex}_${matchDataArray[matchIndex].team1.replace(/ /g, '-').toLowerCase()}_${matchDataArray[matchIndex].team2.replace(/ /g, '-').toLowerCase()}`);
+                                    if (selectedRadioButton) {
+                                        selectedRadioButton.checked = true;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+
+
+
+
+
+
+
 
                 adminNameRef.once('value', snapshot => {
                     const userName = snapshot.val(); // Fetch the user's name
@@ -507,9 +661,11 @@
                 const copyLinkImg = document.getElementById("copyLinkImg");
                 const notification = document.getElementById("notification");
 
+
+
                 copyLinkImg.addEventListener("click", () => {
                     const groupKey = user.uid;
-                    const groupLink = `http://192.168.222.80:5500/code/memberAuthentication.html?groupKey=${adminUid}`;
+                    const groupLink = `http://192.168.0.116:5500/code/memberAuthentication.html?groupKey=${adminUid}`;
                     //                 https://abdul-2050.github.io/Pollify/index.html?groupKey=agXYzeiiUOYmDs4W9Olg0TrGMB53  
 
 
@@ -552,13 +708,11 @@
 
 
 
-
-
-
             } else {
                 console.log("User not authenticated.");
             }
         });
+
 
 
 
@@ -602,43 +756,42 @@
         }
 
 
-        // Function to count how many people voted on a specific match and team
-        function countVotesForMatchAndTeam(adminUid, matchIndex, selectedTeam) {
+        async function countVotesForMatchAndTeam(adminUid, matchIndex, selectedTeam) {
             const memberUidsRef = database.ref(`Admin/${adminUid}/memberUids`);
+            const snapshot = await memberUidsRef.once('value');
+            const memberUids = snapshot.val() || [];
 
-            memberUidsRef.once('value', (snapshot) => {
-                const memberUids = snapshot.val() || [];
+            let voteCount = 0;
 
-                let voteCount = 0;
+            await Promise.all(memberUids.map(async (memberUid) => {
+                const matchProgressRef = database.ref(`Admin/${adminUid}/groups/groupMembers/${memberUid}/matchProgress/${matchIndex}/${selectedTeam}`);
+                const progressSnapshot = await matchProgressRef.once('value');
+                if (progressSnapshot.val() === true) {
+                    voteCount++;
+                }
+            }));
 
-                memberUids.forEach((memberUid) => {
-                    const matchProgressRef = database.ref(`Admin/${adminUid}/groups/groupMembers/${memberUid}/matchProgress/${matchIndex}/${selectedTeam}`);
-                    matchProgressRef.once('value', (progressSnapshot) => {
-                        if (progressSnapshot.val() === true) {
-                            voteCount++;
-                        }
+            // Return the vote count
+            return voteCount;
+        }
 
-                        // Check if this is the last member UID, then print the vote count
-                        if (memberUid === memberUids[memberUids.length - 1]) {
-                            console.log(`Number of people who voted for ${selectedTeam} in match ${matchIndex}: ${voteCount}`);
-                        }
-                    });
-                });
-            });
+
+        async function updateVoteCount(adminUid, matchIndex, selectedTeam) {
+            try {
+                const voteCount = await countVotesForMatchAndTeam(adminUid, matchIndex, selectedTeam);
+                const voteCountSpan = document.querySelector(`.members[data-match-index="${matchIndex}"][data-team="${selectedTeam}"]`);
+
+                if (voteCountSpan) {
+                    voteCountSpan.textContent = voteCount;
+                }
+            } catch (error) {
+                console.error("Error updating vote count:", error);
+            }
         }
 
 
 
-
-
-
-
-
-
-
     </script>
-
-
 
 
 
