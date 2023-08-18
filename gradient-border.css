@@ -103,7 +103,8 @@
 
 @media (max-width: 800px) {
   :root {
-    --card-width: 86vw;
+    /* --card-width: 86vw; */
+    --card-width: 94vw;
     /* --card-height: 65vh; */
     --padding: 15px;
   }

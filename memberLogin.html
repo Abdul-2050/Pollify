@@ -280,11 +280,12 @@
     </div>
   </div> -->
 
-    <h3 style="text-align: center;">Member Login</h3>
+    <!-- <h3 style="text-align: center;">Member Login</h3> -->
 
     <div class="login_container">
         <div class="login-page">
             <div class="form">
+
                 <form class="register-form" method="POST">
                     <h2>Register</h2>
                     <input type="text" placeholder="Full Name *" required />
@@ -300,8 +301,17 @@
                     </a>
                     <p class="message">Already registered? <a href="#">Sign In</a></p>
                 </form>
+
+
                 <form class="login-form" method="post">
-                    <h2></i>Join the group</h2>
+                    <h1 style="
+                    background-image: linear-gradient(to top, #209cff 0%, #68e0cf 100%);
+                    background: -webkit-linear-gradient(to top, #209cff 0%, #68e0cf 100%);
+                    -webkit-background-clip: text;
+                    -webkit-text-fill-color: transparent;"></i>Join the group</h1>
+                    <h3 id="groupName"></h3>
+                    <h4 id="whoCreated"></h4>
+                    <br>
                     <input type="text" placeholder="Your name" id="userName" required />
                     <!-- <input type="text" placeholder="Group name" id="groupNameInput" required /> -->
 
@@ -377,6 +387,13 @@
             }
         });
 
+
+        // Get the URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const groupKey = urlParams.get('groupKey');
+        const adminUid = urlParams.get('groupKey');
+        console.log("UID " + adminUid);
+
         // Function to save user data to the database
         function saveUserData(user, yourName /*groupName*/, groupKey) {
 
@@ -450,14 +467,6 @@
                 matchProgress: matchProgressData  // Initialize match progress data
             };
 
-
-
-            // Get the URL parameters
-            const urlParams = new URLSearchParams(window.location.search);
-            // const groupKey = urlParams.get('groupKey');
-            const AdminUid = urlParams.get('groupKey');
-            console.log(AdminUid);
-
             // Get a reference to the database service
             const database = getDatabase(app);
             const usersRef = ref(database, 'Admin/' + AdminUid);
@@ -470,6 +479,9 @@
                 .then(() => {
                     console.log("Group member data saved to the database successfully!");
 
+
+
+
                     // After saving group member data, navigate to the voting page
                     // After creating the group, redirect to the index page with the group key as a parameter
                     window.location.href = `index.html?groupKey=${AdminUid}`;
@@ -480,6 +492,56 @@
 
 
         }
+
+
+
+        // Get a reference to the specific group's data
+        const groupRef = ref(database, 'Admin/' + adminUid);
+
+        // Fetch the group data from the database
+        onValue(groupRef, (snapshot) => {
+            const groupData = snapshot.val();
+
+            if (groupData) {
+                // Update the Group Name and Who Created elements
+                // const groupNameElement = document.getElementById("groupName");
+                const whoCreatedElement = document.getElementById("whoCreated");
+
+                whoCreatedElement.textContent = "Created by: " + groupData.userName; // Assuming you have createdBy in your group data
+            } else {
+                console.log("Group data not found in the database.");
+            }
+        });
+
+        // Get a reference to the specific group's data
+        const userNameRef = ref(database, `Admin/${adminUid}/groups/${adminUid}`);
+
+        // Fetch the group data from the database
+        onValue(userNameRef, (snapshot) => {
+            const groupData = snapshot.val();
+
+            if (groupData) {
+                // Update the Group Name and Who Created elements
+                // const groupNameElement = document.getElementById("groupName");
+                const whoCreatedElement = document.getElementById("groupName");
+
+                whoCreatedElement.textContent = "Group : " + groupData.groupName; // Assuming you have createdBy in your group data
+            } else {
+                console.log("Group data not found in the database.");
+            }
+        });
+
+
+
+
+
+
+
+
+
+
+
+
 
 
         // Function to add member UID to admin's array

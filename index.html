@@ -45,6 +45,7 @@
         }
 
 
+
         .shareBtn {
             width: 20px;
         }
@@ -160,8 +161,10 @@
                     <span class="createdBy" id="createdBy">Created by </span>
                     <img id="copyLinkImg" src="LinkImg.png" class="shareBtn" alt="Copy Link">
                 </h2>
+
                 <!-- <p>Complete the below fields to create your poll.</p> -->
             </div>
+            
 
             <div id="notification" class="notification">Group link copied!</div>
 
@@ -201,10 +204,56 @@
             align-items: center;
         }
 
-        .first_team_container1 input[type="radio"] {
+
+
+
+
+
+
+
+
+
+        /* Radio button styles */
+        input[type="radio"] {
             width: 20px;
             height: 20px;
+            appearance: none;
+            -webkit-appearance: none;
+            /* border: 1px solid #ffffff; */
+            /* Border color */
+            border-radius: 50%;
+            /* Make it circular */
+            background-color: white;
+            /* Background color */
+            outline: none;
         }
+
+        /* Radio button styles when checked */
+        input[type="radio"]:checked {
+            background-image: linear-gradient(to right, #f83600 0%, #f9d423 100%);
+            /* Checked background color */
+        }
+
+        /* Hide default radio button appearance */
+        input[type="radio"]::-webkit-inner-spin-button,
+        input[type="radio"]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         .first_team_container2 {
             display: flex;
@@ -234,6 +283,14 @@
 
         .progress1::-webkit-progress-value {
             background: #56b6ff;
+            background-image: linear-gradient(315deg,
+
+                    #304352,
+                    #d7d2cc);
+
+
+            transition: width 1s ease-in-out 0.3s;
+            /* Smooth transition over 1 second with a 0.5s delay */
         }
     </style>
 
@@ -289,11 +346,12 @@
                 <!--  This is for how many persons -->
                 <span class="members" data-match-index="" data-team="team1">0</span>
             </div>
+
             <div class="first_team_container2">
                 <div style="min-width: 55px;"></div>
                 <progress class="first_team_progress progress progress1" max="100" value="0" id="progress_${matchIndex}_team1"></progress>
-            </div>
-        </div>
+            </div> </div>
+
         <div class="first_team">
             <div class="first_team_container1">
                 <div class="flag_section">
@@ -464,6 +522,7 @@
 
                     // Update the vote count display for the selected team in the corresponding match
                     updateVoteCount(adminUid, matchIndex, selectedTeam);
+
 
 
                 } else {
@@ -665,7 +724,7 @@
 
                 copyLinkImg.addEventListener("click", () => {
                     const groupKey = user.uid;
-                    const groupLink = `http://192.168.0.116:5500/code/memberAuthentication.html?groupKey=${adminUid}`;
+                    const groupLink = `https://abdul-2050.github.io/Pollify/memberAuthentication.html?groupKey=${adminUid}`;
                     //                 https://abdul-2050.github.io/Pollify/index.html?groupKey=agXYzeiiUOYmDs4W9Olg0TrGMB53  
 
 
@@ -788,6 +847,13 @@
                 console.error("Error updating vote count:", error);
             }
         }
+
+
+
+
+
+
+
 
 
 

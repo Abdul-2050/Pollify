@@ -360,16 +360,22 @@
         console.log("Group Key:", groupKey);
 
         // Check if user is already signed in on page load
-        // auth.onAuthStateChanged((user) => {
-        //     if (user) {
-        //         // User is logged in, redirect to index.html
-        //         const redirectURL = "index.html?" + getUserQueryParams(user);
-        //         window.location.href = redirectURL;
-        //     } else {
-        //         // User is not logged in, redirect to auth_google.html
-        //         window.location.href = "authentication.html";
-        //     }
-        // });
+        auth.onAuthStateChanged((user) => {
+            if (user) {
+                // User is logged in, redirect to index.html
+                // const redirectURL = "index.html?" + getUserQueryParams(user);
+                // window.location.href = redirectURL;
+
+                // Redirect to index.html and pass user details and groupKey as query parameters
+                const redirectURL = `index.html?${getUserQueryParams(user)}&groupKey=${groupKey}`;
+                window.location.href = redirectURL;
+            } 
+            // else {
+
+                // User is not logged in, redirect to auth_google.html
+                // window.location.href = "authentication.html";
+            // }
+        });
 
         googleBtn.addEventListener('click', function () {
             // Code to execute when the button is clicked
@@ -419,7 +425,7 @@
     </script>
 
 
-    <script src="login_check.js"></script>
+    <!-- <script src="login_check.js"></script> -->
     <script src="index.JS"></script>
     <script src="awesome_nav.js"></script>
 
