@@ -20,7 +20,7 @@
 
 .card {
   /* background-color: rgb(9, 9, 9); */
-  background-color: rgb(28,28,28);
+  /* background-color: rgb(28,28,28); */
 
   width: var(--card-width);
   height: var(--card-height);

@@ -210,107 +210,6 @@
     </div>
 
 
-
-    <!-- <script type="module">
-        // Import the functions you need from the SDKs you need
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
-        // TODO: Add SDKs for Firebase products that you want to use
-        // https://firebase.google.com/docs/web/setup#available-libraries
-
-        import { getAuth, GoogleAuthProvider, signInWithRedirect, getRedirectResult, signInWithPopup } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
-
-        // Your web app's Firebase configuration
-        const firebaseConfig = {
-            apiKey: "AIzaSyAuYoZO_ExZiKY2t2MnrzO_UnLk6ecvHUo",
-            authDomain: "taxi-unternehmerschein.firebaseapp.com",
-            databaseURL: "https://taxi-unternehmerschein-default-rtdb.firebaseio.com",
-            projectId: "taxi-unternehmerschein",
-            storageBucket: "taxi-unternehmerschein.appspot.com",
-            messagingSenderId: "753758307661",
-            appId: "1:753758307661:web:c2a4fcbedbd0eb9a2a2304"
-        };
-
-        // Initialize Firebase
-        const app = initializeApp(firebaseConfig);
-        const provider = new GoogleAuthProvider(app);
-
-        const auth = getAuth(app);
-
-        const googleBtn = document.getElementById("googleBtn");
-
-
-        // Check if user is already signed in on page load
-        auth.onAuthStateChanged((user) => {
-            if (user) {
-                // User is logged in, redirect to index.html
-                const redirectURL = "index.html?" + getUserQueryParams(user);
-                window.location.href = redirectURL;
-            } else {
-                // User is not logged in, stay on the current page
-                // or redirect to auth_google.html
-                // ...
-            }
-        });
-
-
-        googleBtn.addEventListener('click', function () {
-            // Code to execute when the button is clicked
-            console.log('Button clicked!');
-
-            signInWithPopup(auth, provider)
-                .then((result) => {
-                    // This gives you a Google Access Token. You can use it to access the Google API.
-                    const credential = GoogleAuthProvider.credentialFromResult(result);
-                    const token = credential.accessToken;
-                    // The signed-in user info.
-                    const user = result.user;
-                    // IdP data available using getAdditionalUserInfo(result)
-                    // ...
-
-
-                    if (user) {
-                        // Redirect to index.html and pass user details as query parameters
-                        const redirectURL = "index.html?" + getUserQueryParams(user);
-                        window.location.href = redirectURL;
-                    } else {
-                        // Redirect to auth_google.html
-                        window.location.href = "authentication.html";
-                    }
-
-                }).catch((error) => {
-                    // Handle Errors here.
-                    const errorCode = error.code;
-                    const errorMessage = error.message;
-                    // The email of the user's account used.
-                    const email = error.customData.email;
-                    // The AuthCredential type that was used.
-                    const credential = GoogleAuthProvider.credentialFromError(error);
-                    // ...
-
-                    alert(errorMessage);
-                });
-
-        });
-
-
-
-        function getUserQueryParams(user) {
-            const params = {
-                uid: user.uid,
-                email: user.email,
-                displayName: user.displayName,
-                photoURL: user.photoURL
-                // Add any additional user properties you want to pass as query parameters
-            };
-
-            return Object.keys(params)
-                .map((key) => encodeURIComponent(key) + "=" + encodeURIComponent(params[key]))
-                .join("&");
-        }
-
-
-    </script> -->
-
     <!-- bootrap -->
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
         integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
@@ -362,19 +261,24 @@
         // Check if user is already signed in on page load
         auth.onAuthStateChanged((user) => {
             if (user) {
-                // User is logged in, redirect to index.html
-                // const redirectURL = "index.html?" + getUserQueryParams(user);
-                // window.location.href = redirectURL;
+                // Check group membership
+                const database = getDatabase(app);
+                const groupUsersRef = ref(database, `groups/${groupKey}/users`);
 
-                // Redirect to index.html and pass user details and groupKey as query parameters
-                const redirectURL = `index.html?${getUserQueryParams(user)}&groupKey=${groupKey}`;
-                window.location.href = redirectURL;
-            } 
-            // else {
-
-                // User is not logged in, redirect to auth_google.html
-                // window.location.href = "authentication.html";
-            // }
+                get(child(groupUsersRef, user.uid)).then((snapshot) => {
+                    if (snapshot.exists()) {
+                        // User is a member of the group
+                        const redirectURL = `index.html?${getUserQueryParams(user)}&groupKey=${groupKey}`;
+                        window.location.href = redirectURL;
+                    } else {
+                        alert("You are not a member of this group.");
+                        // Handle not being a member
+                    }
+                }).catch((error) => {
+                    // Handle errors
+                    console.error("Error checking group membership:", error);
+                });
+            }
         });
 
         googleBtn.addEventListener('click', function () {

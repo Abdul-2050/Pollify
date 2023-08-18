@@ -108,7 +108,7 @@ aside a {
   text-decoration: none;
   padding: 12px 0;
   font-size: 14px;
-  color: black;
+  color: black; 
   font-weight: 500;
 }
 
@@ -134,7 +134,7 @@ aside button.close {
   top: 50%;
   border-radius: 4px;
   transform: translateY(-50%);
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: rgba(255, 255, 255, 0.2);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
 
@@ -142,6 +142,18 @@ aside button.close {
   visibility: hidden;
 
   transition: 0.5s cubic-bezier(0.75, 0, 0, 1);
+}
+
+.menu-btn-backdrop{
+  /* position: absolute; */
+  /* height: 32px;
+  width: 74px; */
+  /* top: 50%; */
+  border-radius: 4px;
+  /* transform: translateY(-50%); */
+  background-color: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
 }
 
 .backdrop {
@@ -156,3 +168,7 @@ aside button.close {
 .backdrop.active {
   display: block;
 }
+
+
+
+
