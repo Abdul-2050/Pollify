@@ -10,7 +10,7 @@
   /* border: 1px solid red; */
   /* font-family: "Helvetica Neue", sans-serif; */
   font-family: "M PLUS 1", sans-serif;
-  /* text-align: end; */
+  width: max-content;
   margin-bottom: 20px;
 }
 
@@ -24,6 +24,10 @@
   /* font-weight: 300; */
   color: #6a707d;
   margin-bottom: 10px;
+}
+
+.create_poll_header_container{
+  /* border: 1px solid yellow; */
 }
 
 .create_poll_container {
