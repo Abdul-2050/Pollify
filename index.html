@@ -571,6 +571,25 @@
                 addMemberToAdmin(adminUid, user.uid);
 
 
+                const adminRef = database.ref(`Admin/${user.uid}`);
+
+                adminRef.on('value', (snapshot) => {
+                    if (snapshot.exists()) {
+                        // User is a member of the group
+                        // const redirectURL = `index.html?${getUserQueryParams(user)}&groupKey=${groupKey}`;
+                        // window.location.href = redirectURL;
+                    } else {
+                        alert("You are not a member of this group.");
+                        // Handle not being a member
+                        const redirectURL = `authentication.html`;
+                        window.location.href = redirectURL;
+                    }
+                }, (error) => {
+                    // Handle errors
+                    console.error("Error checking group membership:", error);
+                });
+
+
 
 
 
@@ -750,7 +769,7 @@
 
                 copyLinkImg.addEventListener("click", () => {
                     const groupKey = user.uid;
-                    const groupLink = `http://abdul-2050.github.io/Pollify/memberAuthentication.html?groupKey=${adminUid}`;
+                    const groupLink = `https://abdul-2050.github.io/Pollify/memberAuthentication.html?groupKey=${adminUid}`;
                     //                 https://abdul-2050.github.io/Pollify/index.html?groupKey=agXYzeiiUOYmDs4W9Olg0TrGMB53  
 
 
@@ -795,6 +814,8 @@
 
             } else {
                 console.log("User not authenticated.");
+                const redirectURL = `authentication.html`;
+                window.location.href = redirectURL;
             }
         });
 
