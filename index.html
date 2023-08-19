@@ -557,6 +557,84 @@
         });
 
 
+
+
+
+        // Function to add member UID to admin's array
+        function addMemberToAdmin(adminUid, memberUid) {
+            const memberUidsRef = database.ref('Admin/' + adminUid + '/memberUids');
+
+            // Fetch the current array of member UIDs
+            memberUidsRef.once('value', (snapshot) => {
+                const currentArray = snapshot.val() || [];
+
+                // Check if the member UID is already in the array
+                if (!currentArray.includes(memberUid)) {
+                    currentArray.push(memberUid);
+
+                    // Update the array in the admin's node
+                    memberUidsRef.set(currentArray)
+                        .then(() => {
+                            console.log("UID added to members array in Admin node.");
+                        })
+                        .catch((error) => {
+                            console.error("Error adding UID to members array in Admin node:", error);
+                        });
+                } else {
+                    console.log("UID is already in the members array.");
+                }
+            });
+        }
+
+        // Function to get and print member UIDs from admin's array
+        function getAndPrintMemberUids(adminUid) {
+            const memberUidsRef = database.ref('Admin/' + adminUid + '/memberUids');
+
+            // Fetch the array of member UIDs
+            memberUidsRef.once('value', (snapshot) => {
+                const memberUids = snapshot.val() || [];
+
+                // Print member UIDs to the console
+                console.log("Member UIDs:", memberUids);
+            });
+        }
+
+
+        async function countVotesForMatchAndTeam(adminUid, matchIndex, selectedTeam) {
+            const memberUidsRef = database.ref(`Admin/${adminUid}/memberUids`);
+            const snapshot = await memberUidsRef.once('value');
+            const memberUids = snapshot.val() || [];
+
+            let voteCount = 0;
+
+            await Promise.all(memberUids.map(async (memberUid) => {
+                const matchProgressRef = database.ref(`Admin/${adminUid}/groups/groupMembers/${memberUid}/matchProgress/${matchIndex}/${selectedTeam}`);
+                const progressSnapshot = await matchProgressRef.once('value');
+                if (progressSnapshot.val() === true) {
+                    voteCount++;
+                }
+            }));
+
+            // Return the vote count
+            return voteCount;
+        }
+
+
+        async function updateVoteCount(adminUid, matchIndex, selectedTeam) {
+            try {
+                const voteCount = await countVotesForMatchAndTeam(adminUid, matchIndex, selectedTeam);
+                const voteCountSpan = document.querySelector(`.members[data-match-index="${matchIndex}"][data-team="${selectedTeam}"]`);
+
+                if (voteCountSpan) {
+                    voteCountSpan.textContent = voteCount;
+                }
+            } catch (error) {
+                console.error("Error updating vote count:", error);
+            }
+        }
+
+
+
         // Get current user info
         auth.onAuthStateChanged(user => {
             if (user) {
@@ -571,23 +649,26 @@
                 addMemberToAdmin(adminUid, user.uid);
 
 
-                const adminRef = database.ref(`Admin/${user.uid}`);
+                 
 
+
+                // check if the admin exits 
+                const adminRef = database.ref(`Admin/${adminUid}`);
                 adminRef.on('value', (snapshot) => {
-                    if (snapshot.exists()) {
+                    if (snapshot.exists) {
                         // User is a member of the group
-                        // const redirectURL = `index.html?${getUserQueryParams(user)}&groupKey=${groupKey}`;
-                        // window.location.href = redirectURL;
                     } else {
-                        alert("You are not a member of this group.");
+                        alert("This group doesn't exits.");
                         // Handle not being a member
                         const redirectURL = `authentication.html`;
                         window.location.href = redirectURL;
                     }
                 }, (error) => {
                     // Handle errors
-                    console.error("Error checking group membership:", error);
+                    console.error("Admin Error checking group membership:", error);
                 });
+
+
 
 
 
@@ -813,88 +894,11 @@
 
 
             } else {
-                console.log("User not authenticated.");
+                alert("This group doesn't exits.");
                 const redirectURL = `authentication.html`;
                 window.location.href = redirectURL;
             }
         });
-
-
-
-
-        // Function to add member UID to admin's array
-        function addMemberToAdmin(adminUid, memberUid) {
-            const memberUidsRef = database.ref('Admin/' + adminUid + '/memberUids');
-
-            // Fetch the current array of member UIDs
-            memberUidsRef.once('value', (snapshot) => {
-                const currentArray = snapshot.val() || [];
-
-                // Check if the member UID is already in the array
-                if (!currentArray.includes(memberUid)) {
-                    currentArray.push(memberUid);
-
-                    // Update the array in the admin's node
-                    memberUidsRef.set(currentArray)
-                        .then(() => {
-                            console.log("UID added to members array in Admin node.");
-                        })
-                        .catch((error) => {
-                            console.error("Error adding UID to members array in Admin node:", error);
-                        });
-                } else {
-                    console.log("UID is already in the members array.");
-                }
-            });
-        }
-
-        // Function to get and print member UIDs from admin's array
-        function getAndPrintMemberUids(adminUid) {
-            const memberUidsRef = database.ref('Admin/' + adminUid + '/memberUids');
-
-            // Fetch the array of member UIDs
-            memberUidsRef.once('value', (snapshot) => {
-                const memberUids = snapshot.val() || [];
-
-                // Print member UIDs to the console
-                console.log("Member UIDs:", memberUids);
-            });
-        }
-
-
-        async function countVotesForMatchAndTeam(adminUid, matchIndex, selectedTeam) {
-            const memberUidsRef = database.ref(`Admin/${adminUid}/memberUids`);
-            const snapshot = await memberUidsRef.once('value');
-            const memberUids = snapshot.val() || [];
-
-            let voteCount = 0;
-
-            await Promise.all(memberUids.map(async (memberUid) => {
-                const matchProgressRef = database.ref(`Admin/${adminUid}/groups/groupMembers/${memberUid}/matchProgress/${matchIndex}/${selectedTeam}`);
-                const progressSnapshot = await matchProgressRef.once('value');
-                if (progressSnapshot.val() === true) {
-                    voteCount++;
-                }
-            }));
-
-            // Return the vote count
-            return voteCount;
-        }
-
-
-        async function updateVoteCount(adminUid, matchIndex, selectedTeam) {
-            try {
-                const voteCount = await countVotesForMatchAndTeam(adminUid, matchIndex, selectedTeam);
-                const voteCountSpan = document.querySelector(`.members[data-match-index="${matchIndex}"][data-team="${selectedTeam}"]`);
-
-                if (voteCountSpan) {
-                    voteCountSpan.textContent = voteCount;
-                }
-            } catch (error) {
-                console.error("Error updating vote count:", error);
-            }
-        }
-
 
 
 
