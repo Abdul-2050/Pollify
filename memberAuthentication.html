@@ -224,8 +224,8 @@
 
 
     <script type="module">
-         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-app.js";
-        import { getAuth, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-auth.js";
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-app.js";
+        import { getAuth, GoogleAuthProvider,signInWithPopup  } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-auth.js";
         import { getDatabase, ref, push, set, onValue } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-database.js";
 
         // Your web app's Firebase configuration
@@ -260,9 +260,9 @@
         auth.onAuthStateChanged((user) => {
             if (user) {
                 // Check group membership
-                const groupMembersRef = ref(database, 'Admin/' + groupKey + '/groups/groupMembers');
+                const groupMembersRef = ref(database, `Admin/${groupKey}/groups/groupMembers/${user.uid}`);
 
-                get(child(groupUsersRef, user.uid)).then((snapshot) => {
+                onValue(groupMembersRef, (snapshot) => {
                     if (snapshot.exists()) {
                         // User is a member of the group
                         const redirectURL = `index.html?${getUserQueryParams(user)}&groupKey=${groupKey}`;
@@ -271,12 +271,15 @@
                         alert("You are not a member of this group.");
                         // Handle not being a member
                     }
-                }).catch((error) => {
+                }, (error) => {
                     // Handle errors
                     console.error("Error checking group membership:", error);
                 });
             }
         });
+
+
+
 
         googleBtn.addEventListener('click', function () {
             // Code to execute when the button is clicked
