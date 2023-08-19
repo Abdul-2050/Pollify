@@ -48,10 +48,6 @@
 
         .shareBtn {
             width: 20px;
-            position: relative;
-            top: -28px;
-            left: 145px;
-            /* Positioned at 50% + 10px */
         }
 
         .shareBtn:hover {
@@ -288,9 +284,11 @@
             <div class="create_poll_header">
 
                 <div class="create_poll_header_container">
-                    <h2 class="grandient-tex">Vote Now</h2>
+                    <div class="voteNow">
+                        <h2 class="grandient-tex">Vote Now</h2>
+                        <img id="copyLinkImg" src="LinkImg.png" class="shareBtn" alt="Copy Link">
+                    </div>
                     <span class="createdBy" id="createdBy">Created by </span> 
-                    <img id="copyLinkImg" src="LinkImg.png" class="shareBtn" alt="Copy Link">
                 </div>
 
                 <!-- <p>Complete the below fields to create your poll.</p> -->

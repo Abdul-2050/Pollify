@@ -10,13 +10,16 @@
   /* border: 1px solid red; */
   /* font-family: "Helvetica Neue", sans-serif; */
   font-family: "M PLUS 1", sans-serif;
-  width: max-content;
+  width: 100%;
   margin-bottom: 20px;
+  display: flex;
+  justify-content: center;
+
 }
 
 .create_poll_header h2 {
   font-size: 30px;
-  margin-bottom: 0px;
+  /* margin-bottom: 0px; */
 }
 
 .create_poll_header p {
@@ -28,6 +31,14 @@
 
 .create_poll_header_container{
   /* border: 1px solid yellow; */
+}
+
+.voteNow{
+  /* border: 1px solid green; */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 110%;
 }
 
 .create_poll_container {
