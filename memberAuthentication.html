@@ -224,12 +224,9 @@
 
 
     <script type="module">
-        // Import the functions you need from the SDKs you need
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-app.js";
-        import { getAuth, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-auth.js";
-
-
-        // This is for firebase taxi-unternehmerschein
+         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-app.js";
+        import { getAuth, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-auth.js";
+        import { getDatabase, ref, push, set, onValue } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-database.js";
 
         // Your web app's Firebase configuration
         const firebaseConfig = {
@@ -246,6 +243,7 @@
         const app = initializeApp(firebaseConfig);
         const provider = new GoogleAuthProvider(app);
         const auth = getAuth(app);
+        const database = getDatabase(app);
         const googleBtn = document.getElementById("googleBtn");
 
 
@@ -262,8 +260,7 @@
         auth.onAuthStateChanged((user) => {
             if (user) {
                 // Check group membership
-                const database = getDatabase(app);
-                const groupUsersRef = ref(database, `groups/${groupKey}/users`);
+                const groupMembersRef = ref(database, 'Admin/' + groupKey + '/groups/groupMembers');
 
                 get(child(groupUsersRef, user.uid)).then((snapshot) => {
                     if (snapshot.exists()) {
