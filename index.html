@@ -481,38 +481,53 @@
             matchDiv.style.marginBottom = '10px';
 
             matchDiv.innerHTML = `
-        <div class="discription" >
-            <p style="margin-left: 6px; margin-top: 0;">${matchData.description}</p>
-        </div>
+            <div class="discription">
+        <p style="margin-left: 6px; margin-top: 0;">${matchData.description}</p>
+    </div>
+
+    <label for="team1_${uniqueId}">
         <div class="first_team" style="margin-bottom: 5px;">
             <div class="first_team_container1">
                 <div class="flag_section">
                     <input type="radio" name="match_${uniqueId}" id="team1_${uniqueId}">
-                    <label for="team1_${uniqueId}"><img src="${matchData.team1.replace(/ /g, '-').toLowerCase()}.png" alt="" style="width: 25px;"></label>
+                    <label for="team1_${uniqueId}"><img src="${matchData.team1.replace(/ /g, '-').toLowerCase()}.png"
+                            alt="" style="width: 25px;"></label>
                 </div>
                 <!--  This is for how many persons -->
                 <span class="members" data-match-index="" data-team="team1">0</span>
             </div>
 
+
+
             <div class="first_team_container2">
                 <div style="min-width: 55px;"></div>
-                <progress class="first_team_progress progress progress1" max="100" value="0" id="progress_${matchIndex}_team1"></progress>
-            </div> </div>
+                <progress class="first_team_progress progress progress1" max="100" value="0"
+                    id="progress_${matchIndex}_team1"></progress>
+            </div>
 
+
+        </div>
+    </label>
+
+
+    <label for="team2_${uniqueId}">
         <div class="first_team">
             <div class="first_team_container1">
                 <div class="flag_section">
                     <input type="radio" name="match_${uniqueId}" id="team2_${uniqueId}">
-                    <label for="team2_${uniqueId}"><img src="${matchData.team2.replace(/ /g, '-').toLowerCase()}.png" alt="" style="width: 25px;"></label>
+                    <label for="team2_${uniqueId}"><img src="${matchData.team2.replace(/ /g, '-').toLowerCase()}.png"
+                            alt="" style="width: 25px;"></label>
                 </div>
                 <!--  This is for how many persons -->
                 <span class="members" data-match-index="" data-team="team2">0</span>
             </div>
             <div class="first_team_container2">
                 <div style="min-width: 55px;"></div>
-                <progress class="first_team_progress progress progress1" max="100" value="0" id="progress_${matchIndex}_team2"></progress>
+                <progress class="first_team_progress progress progress1" max="100" value="0"
+                    id="progress_${matchIndex}_team2"></progress>
             </div>
         </div>
+    </label>
     `;
 
 
