@@ -1019,49 +1019,36 @@
                 // });
 
 
-                // copyLinkImg.addEventListener("click", async () => {
-                //     const groupLink = `https://abdul-2050.github.io/Pollify/memberAuthentication.html?groupKey=${adminUid}`;
+                copyLinkImg.addEventListener("click", async () => {
+                    const groupLink = `https://abdul-2050.github.io/Pollify/memberAuthentication.html?groupKey=${adminUid}`;
 
-                //     try {
-                //         await navigator.share({
-                //             title: "Check out this poll!",
-                //             url: groupLink,
-                //         });
-                //         console.log("Sharing succeeded.");
-                //     } catch (error) {
-                //         console.error("Sharing failed:", error);
-                //         // Fallback behavior if sharing is not supported
-                //         const tempInput = document.createElement("input");
-                //         document.body.appendChild(tempInput);
-                //         tempInput.value = groupLink;
-                //         tempInput.select();
-                //         document.execCommand("copy");
-                //         document.body.removeChild(tempInput);
+                    try {
+                        await navigator.share({
+                            title: "Check out this poll!",
+                            url: groupLink,
+                        });
+                        console.log("Sharing succeeded.");
+                    } catch (error) {
+                        console.error("Sharing failed:", error);
+                        // Fallback behavior if sharing is not supported
+                        const tempInput = document.createElement("input");
+                        document.body.appendChild(tempInput);
+                        tempInput.value = groupLink;
+                        tempInput.select();
+                        document.execCommand("copy");
+                        document.body.removeChild(tempInput);
 
-                //         // Show the notification
-                //         notification.classList.add("show-notification");
+                        // Show the notification
+                        notification.classList.add("show-notification");
 
-                //         // Hide the notification after a delay
-                //         setTimeout(() => {
-                //             notification.classList.remove("show-notification");
-                //         }, 2000); // Hide after 2 seconds
-                //     }
-                // });
+                        // Hide the notification after a delay
+                        setTimeout(() => {
+                            notification.classList.remove("show-notification");
+                        }, 2000); // Hide after 2 seconds
+                    }
+                });
 
 
-                copyLinkImg.addEventListener('click', event => {
-  if (navigator.share) {
-    navigator.share({
-      title: 'WebShare API Demo',
-      url: 'https://codepen.io/ayoisaiah/pen/YbNazJ'
-    }).then(() => {
-      console.log('Thanks for sharing!');
-    })
-    .catch(console.error);
-  } else {
-    shareDialog.classList.add('is-open');
-  }
-});
 
                 // const userNameRef = database.ref(`Admin/${adminUid}/groups/groupMembers/${user.uid}/displayName`);
                 // const displayUsername = document.getElementById("DisplayUsername");
