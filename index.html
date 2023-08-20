@@ -42,9 +42,8 @@
             /* Center horizontally */
             padding: 3px;
             /* border: 1px solid rgb(0, 90, 234); */
-            color: #56b6ff;
+            color: #ffffff;
         }
-
 
 
         .shareBtn {
@@ -410,20 +409,20 @@
 
                 <div class="create_poll_header_container">
                     <div>
-                    <div class="voteNow">
-                        <h2 class="grandient-tex">Vote Now</h2>
-                        <div id="copyLinkImg" class="btn"
-                            style="background: transparent; border: none; text-decoration: none;font-size: inherit; width: 50px; text-align: center;">
-                            <img src="LinkImg.png" class="shareBtn " alt="Copy Link">
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                            <span style="font-size: 6px; font-weight: bolder;">Add Friend</span>
+                        <div class="voteNow">
+                            <h2 class="grandient-tex">Vote Now</h2>
+                            <div id="copyLinkImg" class="btn"
+                                style="background: transparent; border: none; text-decoration: none;font-size: inherit; width: 50px; text-align: center;">
+                                <img src="LinkImg.png" class="shareBtn " alt="Copy Link">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                                <span style="font-size: 6px; font-weight: bolder;">Add Friend</span>
+                            </div>
                         </div>
+                        <span class="createdBy" id="createdBy">Created by </span>
                     </div>
-                    <span class="createdBy" id="createdBy">Created by </span>
-                </div>
 
                 </div>
 
@@ -990,36 +989,79 @@
 
 
 
-                copyLinkImg.addEventListener("click", () => {
-                    const groupKey = user.uid;
-                    const groupLink = `https://abdul-2050.github.io/Pollify/memberAuthentication.html?groupKey=${adminUid}`;
-                    //                 https://abdul-2050.github.io/Pollify/index.html?groupKey=agXYzeiiUOYmDs4W9Olg0TrGMB53  
+                // copyLinkImg.addEventListener("click", () => {
+                //     const groupKey = user.uid;
+                //     const groupLink = `https://abdul-2050.github.io/Pollify/memberAuthentication.html?groupKey=${adminUid}`;
+                //     //                 https://abdul-2050.github.io/Pollify/index.html?groupKey=agXYzeiiUOYmDs4W9Olg0TrGMB53  
 
 
 
 
 
 
-                    // const groupLink = `https://abdul-2050.github.io/Pollify/index.html?group.html?groupKey=${groupKey}`;
+                //     // const groupLink = `https://abdul-2050.github.io/Pollify/index.html?group.html?groupKey=${groupKey}`;
 
 
-                    const tempInput = document.createElement("input");
-                    document.body.appendChild(tempInput);
-                    tempInput.value = groupLink;
-                    tempInput.select();
-                    document.execCommand("copy");
-                    document.body.removeChild(tempInput);
+                //     const tempInput = document.createElement("input");
+                //     document.body.appendChild(tempInput);
+                //     tempInput.value = groupLink;
+                //     tempInput.select();
+                //     document.execCommand("copy");
+                //     document.body.removeChild(tempInput);
 
-                    // Show the notification
-                    notification.classList.add("show-notification");
+                //     // Show the notification
+                //     notification.classList.add("show-notification");
 
-                    // Hide the notification after a delay
-                    setTimeout(() => {
-                        notification.classList.remove("show-notification");
-                    }, 2000); // Hide after 2 seconds
-                });
+                //     // Hide the notification after a delay
+                //     setTimeout(() => {
+                //         notification.classList.remove("show-notification");
+                //     }, 2000); // Hide after 2 seconds
+                // });
 
 
+                // copyLinkImg.addEventListener("click", async () => {
+                //     const groupLink = `https://abdul-2050.github.io/Pollify/memberAuthentication.html?groupKey=${adminUid}`;
+
+                //     try {
+                //         await navigator.share({
+                //             title: "Check out this poll!",
+                //             url: groupLink,
+                //         });
+                //         console.log("Sharing succeeded.");
+                //     } catch (error) {
+                //         console.error("Sharing failed:", error);
+                //         // Fallback behavior if sharing is not supported
+                //         const tempInput = document.createElement("input");
+                //         document.body.appendChild(tempInput);
+                //         tempInput.value = groupLink;
+                //         tempInput.select();
+                //         document.execCommand("copy");
+                //         document.body.removeChild(tempInput);
+
+                //         // Show the notification
+                //         notification.classList.add("show-notification");
+
+                //         // Hide the notification after a delay
+                //         setTimeout(() => {
+                //             notification.classList.remove("show-notification");
+                //         }, 2000); // Hide after 2 seconds
+                //     }
+                // });
+
+
+                copyLinkImg.addEventListener('click', event => {
+  if (navigator.share) {
+    navigator.share({
+      title: 'WebShare API Demo',
+      url: 'https://codepen.io/ayoisaiah/pen/YbNazJ'
+    }).then(() => {
+      console.log('Thanks for sharing!');
+    })
+    .catch(console.error);
+  } else {
+    shareDialog.classList.add('is-open');
+  }
+});
 
                 // const userNameRef = database.ref(`Admin/${adminUid}/groups/groupMembers/${user.uid}/displayName`);
                 // const displayUsername = document.getElementById("DisplayUsername");
