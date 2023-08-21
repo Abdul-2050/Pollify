@@ -72,9 +72,10 @@
             color: #fff;
             margin-bottom: 30px;
             border: none;
-            border-bottom: 1px solid #fff;
+            border-bottom: 2px solid    #ffffff;
             outline: none;
             background: transparent;
+            
 
         }
 
@@ -112,14 +113,14 @@
             letter-spacing: 2px
         }
 
-        .btn:hover {
+        .btn {
             background: #289bb8;
             color: #fff;
             border-radius: 5px;
             box-shadow: 0 0 5px #289bb8,
-                0 0 25px #289bb8,
-                0 0 50px #289bb8,
-                0 0 100px #289bb8;
+                0 0 10px #289bb8,
+                0 0 15px #289bb8,
+                0 0 20px #289bb8;
         }
 
         .btn span {
@@ -133,7 +134,8 @@
             width: 100%;
             height: 2px;
             background: linear-gradient(90deg, transparent, #289bb8);
-            animation: btn-anim1 1s linear infinite;
+            /* animation: btn-anim1 1s linear infinite; */
+
         }
 
         @keyframes btn-anim1 {
@@ -153,7 +155,7 @@
             width: 2px;
             height: 100%;
             background: linear-gradient(180deg, transparent, #289bb8);
-            animation: btn-anim2 1s linear infinite;
+            /* animation: btn-anim2 1s linear infinite; */
             animation-delay: .25s
         }
 
@@ -174,7 +176,7 @@
             width: 100%;
             height: 2px;
             background: linear-gradient(270deg, transparent, #289bb8);
-            animation: btn-anim3 1s linear infinite;
+            /* animation: btn-anim3 1s linear infinite; */
             animation-delay: .5s
         }
 
@@ -195,7 +197,7 @@
             width: 2px;
             height: 100%;
             background: linear-gradient(360deg, transparent, #289bb8);
-            animation: btn-anim4 1s linear infinite;
+            /* animation: btn-anim4 1s linear infinite; */
             animation-delay: .75s
         }
 
@@ -313,7 +315,7 @@
                     <h3 id="groupName"></h3>
                     <h4 id="whoCreated"></h4>
                     <br>
-                    <input type="text" placeholder="Your name" id="userName" required />
+                    <input type="text" placeholder="Your name" id="userName"  required />
                     <!-- <input type="text" placeholder="Group name" id="groupNameInput" required /> -->
 
                     <a class="btn" id="createAdminButton"

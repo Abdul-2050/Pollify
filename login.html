@@ -121,7 +121,7 @@
         0 0 10px #289bb8,
         0 0 15px #289bb8,
         0 0 20px #289bb8;
-      cursor: pointer;
+        cursor: pointer;
     }
 
     .btn span {
@@ -447,7 +447,7 @@
 
 
 
-
+     
 
 
 
@@ -467,58 +467,36 @@
         });
 
 
-      // Check if data already exists for the user's group
-      const existingGroupRef = ref(database, 'Admin/' + user.uid + '/groups/groupMembers' + '/' + groupKey);
-      get(existingGroupRef)
-        .then((snapshot) => {
-          if (snapshot.exists()) {
-            // Data exists, update it
-            const existingMemberData = snapshot.val();
-            const updatedMemberData = {
-              ...existingMemberData,
-              displayName: yourName,
-              email: user.email,
-              userName: yourName,
-            };
+      set(usersRef, userData)
+        .then(() => {
+          console.log("User data saved to the database successfully!");
 
-            set(existingGroupRef, updatedMemberData)
-              .then(() => {
-                console.log("Existing group member data updated successfully!");
-                // Navigate to the voting page
-                window.location.href = `index.html?groupKey=${groupKey}`;
-              })
-              .catch((error) => {
-                console.error("Error updating existing group member data:", error);
-              });
-          } else {
-            // Data doesn't exist, create it using initial data
-            const matchProgressData = {}; // Your existing initial match progress data
-            const memberData = {
-              displayName: yourName,
-              email: user.email,
-              userName: yourName,
-              joinTime: new Date().toISOString(),
-              matchProgress: matchProgressData,
-            };
+          // After saving user data, add information about the group members
+          const groupMembersRef = ref(database, 'Admin/' + user.uid + '/groups/groupMembers' + '/' + groupKey);
+          const memberData = {
+            displayName: yourName,
+            email: user.email,   // Assuming you want to associate the admin's email with the group
+            userName: yourName,
+            joinTime: new Date().toISOString(),
+            matchProgress: matchProgressData  // Initialize match progress data
+          };
 
-            set(existingGroupRef, memberData)
-              .then(() => {
-                console.log("Group member data created successfully!");
-                // Navigate to the voting page
-                window.location.href = `index.html?groupKey=${groupKey}`;
-              })
-              .catch((error) => {
-                console.error("Error creating group member data:", error);
-              });
-          }
+          set(groupMembersRef, memberData)
+            .then(() => {
+              console.log("Group member data saved to the database successfully!");
+
+              // After saving group member data, navigate to the voting page
+              // After creating the group, redirect to the index page with the group key as a parameter
+              window.location.href = `index.html?groupKey=${groupKey}`;
+
+            })
+            .catch((error) => {
+              console.error("Error saving group member data:", error);
+            });
         })
         .catch((error) => {
-          console.error("Error checking existing group member data:", error);
+          console.error("Error saving user data:", error);
         });
-
-
-
-
 
     }
 
