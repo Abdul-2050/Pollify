@@ -113,14 +113,15 @@
       letter-spacing: 2px
     }
 
-    .btn:hover {
+    .btn {
       background: #289bb8;
       color: #fff;
       border-radius: 5px;
       box-shadow: 0 0 5px #289bb8,
-        0 0 25px #289bb8,
-        0 0 50px #289bb8,
-        0 0 100px #289bb8;
+        0 0 10px #289bb8,
+        0 0 15px #289bb8,
+        0 0 20px #289bb8;
+      cursor: pointer;
     }
 
     .btn span {
@@ -133,7 +134,7 @@
       left: -100%;
       width: 100%;
       height: 2px;
-      background: linear-gradient(90deg, transparent, #289bb8);
+      /* background: linear-gradient(90deg, transparent, #289bb8); */
       animation: btn-anim1 1s linear infinite;
     }
 
@@ -154,7 +155,7 @@
       width: 2px;
       height: 100%;
       background: linear-gradient(180deg, transparent, #289bb8);
-      animation: btn-anim2 1s linear infinite;
+      /* animation: btn-anim2 1s linear infinite; */
       animation-delay: .25s
     }
 
@@ -174,7 +175,7 @@
       right: -100%;
       width: 100%;
       height: 2px;
-      background: linear-gradient(270deg, transparent, #289bb8);
+      /* background: linear-gradient(270deg, transparent, #289bb8); */
       animation: btn-anim3 1s linear infinite;
       animation-delay: .5s
     }
@@ -195,7 +196,7 @@
       left: 0;
       width: 2px;
       height: 100%;
-      background: linear-gradient(360deg, transparent, #289bb8);
+      /* background: linear-gradient(360deg, transparent, #289bb8); */
       animation: btn-anim4 1s linear infinite;
       animation-delay: .75s
     }
@@ -334,7 +335,7 @@
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-app.js";
     import { getAuth, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-auth.js";
-    import { getDatabase, ref, push, set } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-database.js";
+    import { getDatabase, ref, push, set, get } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-database.js";
 
     // Your web app's Firebase configuration
     const firebaseConfig = {
@@ -442,38 +443,82 @@
       // Get a reference to the database service
       const database = getDatabase(app);
       const usersRef = ref(database, 'Admin/' + user.uid);
+      const memberAdminRef = ref(database, 'Adminkeys/' + user.uid);
 
-      // Set the user data to the "users" node using the user's unique ID as the key
-      set(usersRef, userData)
+
+
+
+
+
+
+
+      const keysData = {
+        adminkey: user.uid,
+      };
+
+
+      // Set the data in the database
+      set(memberAdminRef, keysData)
         .then(() => {
-          console.log("User data saved to the database successfully!");
-
-          // After saving user data, add information about the group members
-          const groupMembersRef = ref(database, 'Admin/' + user.uid + '/groups/groupMembers' + '/'+groupKey);
-          const memberData = {
-            displayName: yourName,
-            email: user.email,   // Assuming you want to associate the admin's email with the group
-            userName: yourName,
-            joinTime: new Date().toISOString(),
-            matchProgress: matchProgressData  // Initialize match progress data
-          };
-
-          set(groupMembersRef, memberData)
-            .then(() => {
-              console.log("Group member data saved to the database successfully!");
-
-              // After saving group member data, navigate to the voting page
-              // After creating the group, redirect to the index page with the group key as a parameter
-              window.location.href = `index.html?groupKey=${groupKey}`;
-
-            })
-            .catch((error) => {
-              console.error("Error saving group member data:", error);
-            });
+          console.log("Admin and member keys data saved to the database successfully!");
         })
         .catch((error) => {
-          console.error("Error saving user data:", error);
+          console.error("Error saving keys data:", error);
         });
+
+
+      // Check if data already exists for the user's group
+      const existingGroupRef = ref(database, 'Admin/' + user.uid + '/groups/groupMembers' + '/' + groupKey);
+      get(existingGroupRef)
+        .then((snapshot) => {
+          if (snapshot.exists()) {
+            // Data exists, update it
+            const existingMemberData = snapshot.val();
+            const updatedMemberData = {
+              ...existingMemberData,
+              displayName: yourName,
+              email: user.email,
+              userName: yourName,
+            };
+
+            set(existingGroupRef, updatedMemberData)
+              .then(() => {
+                console.log("Existing group member data updated successfully!");
+                // Navigate to the voting page
+                window.location.href = `index.html?groupKey=${groupKey}`;
+              })
+              .catch((error) => {
+                console.error("Error updating existing group member data:", error);
+              });
+          } else {
+            // Data doesn't exist, create it using initial data
+            const matchProgressData = {}; // Your existing initial match progress data
+            const memberData = {
+              displayName: yourName,
+              email: user.email,
+              userName: yourName,
+              joinTime: new Date().toISOString(),
+              matchProgress: matchProgressData,
+            };
+
+            set(existingGroupRef, memberData)
+              .then(() => {
+                console.log("Group member data created successfully!");
+                // Navigate to the voting page
+                window.location.href = `index.html?groupKey=${groupKey}`;
+              })
+              .catch((error) => {
+                console.error("Error creating group member data:", error);
+              });
+          }
+        })
+        .catch((error) => {
+          console.error("Error checking existing group member data:", error);
+        });
+
+
+
+
 
     }
 

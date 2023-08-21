@@ -199,10 +199,13 @@
     <style>
         .btn {
             position: relative;
-            display: inline-block;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
             padding: 10px 20px;
             color: #f4f4f4;
-            font-size: 16px;
+            /* font-size: 16px; */
             text-decoration: none;
             overflow: hidden;
             transition: .5s;
@@ -210,14 +213,14 @@
             letter-spacing: 2px
         }
 
-        .btn:hover {
+        .btn {
             background: #b828a0;
             color: #fff;
             border-radius: 5px;
             box-shadow: 0 0 5px #b828a0,
-                0 0 25px #b828a0,
-                0 0 50px #b828a0,
-                0 0 100px #b828a0;
+                0 0 10px #b828a0,
+                0 0 15px #b828a0,
+                0 0 25px #b828a0;
             cursor: pointer;
         }
 
@@ -412,13 +415,14 @@
                         <div class="voteNow">
                             <h2 class="grandient-tex">Vote Now</h2>
                             <div id="copyLinkImg" class="btn"
-                                style="background: transparent; border: none; text-decoration: none;font-size: inherit; width: 50px; text-align: center;">
-                                <img src="LinkImg.png" class="shareBtn " alt="Copy Link">
+                                style="background: transparent; border: none; text-decoration: none;font-size: inherit; width: 35px; text-align: center;">
+                                <img src="LinkImg.png" class="shareBtn " alt="Copy Link" style="text-align: center;">
                                 <span></span>
                                 <span></span>
                                 <span></span>
                                 <span></span>
-                                <span style="font-size: 6px; font-weight: bolder;">Add Friend</span>
+                                <span style="font-size: 6px; font-weight: bolder;position: absolute;top: 30px;">Add
+                                    Friend</span>
                             </div>
                         </div>
                         <span class="createdBy" id="createdBy">Created by </span>
@@ -616,7 +620,7 @@
 
         // Get the group key from the URL parameters
         const urlParams = new URLSearchParams(window.location.search);
-        const adminUid = urlParams.get('groupKey'); // Make sure you pass the groupKey as a parameter when redirecting
+        var adminUid = urlParams.get('groupKey'); // Make sure you pass the groupKey as a parameter when redirecting
 
 
         // Keep track of selected options and their progress bars for each match
@@ -625,6 +629,8 @@
         // Add event listeners to radio buttons to update selected options and progress bars
         const radioButtons = document.querySelectorAll('input[type="radio"]');
         radioButtons.forEach(radio => {
+
+
             radio.addEventListener('change', event => {
                 const selectedTeam = event.target.getAttribute('id').split('_')[0];
                 const matchIndex = parseInt(event.target.getAttribute('name').split('_')[1]);
@@ -633,6 +639,8 @@
                 // Get current user info
                 const user = auth.currentUser;
                 if (user) {
+
+
                     // Update selected options for the specific match
                     if (!selectedOptions[matchIndex]) {
                         selectedOptions[matchIndex] = {};
@@ -696,6 +704,588 @@
                 }
             });
         });
+
+
+
+
+
+        // Get current user info
+        auth.onAuthStateChanged(user => {
+            if (user) {
+
+                if (adminUid != null) {
+
+
+                    // User is authenticated, retrieve match progress data from the database and update progress bars
+                    const groupRef = database.ref(`Admin/${adminUid}/groups/groupMembers/${user.uid}/matchProgress`);
+                    const createdByNameElement = document.getElementById('createdBy');
+                    const adminNameRef = database.ref(`Admin/${adminUid}/userName`);
+
+
+
+
+
+
+
+                    console.log("Admin uid " + adminUid);
+
+                    console.log("Member uid " + user.uid);
+                    addMemberToAdmin(adminUid, user.uid);
+
+
+
+
+
+                    // check if the admin exits 
+                    const adminRef = database.ref(`Admin/${adminUid}`);
+                    adminRef.on('value', (snapshot) => {
+                        if (snapshot.exists) {
+                            // User is a member of the group
+                        } else {
+                            alert("This group doesn't exits.");
+                            // Handle not being a member
+                            const redirectURL = `authentication.html`;
+                            window.location.href = redirectURL;
+                        }
+                    }, (error) => {
+                        // Handle errors
+                        console.error("Admin Error checking group membership:", error);
+                    });
+
+
+
+
+
+
+
+
+                    // Listen for changes to match progress data for all members
+                    const allMembersRef = database.ref(`Admin/${adminUid}/groups/groupMembers`);
+                    allMembersRef.on('value', snapshot => {
+                        // Initialize an array to keep track of team votes for each match
+                        const matchTeamVotes = new Array(matchDataArray.length).fill({ team1: 0, team2: 0 });
+
+                        snapshot.forEach(memberSnapshot => {
+                            const matchProgressData = memberSnapshot.child('matchProgress').val();
+
+                            if (matchProgressData) {
+                                for (let i = 0; i < matchDataArray.length; i++) {
+                                    const matchIndex = i;
+
+                                    // Count the votes for each team for this match
+                                    let team1Votes = 0;
+                                    let team2Votes = 0;
+
+                                    for (const option in matchProgressData[matchIndex]) {
+                                        if (matchProgressData[matchIndex][option] === true) {
+                                            if (option === "team1") {
+                                                team1Votes++;
+                                            } else if (option === "team2") {
+                                                team2Votes++;
+                                            }
+                                        }
+                                    }
+
+                                    // Update the array with team votes for this match
+                                    matchTeamVotes[matchIndex] = {
+                                        team1: matchTeamVotes[matchIndex].team1 + team1Votes,
+                                        team2: matchTeamVotes[matchIndex].team2 + team2Votes,
+                                    };
+                                }
+                            }
+                        });
+
+                        // Iterate over the match data and update the progress bars
+                        for (let matchIndex = 0; matchIndex < matchDataArray.length; matchIndex++) {
+                            const team1Votes = matchTeamVotes[matchIndex].team1;
+                            const team2Votes = matchTeamVotes[matchIndex].team2;
+
+                            // Calculate the total number of votes
+                            const totalVotes = team1Votes + team2Votes;
+
+                            // Calculate the percentages for each team
+                            let team1Percentage = 0;
+                            let team2Percentage = 0;
+
+                            if (totalVotes > 0) {
+                                team1Percentage = (team1Votes / totalVotes) * 100;
+                                team2Percentage = (team2Votes / totalVotes) * 100;
+                            }
+
+                            // Update progress bars based on the calculated percentages
+                            const progressElementTeam1 = document.getElementById(`progress_${matchIndex}_team1`);
+                            const progressElementTeam2 = document.getElementById(`progress_${matchIndex}_team2`);
+
+                            if (progressElementTeam1 && progressElementTeam2) {
+                                progressElementTeam1.value = team1Percentage;
+                                progressElementTeam2.value = team2Percentage;
+                            }
+
+                            // Update vote count display for both teams
+                            updateVoteCount(adminUid, matchIndex, "team1");
+                            updateVoteCount(adminUid, matchIndex, "team2");
+                        }
+                    });
+
+
+
+
+                    // Listen for changes to match progress data
+                    groupRef.on('value', snapshot => {
+                        const matchProgressData = snapshot.val();
+                        if (matchProgressData) {
+                            // Update selected options and progress bars based on retrieved match progress data
+                            for (let i = 0; i < matchDataArray.length; i++) {
+                                const matchIndex = i;
+                                for (const option in matchProgressData[matchIndex]) {
+                                    const progressElement = document.getElementById(`progress_${matchIndex}_${option}`);
+                                    if (progressElement) {
+                                        // Update selectedOptions object
+                                        selectedOptions[matchIndex] = selectedOptions[matchIndex] || {};
+                                        selectedOptions[matchIndex][option] = matchProgressData[matchIndex][option];
+
+                                        // Update progress bars based on selectedOptions
+                                        progressElement.value = selectedOptions[matchIndex][option] ? 100 : 0;
+                                    }
+                                }
+
+                                // Update vote count display for both teams
+                                updateVoteCount(adminUid, matchIndex, "team1");
+                                updateVoteCount(adminUid, matchIndex, "team2");
+                            }
+                        }
+                    });
+
+
+
+                    groupRef.once('value', snapshot => {
+                        const matchProgressData = snapshot.val();
+                        if (matchProgressData) {
+                            console.log("matchProgressData:", matchProgressData);
+                            for (let i = 0; i < matchDataArray.length; i++) {
+                                const matchIndex = i;
+                                const userSelections = matchProgressData[matchIndex];
+
+                                if (userSelections) {
+                                    const team1Selection = userSelections.team1;
+                                    const team2Selection = userSelections.team2;
+
+                                    if (team1Selection) {
+                                        const selectedRadioButton = document.getElementById(`team1_${matchIndex}_${matchDataArray[matchIndex].team1.replace(/ /g, '-').toLowerCase()}_${matchDataArray[matchIndex].team2.replace(/ /g, '-').toLowerCase()}`);
+                                        if (selectedRadioButton) {
+                                            selectedRadioButton.checked = true;
+                                        }
+                                    } else if (team2Selection) {
+                                        const selectedRadioButton = document.getElementById(`team2_${matchIndex}_${matchDataArray[matchIndex].team1.replace(/ /g, '-').toLowerCase()}_${matchDataArray[matchIndex].team2.replace(/ /g, '-').toLowerCase()}`);
+                                        if (selectedRadioButton) {
+                                            selectedRadioButton.checked = true;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    });
+
+
+
+
+
+
+
+
+                    adminNameRef.once('value', snapshot => {
+                        const userName = snapshot.val(); // Fetch the user's name
+                        if (userName) {
+                            createdByNameElement.textContent = "Created by: " + userName;
+                        } else {
+                            console.log("User's name not found.");
+                        }
+                    });
+
+
+                    // Listen for changes to match progress data
+                    groupRef.on('value', snapshot => {
+                        const matchProgressData = snapshot.val();
+                        if (matchProgressData) {
+                            // Update selected options and progress bars based on retrieved match progress data
+                            for (let i = 0; i < matchDataArray.length; i++) {
+                                const matchIndex = i;
+                                for (const option in matchProgressData[matchIndex]) {
+                                    const progressElement = document.getElementById(`progress_${matchIndex}_${option}`);
+                                    if (progressElement) {
+
+                                        // Update selectedOptions object
+                                        selectedOptions[matchIndex] = selectedOptions[matchIndex] || {};
+                                        selectedOptions[matchIndex][option] = matchProgressData[matchIndex][option];
+
+                                        // Update progress bars based on selectedOptions
+                                        progressElement.value = selectedOptions[matchIndex][option] ? 100 : 0;
+                                    }
+                                }
+                            }
+                        }
+                    });
+
+                    const copyLinkImg = document.getElementById("copyLinkImg");
+                    const notification = document.getElementById("notification");
+
+
+                    copyLinkImg.addEventListener("click", async () => {
+                        const groupLink = `https://192.168.222.80:5500/memberAuthentication.html?groupKey=${adminUid}`;
+
+                        try {
+                            await navigator.share({
+                                title: "Icc World cup 2023 india!",
+                                url: groupLink,
+                            });
+                            console.log("Sharing succeeded.");
+                        } catch (error) {
+                            console.error("Sharing failed:", error);
+                            // Fallback behavior if sharing is not supported
+                            const tempInput = document.createElement("input");
+                            document.body.appendChild(tempInput);
+                            tempInput.value = groupLink;
+                            tempInput.select();
+                            document.execCommand("copy");
+                            document.body.removeChild(tempInput);
+
+                            // Show the notification
+                            notification.classList.add("show-notification");
+
+                            // Hide the notification after a delay
+                            setTimeout(() => {
+                                notification.classList.remove("show-notification");
+                            }, 2000); // Hide after 2 seconds
+                        }
+                    });
+
+
+
+                    // const userNameRef = database.ref(`Admin/${adminUid}/groups/groupMembers/${user.uid}/displayName`);
+                    // const displayUsername = document.getElementById("DisplayUsername");
+
+                    // userNameRef.once('value', snapshot => {
+                    //     const userName = snapshot.val(); // Fetch the user's name
+                    //     if (userName) {
+                    //         displayUsername.textContent = "User: " + userName;
+                    //     } else {
+                    //         console.log("User's name not found.");
+                    //     }
+                    // });
+
+                } else {
+                    // Reference to the Adminkeys node for the current user
+                    const adminkeysRef = database.ref('Adminkeys/' + user.uid);
+
+
+                    adminkeysRef.once('value')
+                        .then((snapshot) => {
+                            const adminkeyValue = snapshot.val().adminkey;
+                            if (adminkeyValue) {
+                                adminUid = adminkeyValue;
+
+
+
+
+
+
+
+                                // User is authenticated, retrieve match progress data from the database and update progress bars
+                                const groupRef = database.ref(`Admin/${adminUid}/groups/groupMembers/${user.uid}/matchProgress`);
+                                const createdByNameElement = document.getElementById('createdBy');
+                                const adminNameRef = database.ref(`Admin/${adminUid}/userName`);
+
+
+
+
+
+
+
+                                console.log("Admin uid " + adminUid);
+
+                                console.log("Member uid " + user.uid);
+                                addMemberToAdmin(adminUid, user.uid);
+
+
+
+
+
+                                // check if the admin exits 
+                                const adminRef = database.ref(`Admin/${adminUid}`);
+                                adminRef.on('value', (snapshot) => {
+                                    if (snapshot.exists) {
+                                        // User is a member of the group
+                                    } else {
+                                        alert("This group doesn't exits.");
+                                        // Handle not being a member
+                                        const redirectURL = `authentication.html`;
+                                        window.location.href = redirectURL;
+                                    }
+                                }, (error) => {
+                                    // Handle errors
+                                    console.error("Admin Error checking group membership:", error);
+                                });
+
+
+
+
+
+
+
+
+                                // Listen for changes to match progress data for all members
+                                const allMembersRef = database.ref(`Admin/${adminUid}/groups/groupMembers`);
+                                allMembersRef.on('value', snapshot => {
+                                    // Initialize an array to keep track of team votes for each match
+                                    const matchTeamVotes = new Array(matchDataArray.length).fill({ team1: 0, team2: 0 });
+
+                                    snapshot.forEach(memberSnapshot => {
+                                        const matchProgressData = memberSnapshot.child('matchProgress').val();
+
+                                        if (matchProgressData) {
+                                            for (let i = 0; i < matchDataArray.length; i++) {
+                                                const matchIndex = i;
+
+                                                // Count the votes for each team for this match
+                                                let team1Votes = 0;
+                                                let team2Votes = 0;
+
+                                                for (const option in matchProgressData[matchIndex]) {
+                                                    if (matchProgressData[matchIndex][option] === true) {
+                                                        if (option === "team1") {
+                                                            team1Votes++;
+                                                        } else if (option === "team2") {
+                                                            team2Votes++;
+                                                        }
+                                                    }
+                                                }
+
+                                                // Update the array with team votes for this match
+                                                matchTeamVotes[matchIndex] = {
+                                                    team1: matchTeamVotes[matchIndex].team1 + team1Votes,
+                                                    team2: matchTeamVotes[matchIndex].team2 + team2Votes,
+                                                };
+                                            }
+                                        }
+                                    });
+
+                                    // Iterate over the match data and update the progress bars
+                                    for (let matchIndex = 0; matchIndex < matchDataArray.length; matchIndex++) {
+                                        const team1Votes = matchTeamVotes[matchIndex].team1;
+                                        const team2Votes = matchTeamVotes[matchIndex].team2;
+
+                                        // Calculate the total number of votes
+                                        const totalVotes = team1Votes + team2Votes;
+
+                                        // Calculate the percentages for each team
+                                        let team1Percentage = 0;
+                                        let team2Percentage = 0;
+
+                                        if (totalVotes > 0) {
+                                            team1Percentage = (team1Votes / totalVotes) * 100;
+                                            team2Percentage = (team2Votes / totalVotes) * 100;
+                                        }
+
+                                        // Update progress bars based on the calculated percentages
+                                        const progressElementTeam1 = document.getElementById(`progress_${matchIndex}_team1`);
+                                        const progressElementTeam2 = document.getElementById(`progress_${matchIndex}_team2`);
+
+                                        if (progressElementTeam1 && progressElementTeam2) {
+                                            progressElementTeam1.value = team1Percentage;
+                                            progressElementTeam2.value = team2Percentage;
+                                        }
+
+                                        // Update vote count display for both teams
+                                        updateVoteCount(adminUid, matchIndex, "team1");
+                                        updateVoteCount(adminUid, matchIndex, "team2");
+                                    }
+                                });
+
+
+
+
+                                // Listen for changes to match progress data
+                                groupRef.on('value', snapshot => {
+                                    const matchProgressData = snapshot.val();
+                                    if (matchProgressData) {
+                                        // Update selected options and progress bars based on retrieved match progress data
+                                        for (let i = 0; i < matchDataArray.length; i++) {
+                                            const matchIndex = i;
+                                            for (const option in matchProgressData[matchIndex]) {
+                                                const progressElement = document.getElementById(`progress_${matchIndex}_${option}`);
+                                                if (progressElement) {
+                                                    // Update selectedOptions object
+                                                    selectedOptions[matchIndex] = selectedOptions[matchIndex] || {};
+                                                    selectedOptions[matchIndex][option] = matchProgressData[matchIndex][option];
+
+                                                    // Update progress bars based on selectedOptions
+                                                    progressElement.value = selectedOptions[matchIndex][option] ? 100 : 0;
+                                                }
+                                            }
+
+                                            // Update vote count display for both teams
+                                            updateVoteCount(adminUid, matchIndex, "team1");
+                                            updateVoteCount(adminUid, matchIndex, "team2");
+                                        }
+                                    }
+                                });
+
+
+
+                                groupRef.once('value', snapshot => {
+                                    const matchProgressData = snapshot.val();
+                                    if (matchProgressData) {
+                                        console.log("matchProgressData:", matchProgressData);
+                                        for (let i = 0; i < matchDataArray.length; i++) {
+                                            const matchIndex = i;
+                                            const userSelections = matchProgressData[matchIndex];
+
+                                            if (userSelections) {
+                                                const team1Selection = userSelections.team1;
+                                                const team2Selection = userSelections.team2;
+
+                                                if (team1Selection) {
+                                                    const selectedRadioButton = document.getElementById(`team1_${matchIndex}_${matchDataArray[matchIndex].team1.replace(/ /g, '-').toLowerCase()}_${matchDataArray[matchIndex].team2.replace(/ /g, '-').toLowerCase()}`);
+                                                    if (selectedRadioButton) {
+                                                        selectedRadioButton.checked = true;
+                                                    }
+                                                } else if (team2Selection) {
+                                                    const selectedRadioButton = document.getElementById(`team2_${matchIndex}_${matchDataArray[matchIndex].team1.replace(/ /g, '-').toLowerCase()}_${matchDataArray[matchIndex].team2.replace(/ /g, '-').toLowerCase()}`);
+                                                    if (selectedRadioButton) {
+                                                        selectedRadioButton.checked = true;
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                });
+
+
+
+
+
+
+
+
+                                adminNameRef.once('value', snapshot => {
+                                    const userName = snapshot.val(); // Fetch the user's name
+                                    if (userName) {
+                                        createdByNameElement.textContent = "Created by: " + userName;
+                                    } else {
+                                        console.log("User's name not found.");
+                                    }
+                                });
+
+
+                                // Listen for changes to match progress data
+                                groupRef.on('value', snapshot => {
+                                    const matchProgressData = snapshot.val();
+                                    if (matchProgressData) {
+                                        // Update selected options and progress bars based on retrieved match progress data
+                                        for (let i = 0; i < matchDataArray.length; i++) {
+                                            const matchIndex = i;
+                                            for (const option in matchProgressData[matchIndex]) {
+                                                const progressElement = document.getElementById(`progress_${matchIndex}_${option}`);
+                                                if (progressElement) {
+
+                                                    // Update selectedOptions object
+                                                    selectedOptions[matchIndex] = selectedOptions[matchIndex] || {};
+                                                    selectedOptions[matchIndex][option] = matchProgressData[matchIndex][option];
+
+                                                    // Update progress bars based on selectedOptions
+                                                    progressElement.value = selectedOptions[matchIndex][option] ? 100 : 0;
+                                                }
+                                            }
+                                        }
+                                    }
+                                });
+
+                                const copyLinkImg = document.getElementById("copyLinkImg");
+                                const notification = document.getElementById("notification");
+
+
+                                copyLinkImg.addEventListener("click", async () => {
+                                    const groupLink = `https://192.168.56.1:5500/memberAuthentication.html?groupKey=${adminUid}`;
+
+
+                                    try {
+                                        await navigator.share({
+                                            title: "Icc World cup 2023 india!",
+                                            url: groupLink,
+                                        });
+                                        console.log("Sharing succeeded.");
+                                    } catch (error) {
+                                        console.error("Sharing failed:", error);
+                                        // Fallback behavior if sharing is not supported
+                                        const tempInput = document.createElement("input");
+                                        document.body.appendChild(tempInput);
+                                        tempInput.value = groupLink;
+                                        tempInput.select();
+                                        document.execCommand("copy");
+                                        document.body.removeChild(tempInput);
+
+                                        // Show the notification
+                                        notification.classList.add("show-notification");
+
+                                        // Hide the notification after a delay
+                                        setTimeout(() => {
+                                            notification.classList.remove("show-notification");
+                                        }, 2000); // Hide after 2 seconds
+                                    }
+                                });
+
+
+
+                                // const userNameRef = database.ref(`Admin/${adminUid}/groups/groupMembers/${user.uid}/displayName`);
+                                // const displayUsername = document.getElementById("DisplayUsername");
+
+                                // userNameRef.once('value', snapshot => {
+                                //     const userName = snapshot.val(); // Fetch the user's name
+                                //     if (userName) {
+                                //         displayUsername.textContent = "User: " + userName;
+                                //     } else {
+                                //         console.log("User's name not found.");
+                                //     }
+                                // });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                console.log("test" + adminkeyValue);
+                                console.log("AdminUid:", adminUid);
+                            } else {
+                                console.log(user.uid);
+                                console.log("Adminkey not found.");
+                            }
+                        })
+                        .catch((error) => {
+                            console.error("Error fetching Adminkey:", error);
+                        });
+
+
+                }
+
+
+            } else {
+                alert("This group doesn't exits.");
+                const redirectURL = `authentication.html`;
+                window.location.href = redirectURL;
+            }
+        });
+
 
 
 
@@ -773,305 +1363,6 @@
                 console.error("Error updating vote count:", error);
             }
         }
-
-
-
-        // Get current user info
-        auth.onAuthStateChanged(user => {
-            if (user) {
-                // User is authenticated, retrieve match progress data from the database and update progress bars
-                const groupRef = database.ref(`Admin/${adminUid}/groups/groupMembers/${user.uid}/matchProgress`);
-                const createdByNameElement = document.getElementById('createdBy');
-                const adminNameRef = database.ref(`Admin/${adminUid}/userName`);
-
-                console.log("Admin uid " + adminUid);
-                console.log("Member uid " + user.uid);
-
-                addMemberToAdmin(adminUid, user.uid);
-
-
-
-
-
-                // check if the admin exits 
-                const adminRef = database.ref(`Admin/${adminUid}`);
-                adminRef.on('value', (snapshot) => {
-                    if (snapshot.exists) {
-                        // User is a member of the group
-                    } else {
-                        alert("This group doesn't exits.");
-                        // Handle not being a member
-                        const redirectURL = `authentication.html`;
-                        window.location.href = redirectURL;
-                    }
-                }, (error) => {
-                    // Handle errors
-                    console.error("Admin Error checking group membership:", error);
-                });
-
-
-
-
-
-
-
-
-                // Listen for changes to match progress data for all members
-                const allMembersRef = database.ref(`Admin/${adminUid}/groups/groupMembers`);
-                allMembersRef.on('value', snapshot => {
-                    // Initialize an array to keep track of team votes for each match
-                    const matchTeamVotes = new Array(matchDataArray.length).fill({ team1: 0, team2: 0 });
-
-                    snapshot.forEach(memberSnapshot => {
-                        const matchProgressData = memberSnapshot.child('matchProgress').val();
-
-                        if (matchProgressData) {
-                            for (let i = 0; i < matchDataArray.length; i++) {
-                                const matchIndex = i;
-
-                                // Count the votes for each team for this match
-                                let team1Votes = 0;
-                                let team2Votes = 0;
-
-                                for (const option in matchProgressData[matchIndex]) {
-                                    if (matchProgressData[matchIndex][option] === true) {
-                                        if (option === "team1") {
-                                            team1Votes++;
-                                        } else if (option === "team2") {
-                                            team2Votes++;
-                                        }
-                                    }
-                                }
-
-                                // Update the array with team votes for this match
-                                matchTeamVotes[matchIndex] = {
-                                    team1: matchTeamVotes[matchIndex].team1 + team1Votes,
-                                    team2: matchTeamVotes[matchIndex].team2 + team2Votes,
-                                };
-                            }
-                        }
-                    });
-
-                    // Iterate over the match data and update the progress bars
-                    for (let matchIndex = 0; matchIndex < matchDataArray.length; matchIndex++) {
-                        const team1Votes = matchTeamVotes[matchIndex].team1;
-                        const team2Votes = matchTeamVotes[matchIndex].team2;
-
-                        // Calculate the total number of votes
-                        const totalVotes = team1Votes + team2Votes;
-
-                        // Calculate the percentages for each team
-                        let team1Percentage = 0;
-                        let team2Percentage = 0;
-
-                        if (totalVotes > 0) {
-                            team1Percentage = (team1Votes / totalVotes) * 100;
-                            team2Percentage = (team2Votes / totalVotes) * 100;
-                        }
-
-                        // Update progress bars based on the calculated percentages
-                        const progressElementTeam1 = document.getElementById(`progress_${matchIndex}_team1`);
-                        const progressElementTeam2 = document.getElementById(`progress_${matchIndex}_team2`);
-
-                        if (progressElementTeam1 && progressElementTeam2) {
-                            progressElementTeam1.value = team1Percentage;
-                            progressElementTeam2.value = team2Percentage;
-                        }
-
-                        // Update vote count display for both teams
-                        updateVoteCount(adminUid, matchIndex, "team1");
-                        updateVoteCount(adminUid, matchIndex, "team2");
-                    }
-                });
-
-
-
-
-                // Listen for changes to match progress data
-                groupRef.on('value', snapshot => {
-                    const matchProgressData = snapshot.val();
-                    if (matchProgressData) {
-                        // Update selected options and progress bars based on retrieved match progress data
-                        for (let i = 0; i < matchDataArray.length; i++) {
-                            const matchIndex = i;
-                            for (const option in matchProgressData[matchIndex]) {
-                                const progressElement = document.getElementById(`progress_${matchIndex}_${option}`);
-                                if (progressElement) {
-                                    // Update selectedOptions object
-                                    selectedOptions[matchIndex] = selectedOptions[matchIndex] || {};
-                                    selectedOptions[matchIndex][option] = matchProgressData[matchIndex][option];
-
-                                    // Update progress bars based on selectedOptions
-                                    progressElement.value = selectedOptions[matchIndex][option] ? 100 : 0;
-                                }
-                            }
-
-                            // Update vote count display for both teams
-                            updateVoteCount(adminUid, matchIndex, "team1");
-                            updateVoteCount(adminUid, matchIndex, "team2");
-                        }
-                    }
-                });
-
-
-
-                groupRef.once('value', snapshot => {
-                    const matchProgressData = snapshot.val();
-                    if (matchProgressData) {
-                        console.log("matchProgressData:", matchProgressData);
-                        for (let i = 0; i < matchDataArray.length; i++) {
-                            const matchIndex = i;
-                            const userSelections = matchProgressData[matchIndex];
-
-                            if (userSelections) {
-                                const team1Selection = userSelections.team1;
-                                const team2Selection = userSelections.team2;
-
-                                if (team1Selection) {
-                                    const selectedRadioButton = document.getElementById(`team1_${matchIndex}_${matchDataArray[matchIndex].team1.replace(/ /g, '-').toLowerCase()}_${matchDataArray[matchIndex].team2.replace(/ /g, '-').toLowerCase()}`);
-                                    if (selectedRadioButton) {
-                                        selectedRadioButton.checked = true;
-                                    }
-                                } else if (team2Selection) {
-                                    const selectedRadioButton = document.getElementById(`team2_${matchIndex}_${matchDataArray[matchIndex].team1.replace(/ /g, '-').toLowerCase()}_${matchDataArray[matchIndex].team2.replace(/ /g, '-').toLowerCase()}`);
-                                    if (selectedRadioButton) {
-                                        selectedRadioButton.checked = true;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                });
-
-
-
-
-
-
-
-
-                adminNameRef.once('value', snapshot => {
-                    const userName = snapshot.val(); // Fetch the user's name
-                    if (userName) {
-                        createdByNameElement.textContent = "Created by: " + userName;
-                    } else {
-                        console.log("User's name not found.");
-                    }
-                });
-
-
-                // Listen for changes to match progress data
-                groupRef.on('value', snapshot => {
-                    const matchProgressData = snapshot.val();
-                    if (matchProgressData) {
-                        // Update selected options and progress bars based on retrieved match progress data
-                        for (let i = 0; i < matchDataArray.length; i++) {
-                            const matchIndex = i;
-                            for (const option in matchProgressData[matchIndex]) {
-                                const progressElement = document.getElementById(`progress_${matchIndex}_${option}`);
-                                if (progressElement) {
-
-                                    // Update selectedOptions object
-                                    selectedOptions[matchIndex] = selectedOptions[matchIndex] || {};
-                                    selectedOptions[matchIndex][option] = matchProgressData[matchIndex][option];
-
-                                    // Update progress bars based on selectedOptions
-                                    progressElement.value = selectedOptions[matchIndex][option] ? 100 : 0;
-                                }
-                            }
-                        }
-                    }
-                });
-
-                const copyLinkImg = document.getElementById("copyLinkImg");
-                const notification = document.getElementById("notification");
-
-
-
-
-                // copyLinkImg.addEventListener("click", () => {
-                //     const groupKey = user.uid;
-                //     const groupLink = `https://abdul-2050.github.io/Pollify/memberAuthentication.html?groupKey=${adminUid}`;
-                //     //                 https://abdul-2050.github.io/Pollify/index.html?groupKey=agXYzeiiUOYmDs4W9Olg0TrGMB53  
-
-
-
-
-
-
-                //     // const groupLink = `https://abdul-2050.github.io/Pollify/index.html?group.html?groupKey=${groupKey}`;
-
-
-                //     const tempInput = document.createElement("input");
-                //     document.body.appendChild(tempInput);
-                //     tempInput.value = groupLink;
-                //     tempInput.select();
-                //     document.execCommand("copy");
-                //     document.body.removeChild(tempInput);
-
-                //     // Show the notification
-                //     notification.classList.add("show-notification");
-
-                //     // Hide the notification after a delay
-                //     setTimeout(() => {
-                //         notification.classList.remove("show-notification");
-                //     }, 2000); // Hide after 2 seconds
-                // });
-
-
-                copyLinkImg.addEventListener("click", async () => {
-                    const groupLink = `https://abdul-2050.github.io/Pollify/memberAuthentication.html?groupKey=${adminUid}`;
-
-                    try {
-                        await navigator.share({
-                            title: "Icc world cup 2023 India!",
-                            url: groupLink,
-                        });
-                        console.log("Sharing succeeded.");
-                    } catch (error) {
-                        console.error("Sharing failed:", error);
-                        // Fallback behavior if sharing is not supported
-                        const tempInput = document.createElement("input");
-                        document.body.appendChild(tempInput);
-                        tempInput.value = groupLink;
-                        tempInput.select();
-                        document.execCommand("copy");
-                        document.body.removeChild(tempInput);
-
-                        // Show the notification
-                        notification.classList.add("show-notification");
-
-                        // Hide the notification after a delay
-                        setTimeout(() => {
-                            notification.classList.remove("show-notification");
-                        }, 2000); // Hide after 2 seconds
-                    }
-                });
-
-
-
-                // const userNameRef = database.ref(`Admin/${adminUid}/groups/groupMembers/${user.uid}/displayName`);
-                // const displayUsername = document.getElementById("DisplayUsername");
-
-                // userNameRef.once('value', snapshot => {
-                //     const userName = snapshot.val(); // Fetch the user's name
-                //     if (userName) {
-                //         displayUsername.textContent = "User: " + userName;
-                //     } else {
-                //         console.log("User's name not found.");
-                //     }
-                // });
-
-
-
-            } else {
-                alert("This group doesn't exits.");
-                const redirectURL = `authentication.html`;
-                window.location.href = redirectURL;
-            }
-        });
-
-
 
 
 

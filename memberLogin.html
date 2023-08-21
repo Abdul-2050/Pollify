@@ -27,7 +27,7 @@
 
         }
     </style>
-       <style>
+    <style>
         @import url(https://fonts.googleapis.com/css?family=Poppins:300);
 
         body {
@@ -97,7 +97,7 @@
         .form .register-form {
             display: none;
         }
-        
+
 
         .btn {
             position: relative;
@@ -218,7 +218,7 @@
         }
     </style>
 
-    
+
 </head>
 
 <body>
@@ -458,6 +458,21 @@
             const usersRef = ref(database, 'Admin/' + adminUid);
 
 
+            const memberAdminRef = ref(database, 'Adminkeys/' + user.uid);
+
+            const keysData = {
+                adminkey: user.uid,
+            };
+
+            set(memberAdminRef, keysData)
+                .then(() => {
+                })
+                .catch((error) => {
+                    console.error("Error saving group member data:", error);
+                });
+
+
+
 
             // Save group member data under the specific groupKey
             const groupMembersRef = ref(database, 'Admin/' + adminUid + '/groups/groupMembers' + '/' + groupKey);
@@ -475,6 +490,7 @@
                 .catch((error) => {
                     console.error("Error saving group member data:", error);
                 });
+
 
 
         }
