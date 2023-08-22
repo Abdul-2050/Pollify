@@ -900,7 +900,7 @@
                     adminNameRef.once('value', snapshot => {
                         const userName = snapshot.val(); // Fetch the user's name
                         if (userName) {
-                            createdByNameElement.textContent = "Created by: " + userName;
+                            createdByNameElement.textContent = "Group created by: " + userName;
                         } else {
                             console.log("User's name not found.");
                         }
@@ -1174,7 +1174,7 @@
                                 adminNameRef.once('value', snapshot => {
                                     const userName = snapshot.val(); // Fetch the user's name
                                     if (userName) {
-                                        createdByNameElement.textContent = "Created by: " + userName;
+                                        createdByNameElement.textContent = "Group created by: " + userName;
                                     } else {
                                         console.log("User's name not found.");
                                     }
