@@ -20,6 +20,8 @@
 
     <link rel="stylesheet" hrefl="index.JS" />
 
+    <script src="https://cdn.jsdelivr.net/npm/luxon@2.0.2/build/global/luxon.min.js"></script>
+
 
 
     <style>
@@ -75,6 +77,19 @@
 
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;1,300&family=Roboto:ital,wght@0,400;0,500;0,700;1,400;1,500&display=swap');
+
+
+        .discription {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 5px;
+
+        }
+
+        .discription p {
+            margin: 0
+        }
 
 
 
@@ -184,14 +199,37 @@
 
         .progress1::-webkit-progress-value {
             background: #56b6ff;
-            background-image: linear-gradient(315deg,
+            /* background-image: linear-gradient(315deg,
 
                     #304352,
-                    #d7d2cc);
+                    #d7d2cc); */
+                    background-image: linear-gradient(315deg, #ff256e 10%, #5122b8 80%);
 
 
             transition: width 1s ease-in-out 0.3s;
             /* Smooth transition over 1 second with a 0.5s delay */
+        }
+
+
+        .matchinfo {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .matchinfo .gap {
+            width: 58px;
+            /* border: 1px solid red; */
+            /* margin: 3px 3px 0 5px; */
+        }
+
+        .matchinfo_container {
+            width: 100%;
+            margin-top: 5px;
+        }
+
+        .matchinfo_container p {
+            margin: 0;
         }
     </style>
 
@@ -410,6 +448,7 @@
         <div class="create_poll_container">
             <div class="create_poll_header">
 
+
                 <div class="create_poll_header_container">
                     <div>
                         <div class="voteNow">
@@ -446,7 +485,8 @@
                 <div class="card_container">
                     <div class="voting_container" style="border: 1px solid re;">
                         <div class="voting_wrapper">
-                            <div id="matchesContainer"></div>
+                            <div id="matchesContainer">
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -454,6 +494,8 @@
         </div>
     </div>
 
+
+    <!-- firebase -->
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
@@ -492,55 +534,64 @@
             matchDiv.className = 'match';
             matchDiv.style.marginBottom = '10px';
 
-            matchDiv.innerHTML = `
-            <div class="discription">
+            matchDiv.innerHTML = `<div class="discription">
+    <div class="teamsname">
         <p style="margin-left: 6px; margin-top: 0;">${matchData.description}</p>
     </div>
+    <div class="date">
+        <p>${matchData.matchDate}</p>
+    </div>
+</div>
 
-    <label for="team1_${uniqueId}">
-        <div class="first_team" style="margin-bottom: 5px;">
-            <div class="first_team_container1">
-                <div class="flag_section">
-                    <input type="radio" name="match_${uniqueId}" id="team1_${uniqueId}">
-                    <label for="team1_${uniqueId}"><img src="${matchData.team1.replace(/ /g, '-').toLowerCase()}.png"
-                            alt="" style="width: 25px;"></label>
-                </div>
-                <!--  This is for how many persons -->
-                <span class="members" data-match-index="" data-team="team1">0</span>
+<label for="team1_${uniqueId}">
+    <div class="first_team" style="margin-bottom: 5px;">
+        <div class="first_team_container1">
+            <div class="flag_section">
+                <input type="radio" name="match_${uniqueId}" id="team1_${uniqueId}">
+                <label for="team1_${uniqueId}"><img src="${matchData.team1.replace(/ /g, '-').toLowerCase()}.png" alt=""
+                        style="width: 25px;"></label>
             </div>
-
-
-
-            <div class="first_team_container2">
-                <div style="min-width: 55px;"></div>
-                <progress class="first_team_progress progress progress1" max="100" value="0"
-                    id="progress_${matchIndex}_team1"></progress>
-            </div>
-
-
+            <!--  This is for how many persons -->
+            <span class="members" data-match-index="" data-team="team1">0</span>
         </div>
-    </label>
 
 
-    <label for="team2_${uniqueId}">
-        <div class="first_team">
-            <div class="first_team_container1">
-                <div class="flag_section">
-                    <input type="radio" name="match_${uniqueId}" id="team2_${uniqueId}">
-                    <label for="team2_${uniqueId}"><img src="${matchData.team2.replace(/ /g, '-').toLowerCase()}.png"
-                            alt="" style="width: 25px;"></label>
-                </div>
-                <!--  This is for how many persons -->
-                <span class="members" data-match-index="" data-team="team2">0</span>
-            </div>
-            <div class="first_team_container2">
-                <div style="min-width: 55px;"></div>
-                <progress class="first_team_progress progress progress1" max="100" value="0"
-                    id="progress_${matchIndex}_team2"></progress>
-            </div>
+
+        <div class="first_team_container2">
+            <div style="min-width: 55px;"></div>
+            <progress class="first_team_progress progress progress1" max="100" value="0"
+                id="progress_${matchIndex}_team1"></progress>
         </div>
-    </label>
-    `;
+
+
+    </div>
+</label>
+
+
+<label for="team2_${uniqueId}">
+    <div class="first_team">
+        <div class="first_team_container1">
+            <div class="flag_section">
+                <input type="radio" name="match_${uniqueId}" id="team2_${uniqueId}">
+                <label for="team2_${uniqueId}"><img src="${matchData.team2.replace(/ /g, '-').toLowerCase()}.png" alt=""
+                        style="width: 25px;"></label>
+            </div>
+            <!--  This is for how many persons -->
+            <span class="members" data-match-index="" data-team="team2">0</span>
+        </div>
+        <div class="first_team_container2">
+            <div style="min-width: 55px;"></div>
+            <progress class="first_team_progress progress progress1" max="100" value="0"
+                id="progress_${matchIndex}_team2"></progress>
+        </div>
+    </div>
+</label>
+<div class="matchinfo">
+    <div class="gap"></div>
+    <div class="matchinfo_container">
+        <p>Starts at: ${getLocalizedTime(matchData)}</p>
+    </div>
+</div>`;
 
 
             /// Add data attributes for match index and team to the vote count spans
@@ -560,57 +611,98 @@
         }
 
 
+        // Function to create a localized time string
+        function getLocalizedTime(matchData) {
+            const matchDateTime = luxon.DateTime.fromFormat(
+                `${matchData.matchDate} ${matchData.matchTime}`,
+                "d-MMM h:mm a",
+                { zone: "Asia/Kolkata" }  // Indian Standard Time (IST)
+            );
+
+            const localMatchDateTime = matchDateTime.toLocal();
+            return localMatchDateTime.toFormat("h:mm a");
+        }
+
+
+        // Function to create a countdown timer string
+        // function getCountdownTime(matchData) {
+        //     const now = luxon.DateTime.local();
+        //     const matchDateTime = luxon.DateTime.fromFormat(matchData.matchDate + " " + matchData.matchTime, "d-MMM h:mm a", { zone: matchData.timeZone });
+        //     const timeDifference = matchDateTime.diff(now, ['months', 'days', 'hours', 'minutes']);
+
+        //     const months = timeDifference.months;
+        //     const days = timeDifference.days;
+        //     const hours = timeDifference.hours;
+        //     const minutes = timeDifference.minutes;
+
+        //     if (months > 0) {
+        //         return `${months} months, ${days} days, ${hours} hours`;
+        //     } else if (days > 0) {
+        //         return `${days} days, ${hours} hours`;
+        //     } else if (hours > 1) {
+        //         return `${hours} hours`;
+        //     } else if (hours === 1) {
+        //         return `${hours} hour, ${minutes} minutes`;
+        //     } else {
+        //         return `${minutes} minutes`;
+        //     }
+        // }
+
+
 
 
         // JavaScript code to create and display .match elements with descriptions and flags from the table
         const matchesContainer = document.getElementById('matchesContainer');
 
         const matchDataArray = [
-            { description: "England vs New Zealand", team1: "England", team2: "New Zealand" },
-            { description: "Pakistan vs Netherlands", team1: "Pakistan", team2: "Netherlands" },
-            { description: "Afghanistan vs Bangladesh", team1: "Afghanistan", team2: "Bangladesh" },
-            { description: "South Africa vs Sri Lanka", team1: "South Africa", team2: "Sri Lanka" },
-            { description: "Australia vs India", team1: "Australia", team2: "India" },
-            { description: "New Zealand vs Netherlands", team1: "New Zealand", team2: "Netherlands" },
-            { description: "Bangladesh vs England", team1: "Bangladesh", team2: "England" },
-            { description: "Afghanistan vs India", team1: "Afghanistan", team2: "India" },
-            { description: "Pakistan vs Sri Lanka", team1: "Pakistan", team2: "Sri Lanka" },
-            { description: "Australia vs South Africa", team1: "Australia", team2: "South Africa" },
-            { description: "Bangladesh vs New Zealand", team1: "Bangladesh", team2: "New Zealand" },
-            { description: "Afghanistan vs England", team1: "Afghanistan", team2: "England" },
-            { description: "India vs Pakistan", team1: "India", team2: "Pakistan" },
-            { description: "Australia vs Sri Lanka", team1: "Australia", team2: "Sri Lanka" },
-            { description: "South Africa vs Netherlands", team1: "South Africa", team2: "Netherlands" },
-            { description: "Afghanistan vs New Zealand", team1: "Afghanistan", team2: "New Zealand" },
-            { description: "Bangladesh vs India", team1: "Bangladesh", team2: "India" },
-            { description: "Australia vs Pakistan", team1: "Australia", team2: "Pakistan" },
-            { description: "Netherlands vs Sri Lanka", team1: "Netherlands", team2: "Sri Lanka" },
-            { description: "England vs South Africa", team1: "England", team2: "South Africa" },
-            { description: "India vs New Zealand", team1: "India", team2: "New Zealand" },
-            { description: "Afghanistan vs Pakistan", team1: "Afghanistan", team2: "Pakistan" },
-            { description: "Bangladesh vs South Africa", team1: "Bangladesh", team2: "South Africa" },
-            { description: "Australia vs Netherlands", team1: "Australia", team2: "Netherlands" },
-            { description: "England vs Sri Lanka", team1: "England", team2: "Sri Lanka" },
-            { description: "Pakistan vs South Africa", team1: "Pakistan", team2: "South Africa" },
-            { description: "Australia vs New Zealand", team1: "Australia", team2: "New Zealand" },
-            { description: "Bangladesh vs Netherlands", team1: "Bangladesh", team2: "Netherlands" },
-            { description: "England vs India", team1: "England", team2: "India" },
-            { description: "Afghanistan vs Sri Lanka", team1: "Afghanistan", team2: "Sri Lanka" },
-            { description: "Bangladesh vs Pakistan", team1: "Bangladesh", team2: "Pakistan" },
-            { description: "New Zealand vs South Africa", team1: "New Zealand", team2: "South Africa" },
-            { description: "India vs Sri Lanka", team1: "India", team2: "Sri Lanka" },
-            { description: "Afghanistan vs Netherlands", team1: "Afghanistan", team2: "Netherlands" },
-            { description: "New Zealand vs Pakistan", team1: "New Zealand", team2: "Pakistan" },
-            { description: "Australia vs England", team1: "Australia", team2: "England" },
-            { description: "India vs South Africa", team1: "India", team2: "South Africa" },
-            { description: "Bangladesh vs Sri Lanka", team1: "Bangladesh", team2: "Sri Lanka" },
-            { description: "Australia vs Afghanistan", team1: "Australia", team2: "Afghanistan" },
-            { description: "England vs Netherlands", team1: "England", team2: "Netherlands" },
-            { description: "New Zealand vs Sri Lanka", team1: "New Zealand", team2: "Sri Lanka" },
-            { description: "Afghanistan vs South Africa", team1: "Afghanistan", team2: "South Africa" },
-            { description: "India vs Netherlands", team1: "India", team2: "Netherlands" },
-            { description: "Australia vs Bangladesh", team1: "Australia", team2: "Bangladesh" },
-            { description: "England vs Pakistan", team1: "England", team2: "Pakistan" },
+            { description: "England vs New Zealand", team1: "England", team2: "New Zealand", matchDate: "5-Oct", matchTime: "2:00 PM" },
+            { description: "Pakistan vs Netherlands", team1: "Pakistan", team2: "Netherlands", matchDate: "6-Oct", matchTime: "2:00 PM" },
+            { description: "Bangladesh vs Afghanistan", team1: "Bangladesh", team2: "Afghanistan", matchDate: "7-Oct", matchTime: "10:30 AM" },
+            { description: "South Africa vs Sri Lanka", team1: "South Africa", team2: "Sri Lanka", matchDate: "7-Oct", matchTime: "2:00 PM" },
+            { description: "Australia vs India", team1: "Australia", team2: "India", matchDate: "8-Oct", matchTime: "2:00 PM" },
+            { description: "New Zealand vs Netherlands", team1: "New Zealand", team2: "Netherlands", matchDate: "9-Oct", matchTime: "2:00 PM" },
+            { description: "England vs Bangladesh", team1: "England", team2: "Bangladesh", matchDate: "10-Oct", matchTime: "10:30 AM" },
+            { description: "Pakistan vs Sri Lanka", team1: "Pakistan", team2: "Sri Lanka", matchDate: "10-Oct", matchTime: "2:00 PM" },
+            { description: "India vs Afghanistan", team1: "India", team2: "Afghanistan", matchDate: "11-Oct", matchTime: "2:00 PM" },
+            { description: "Australia vs South Africa", team1: "Australia", team2: "South Africa", matchDate: "12-Oct", matchTime: "2:00 PM" },
+            { description: "New Zealand vs Bangladesh", team1: "New Zealand", team2: "Bangladesh", matchDate: "13-Oct", matchTime: "2:00 PM" },
+            { description: "India vs Pakistan", team1: "India", team2: "Pakistan", matchDate: "14-Oct", matchTime: "2:00 PM" },
+            { description: "England vs Afghanistan", team1: "England", team2: "Afghanistan", matchDate: "15-Oct", matchTime: "2:00 PM" },
+            { description: "Australia vs Sri Lanka", team1: "Australia", team2: "Sri Lanka", matchDate: "16-Oct", matchTime: "2:00 PM" },
+            { description: "South Africa vs Netherlands", team1: "South Africa", team2: "Netherlands", matchDate: "17-Oct", matchTime: "2:00 PM" },
+            { description: "New Zealand vs Afghanistan", team1: "New Zealand", team2: "Afghanistan", matchDate: "18-Oct", matchTime: "2:00 PM" },
+            { description: "India vs Bangladesh", team1: "India", team2: "Bangladesh", matchDate: "19-Oct", matchTime: "2:00 PM" },
+            { description: "Australia vs Pakistan", team1: "Australia", team2: "Pakistan", matchDate: "20-Oct", matchTime: "2:00 PM" },
+            { description: "Netherlands vs Sri Lanka", team1: "Netherlands", team2: "Sri Lanka", matchDate: "21-Oct", matchTime: "10:30 AM" },
+            { description: "England vs South Africa", team1: "England", team2: "South Africa", matchDate: "21-Oct", matchTime: "2:00 PM" },
+            { description: "India vs New Zealand", team1: "India", team2: "New Zealand", matchDate: "22-Oct", matchTime: "2:00 PM" },
+            { description: "Pakistan vs Afghanistan", team1: "Pakistan", team2: "Afghanistan", matchDate: "23-Oct", matchTime: "2:00 PM" },
+            { description: "South Africa vs Bangladesh", team1: "South Africa", team2: "Bangladesh", matchDate: "24-Oct", matchTime: "2:00 PM" },
+            { description: "Australia vs Netherlands", team1: "Australia", team2: "Netherlands", matchDate: "25-Oct", matchTime: "2:00 PM" },
+            { description: "England vs Sri Lanka", team1: "England", team2: "Sri Lanka", matchDate: "26-Oct", matchTime: "2:00 PM" },
+            { description: "Pakistan vs South Africa", team1: "Pakistan", team2: "South Africa", matchDate: "27-Oct", matchTime: "2:00 PM" },
+            { description: "Australia vs New Zealand", team1: "Australia", team2: "New Zealand", matchDate: "28-Oct", matchTime: "10:30 AM" },
+            { description: "Netherlands vs Bangladesh", team1: "Netherlands", team2: "Bangladesh", matchDate: "28-Oct", matchTime: "2:00 PM" },
+            { description: "India vs England", team1: "India", team2: "England", matchDate: "29-Oct", matchTime: "2:00 PM" },
+            { description: "Afghanistan vs Sri Lanka", team1: "Afghanistan", team2: "Sri Lanka", matchDate: "30-Oct", matchTime: "2:00 PM" },
+            { description: "Pakistan vs Bangladesh", team1: "Pakistan", team2: "Bangladesh", matchDate: "31-Oct", matchTime: "2:00 PM" },
+            { description: "New Zealand vs South Africa", team1: "New Zealand", team2: "South Africa", matchDate: "1-Nov", matchTime: "2:00 PM" },
+            { description: "India vs Sri Lanka", team1: "India", team2: "Sri Lanka", matchDate: "2-Nov", matchTime: "2:00 PM" },
+            { description: "Netherlands vs Afghanistan", team1: "Netherlands", team2: "Afghanistan", matchDate: "3-Nov", matchTime: "2:00 PM" },
+            { description: "New Zealand vs Pakistan", team1: "New Zealand", team2: "Pakistan", matchDate: "4-Nov", matchTime: "10:30 AM" },
+            { description: "England vs Australia", team1: "England", team2: "Australia", matchDate: "4-Nov", matchTime: "2:00 PM" },
+            { description: "India vs South Africa", team1: "India", team2: "South Africa", matchDate: "5-Nov", matchTime: "2:00 PM" },
+            { description: "Bangladesh vs Sri Lanka", team1: "Bangladesh", team2: "Sri Lanka", matchDate: "6-Nov", matchTime: "2:00 PM" },
+            { description: "Australia vs Afghanistan", team1: "Australia", team2: "Afghanistan", matchDate: "7-Nov", matchTime: "2:00 PM" },
+            { description: "England vs Netherlands", team1: "England", team2: "Netherlands", matchDate: "8-Nov", matchTime: "2:00 PM" },
+            { description: "New Zealand vs Sri Lanka", team1: "New Zealand", team2: "Sri Lanka", matchDate: "9-Nov", matchTime: "2:00 PM" },
+            { description: "South Africa vs Afghanistan", team1: "South Africa", team2: "Afghanistan", matchDate: "10-Nov", matchTime: "2:00 PM" },
+            { description: "Australia vs Bangladesh", team1: "Australia", team2: "Bangladesh", matchDate: "11-Nov", matchTime: "10:30 AM" },
+            { description: "England vs Pakistan", team1: "England", team2: "Pakistan", matchDate: "11-Nov", matchTime: "2:00 PM" },
+            { description: "India vs Netherlands", team1: "India", team2: "Netherlands", matchDate: "12-Nov", matchTime: "2:00 PM" },
+            { description: "1st Semi-Final T.B.C. vs T.B.C.", team1: "T.B.C", team2: "T.B.C", matchDate: "15-Nov", matchTime: "2:00 PM" },
+            { description: "2nd Semi-Final T.B.C. vs T.B.C.", team1: "T.B.C", team2: "T.B.C", matchDate: "16-Nov", matchTime: "2:00 PM" },
+            { description: "Final T.B.C. vs T.B.C.", team1: "T.B.C", team2: "T.B.C", matchDate: "19-Nov", matchTime: "2:00 PM" }
         ];
 
 
