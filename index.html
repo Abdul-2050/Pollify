@@ -203,7 +203,7 @@
 
                     #304352,
                     #d7d2cc); */
-                    background-image: linear-gradient(315deg, #ff256e 10%, #5122b8 80%);
+            background-image: linear-gradient(315deg, #ff256e 10%, #5122b8 80%);
 
 
             transition: width 1s ease-in-out 0.3s;
@@ -218,12 +218,15 @@
         }
 
         .matchinfo .gap {
-            width: 58px;
+            min-width: 52px;
             /* border: 1px solid red; */
             /* margin: 3px 3px 0 5px; */
         }
 
         .matchinfo_container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
             width: 100%;
             margin-top: 5px;
         }
@@ -352,6 +355,389 @@
     </style>
 
 
+    <style>
+        /* Google fonts - Open Sans */
+        @import url(https://fonts.googleapis.com/css?family=Open+Sans:400,700);
+
+        /* links */
+        .nfl a,
+        .mlb a,
+        .nhl a,
+        .pga a {
+            text-decoration: none;
+            transition: color 0.2s ease-out;
+        }
+
+        .nfl a {
+            color: rgba(79, 192, 210, 1);
+        }
+
+        .nfl a:hover {
+            color: rgba(63, 153, 168, 1);
+        }
+
+        .mlb a {
+            color: rgba(82, 210, 154, 1);
+        }
+
+        .mlb a:hover {
+            color: rgba(65, 168, 123, 1);
+        }
+
+        .nhl a {
+            color: rgba(231, 196, 104, 0.7);
+        }
+
+        .nhl a:hover {
+            color: rgba(185, 156, 83, 0.7);
+        }
+
+        .pga a {
+            color: rgba(235, 118, 85, 1);
+        }
+
+        .pga a:hover {
+            color: rgba(188, 94, 68, 1);
+        }
+
+
+        /* wrapper */
+        .wrapper {
+            display: inline-block;
+            /* Adjust width based on content */
+            margin: 20px auto 100px auto;
+            padding: 0;
+            background: rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.9);
+            overflow: hidden;
+            position: relative;
+            top: 0;
+            /* z-index: 1000; */
+        }
+
+
+
+
+        /* lists */
+        .row ul {
+            margin: 0;
+            padding: 0;
+        }
+
+        .row ul li {
+            margin: 0;
+            font-size: 16px;
+            font-weight: normal;
+            list-style: none;
+            display: inline-block;
+            width: 33%;
+            box-sizing: border-box;
+        }
+
+        @media only screen and (max-width: 767px) and (min-width: 480px) {
+            .row ul li {
+                font-size: 13px;
+            }
+        }
+
+        @media only screen and (max-width: 479px) {
+            .row ul li {
+                font-size: 13px;
+            }
+        }
+
+        .title ul li {
+            padding: 15px 13px;
+        }
+
+        .row ul li {
+            padding: 5px 10px;
+        }
+
+        /* rows */
+        .row {
+            padding: 20px 0;
+            height: 30px;
+            font-size: 0;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.2s ease-out;
+            border-top: 1px solid rgba(30, 28, 28, 0.9);
+            background-color: rgba(0, 0, 0);
+        }
+
+        .row:hover {
+            background-color: rgba(0, 0, 0, 0.81);
+            height: 65px;
+        }
+
+        @media only screen and (max-width: 767px) {
+            .row:hover {
+                height: 85px;
+            }
+        }
+
+        @media only screen and (max-width: 359px) {
+            .row:hover {
+                height: 105px;
+            }
+        }
+
+        .title {
+            padding: 25px 0 5px 0;
+            height: 45px;
+            font-size: 0;
+            background-color: rgba(0, 0, 0);
+            border-left: 3px solid rgba(255, 255, 255, 0.1);
+            /* border-bottom: #ff256e 1px solid; */
+        }
+
+        .title:hover {
+            height: 45px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-left: 3px solid rgba(255, 255, 255, 0.1);
+        }
+
+        @media only screen and (max-width: 767px) {
+            .title-hide {
+                display: none;
+            }
+        }
+
+        .nfl {
+            border-left: 3px solid rgba(63, 153, 168, 1);
+        }
+
+        .nfl:hover {
+            border-left: 3px solid rgba(79, 192, 210, 1);
+        }
+
+        .mlb {
+            border-left: 3px solid rgba(65, 168, 123, 1);
+        }
+
+        .mlb:hover {
+            border-left: 3px solid rgba(82, 210, 154, 1);
+        }
+
+        .nhl {
+            border-left: 3px solid rgba(185, 156, 83, 0.7);
+        }
+
+        .nhl:hover {
+            border-left: 3px solid rgba(231, 196, 104, 0.7);
+        }
+
+        .pga {
+            border-left: 3px solid rgba(188, 94, 68, 1);
+        }
+
+        .pga:hover {
+            border-left: 3px solid rgba(235, 118, 85, 1);
+        }
+
+        .row-fadeIn-wrapper {
+            opacity: 0;
+            font-size: 0;
+            height: 0;
+            overflow: hidden;
+            position: relative;
+            transition: all 0.2s ease-out;
+            animation: fadeIn 0.4s ease-out 2s 1 alternate;
+            animation-fill-mode: forwards;
+        }
+
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+
+        .row-fadeIn-wrapper:hover {
+            height: 35px;
+        }
+
+        @media only screen and (max-width: 767px) {
+            .row-fadeIn-wrapper:hover {
+                height: 55px;
+            }
+        }
+
+        @media only screen and (max-width: 359px) {
+            .row-fadeIn-wrapper:hover {
+                height: 75px;
+            }
+        }
+
+        .fadeIn {
+            padding: 20px 0;
+            font-size: 0;
+            position: absolute;
+            transition: all 0.2s ease-out;
+            width: 100%;
+        }
+
+        .fadeIn:hover {
+            background-color: rgba(0, 0, 0, 0.81);
+        }
+
+
+        /* .row-fadeOut-wrapper {
+            font-size: 0;
+            overflow: hidden;
+            position: relative;
+            transition: all 0.2s ease-out;
+            animation: fadeOut 0.4s ease-out 8s 1 alternate;
+            animation-fill-mode: forwards;
+            opacity: 1;
+            height: 65px;
+        } */
+
+        @keyframes fadeOut {
+            0% {
+                opacity: 1;
+            }
+
+            100% {
+                opacity: 0;
+            }
+        }
+
+        .row-fadeOut-wrapper:hover {
+            height: 100px;
+        }
+
+
+        /* update content */
+        .update-row {
+            animation: update 0.5s ease-out 12s 1 alternate;
+        }
+
+        .update1 {
+            position: absolute;
+            top: 25px;
+            display: inline-block;
+            opacity: 1;
+            animation: update1 1s ease-out 12s 1 alternate;
+            animation-fill-mode: forwards;
+        }
+
+        .update2 {
+            position: absolute;
+            top: 25px;
+            display: inline-block;
+            opacity: 0;
+            animation: update2 4s ease-out 13s 1 alternate;
+            animation-fill-mode: forwards;
+        }
+
+        ul.more-content li {
+            position: relative;
+            top: 22px;
+            font-size: 13px;
+            margin: 0;
+            padding: 10px 13px;
+            display: block;
+            height: 50px;
+            width: 100%;
+            color: rgba(255, 255, 255, 0.45);
+        }
+
+        @media only screen and (max-width: 767px) {
+            ul.more-content li {
+                font-size: 11px;
+            }
+        }
+
+        .small {
+            color: rgba(255, 255, 255, 0.3);
+            font-size: 10px;
+            padding: 0 10px;
+            margin: 0;
+        }
+
+        @media only screen and (max-width: 767px) {
+            .small {
+                display: none;
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                background: rgba(255, 255, 255, 0.1);
+                opacity: 0;
+                padding: 0;
+            }
+
+            to {
+                background: rgba(0, 0, 0, 0.1);
+                opacity: 1;
+                padding: 0 0 65px 0;
+            }
+        }
+
+        @keyframes fadeOut {
+            from {
+                background: rgba(0, 0, 0, 0.1);
+                opacity: 1;
+                height: 65px;
+            }
+
+            to {
+                background: rgba(255, 255, 255, 0.1);
+                opacity: 0;
+                height: 0;
+            }
+        }
+
+        @keyframes update {
+            0% {
+                background: rgba(0, 0, 0, 0.1);
+            }
+
+            50% {
+                background: rgba(255, 255, 255, 0.1);
+            }
+
+            100% {
+                background: rgba(0, 0, 0, 0.1);
+            }
+        }
+
+        @keyframes update1 {
+            0% {
+                opacity: 0;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+
+        @keyframes update2 {
+            0% {
+                opacity: 0;
+                color: rgba(255, 255, 255, 0.9);
+            }
+
+            20% {
+                opacity: 1;
+                color: rgba(82, 210, 154, 1);
+            }
+
+            100% {
+                opacity: 1;
+                color: rgba(255, 255, 255, 0.9);
+            }
+        }
+    </style>
+
+
+
 
 </head>
 
@@ -472,18 +858,12 @@
                 <!-- <p>Complete the below fields to create your poll.</p> -->
             </div>
 
-
-
-
-
-
-
             <div id="notification" class="notification">Group link copied!</div>
 
             <div class="card" id="card">
 
                 <div class="card_container">
-                    <div class="voting_container" style="border: 1px solid re;">
+                    <div class="voting_container">
                         <div class="voting_wrapper">
                             <div id="matchesContainer">
                             </div>
@@ -491,15 +871,185 @@
                     </div>
                 </div>
             </div>
+
+            <style>
+
+            </style>
+
+
+
+
+
         </div>
     </div>
+
+
+
+    <div class="modal-overlay">
+        <div class="modal">
+
+            <div class="modelContainer">
+                <div class="btnSec">
+                    <div class="closeModalBtn"><img src="close.png" alt="" style="width: 16px; cursor: pointer;"></div>
+                </div>
+                <!-- Your table content here -->
+
+                <section class="wrapper" style="width: 100%;">
+                    <!-- Row title -->
+                    <main class="row title">
+                        <ul>
+                            <li>Name</li>
+                            <li>Score</li>
+                            <li><span class="title-hide">#</span>Ranking</li>
+                        </ul>
+                    </main>
+
+                    <!-- Row 1 - fadeIn -->
+                    <section class="row-fadeIn-wrapper">
+                        <article class="row fadeIn nfl">
+                            <ul>
+                                <li><a href="#">NFL</a><span class="small">(fadeIn)</span></li>
+                                <li>$50</li>
+                                <li>12</li>
+                            </ul>
+                            <ul class="more-content">
+                                <li>Icc World Cup 2023 India
+                                </li>
+                            </ul>
+                        </article>
+                    </section>
+                    <!-- Row 2 - fadeOut -->
+                    <section class="row-fadeOut-wrapper">
+                        <article class="row nfl">
+                            <ul>
+                                <li><a href="#">NFL</a><span class="small">(fadeOut)</span></li>
+                                <li>$5</li>
+                                <li>45</li>
+
+                            </ul>
+                            <ul class="more-content">
+                                <li>Icc World Cup 2023 India
+                                </li>
+                            </ul>
+                        </article>
+                    </section>
+                    <!-- Row 3 -->
+                    <article class="row nfl">
+                        <ul>
+                            <li><a href="#">NHL</a></li>
+                            <li>$50</li>
+                            <li>12</li>
+
+                        </ul>
+                        <ul class="more-content">
+                            <li>Icc World Cup 2023 India
+                            </li>
+                        </ul>
+                    </article>
+                    <!-- Row 4 -->
+                    <article class="row mlb update-row">
+                        <ul>
+                            <li><a href="#">MLB</a><span class="small">(update)</span></li>
+                            <li>$10</li>
+                            <li><span class="update1">1</span><span class="update2">2</span></li>
+
+                        </ul>
+                        <ul class="more-content">
+                            <li>Icc World Cup 2023 India
+                            </li>
+                        </ul>
+                    </article>
+                    <!-- Row 5 -->
+                    <article class="row mlb">
+                        <ul>
+                            <li><a href="#">MLB</a></li>
+                            <li>$5</li>
+                            <li>48</li>
+
+                        </ul>
+                        <ul class="more-content">
+                            <li>Icc World Cup 2023 India
+                            </li>
+                        </ul>
+                    </article>
+                    <!-- Row 6 -->
+                    <article class="row nhl">
+                        <ul>
+                            <li><a href="#">NHL</a></li>
+                            <li>$50</li>
+                            <li>12</li>
+
+                        </ul>
+                        <ul class="more-content">
+                            <li>Icc World Cup 2023 India
+                            </li>
+                        </ul>
+                    </article>
+                </section>
+
+            </div>
+        </div>
+    </div>
+
+
+
+    <style>
+        .modelContainer {
+            display: flex;
+            flex-direction: column;
+            /* justify-content: center; */
+            align-items: center;
+        }
+
+        .btnSec {
+            width: 100%;
+            display: flex;
+            justify-content: end;
+            /* border: 1px solid red; */
+        }
+
+
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+            /* border: 1px solid red; */
+        }
+
+        .modal {
+
+
+
+            background-color: rgb(0, 0, 0);
+            /* padding: var(--padding, 20px); */
+            /* Using the variable for padding */
+            border-radius: 5px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+            max-width: var(--card-width, 95vw);
+            /* Using the variable for card width */
+            width: 100%;
+        }
+
+        .closeModalBtn {}
+    </style>
+
+
+
+
+
 
 
     <!-- firebase -->
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
-
 
 
 
@@ -586,12 +1136,19 @@
         </div>
     </div>
 </label>
-<div class="matchinfo">
-    <div class="gap"></div>
-    <div class="matchinfo_container">
-        <p>Starts at: ${getLocalizedTime(matchData)}</p>
+<div class="matchinfo" style="border: 1px solid re;">
+        <div class="gap" style="border: 1px solid re;"></div>
+        <div class="matchinfo_container" style="border: 1px solid yello;">
+            <div>
+                <p>Starts at: ${getLocalizedTime(matchData)}</p>
+            </div>
+            <div class="results">
+                <p class="seeResultsBtn" style="
+                    color: #56b6ff; font-size: 12px; cursor:pointer;">results</p>
+            </div>
+        </div>
     </div>
-</div>`;
+    `;
 
 
             /// Add data attributes for match index and team to the vote count spans
@@ -654,56 +1211,59 @@
         // JavaScript code to create and display .match elements with descriptions and flags from the table
         const matchesContainer = document.getElementById('matchesContainer');
 
+
+
         const matchDataArray = [
-            { description: "England vs New Zealand", team1: "England", team2: "New Zealand", matchDate: "5-Oct", matchTime: "2:00 PM" },
-            { description: "Pakistan vs Netherlands", team1: "Pakistan", team2: "Netherlands", matchDate: "6-Oct", matchTime: "2:00 PM" },
-            { description: "Bangladesh vs Afghanistan", team1: "Bangladesh", team2: "Afghanistan", matchDate: "7-Oct", matchTime: "10:30 AM" },
-            { description: "South Africa vs Sri Lanka", team1: "South Africa", team2: "Sri Lanka", matchDate: "7-Oct", matchTime: "2:00 PM" },
-            { description: "Australia vs India", team1: "Australia", team2: "India", matchDate: "8-Oct", matchTime: "2:00 PM" },
-            { description: "New Zealand vs Netherlands", team1: "New Zealand", team2: "Netherlands", matchDate: "9-Oct", matchTime: "2:00 PM" },
-            { description: "England vs Bangladesh", team1: "England", team2: "Bangladesh", matchDate: "10-Oct", matchTime: "10:30 AM" },
-            { description: "Pakistan vs Sri Lanka", team1: "Pakistan", team2: "Sri Lanka", matchDate: "10-Oct", matchTime: "2:00 PM" },
-            { description: "India vs Afghanistan", team1: "India", team2: "Afghanistan", matchDate: "11-Oct", matchTime: "2:00 PM" },
-            { description: "Australia vs South Africa", team1: "Australia", team2: "South Africa", matchDate: "12-Oct", matchTime: "2:00 PM" },
-            { description: "New Zealand vs Bangladesh", team1: "New Zealand", team2: "Bangladesh", matchDate: "13-Oct", matchTime: "2:00 PM" },
-            { description: "India vs Pakistan", team1: "India", team2: "Pakistan", matchDate: "14-Oct", matchTime: "2:00 PM" },
-            { description: "England vs Afghanistan", team1: "England", team2: "Afghanistan", matchDate: "15-Oct", matchTime: "2:00 PM" },
-            { description: "Australia vs Sri Lanka", team1: "Australia", team2: "Sri Lanka", matchDate: "16-Oct", matchTime: "2:00 PM" },
-            { description: "South Africa vs Netherlands", team1: "South Africa", team2: "Netherlands", matchDate: "17-Oct", matchTime: "2:00 PM" },
-            { description: "New Zealand vs Afghanistan", team1: "New Zealand", team2: "Afghanistan", matchDate: "18-Oct", matchTime: "2:00 PM" },
-            { description: "India vs Bangladesh", team1: "India", team2: "Bangladesh", matchDate: "19-Oct", matchTime: "2:00 PM" },
-            { description: "Australia vs Pakistan", team1: "Australia", team2: "Pakistan", matchDate: "20-Oct", matchTime: "2:00 PM" },
-            { description: "Netherlands vs Sri Lanka", team1: "Netherlands", team2: "Sri Lanka", matchDate: "21-Oct", matchTime: "10:30 AM" },
-            { description: "England vs South Africa", team1: "England", team2: "South Africa", matchDate: "21-Oct", matchTime: "2:00 PM" },
-            { description: "India vs New Zealand", team1: "India", team2: "New Zealand", matchDate: "22-Oct", matchTime: "2:00 PM" },
-            { description: "Pakistan vs Afghanistan", team1: "Pakistan", team2: "Afghanistan", matchDate: "23-Oct", matchTime: "2:00 PM" },
-            { description: "South Africa vs Bangladesh", team1: "South Africa", team2: "Bangladesh", matchDate: "24-Oct", matchTime: "2:00 PM" },
-            { description: "Australia vs Netherlands", team1: "Australia", team2: "Netherlands", matchDate: "25-Oct", matchTime: "2:00 PM" },
-            { description: "England vs Sri Lanka", team1: "England", team2: "Sri Lanka", matchDate: "26-Oct", matchTime: "2:00 PM" },
-            { description: "Pakistan vs South Africa", team1: "Pakistan", team2: "South Africa", matchDate: "27-Oct", matchTime: "2:00 PM" },
-            { description: "Australia vs New Zealand", team1: "Australia", team2: "New Zealand", matchDate: "28-Oct", matchTime: "10:30 AM" },
-            { description: "Netherlands vs Bangladesh", team1: "Netherlands", team2: "Bangladesh", matchDate: "28-Oct", matchTime: "2:00 PM" },
-            { description: "India vs England", team1: "India", team2: "England", matchDate: "29-Oct", matchTime: "2:00 PM" },
-            { description: "Afghanistan vs Sri Lanka", team1: "Afghanistan", team2: "Sri Lanka", matchDate: "30-Oct", matchTime: "2:00 PM" },
-            { description: "Pakistan vs Bangladesh", team1: "Pakistan", team2: "Bangladesh", matchDate: "31-Oct", matchTime: "2:00 PM" },
-            { description: "New Zealand vs South Africa", team1: "New Zealand", team2: "South Africa", matchDate: "1-Nov", matchTime: "2:00 PM" },
-            { description: "India vs Sri Lanka", team1: "India", team2: "Sri Lanka", matchDate: "2-Nov", matchTime: "2:00 PM" },
-            { description: "Netherlands vs Afghanistan", team1: "Netherlands", team2: "Afghanistan", matchDate: "3-Nov", matchTime: "2:00 PM" },
-            { description: "New Zealand vs Pakistan", team1: "New Zealand", team2: "Pakistan", matchDate: "4-Nov", matchTime: "10:30 AM" },
-            { description: "England vs Australia", team1: "England", team2: "Australia", matchDate: "4-Nov", matchTime: "2:00 PM" },
-            { description: "India vs South Africa", team1: "India", team2: "South Africa", matchDate: "5-Nov", matchTime: "2:00 PM" },
-            { description: "Bangladesh vs Sri Lanka", team1: "Bangladesh", team2: "Sri Lanka", matchDate: "6-Nov", matchTime: "2:00 PM" },
-            { description: "Australia vs Afghanistan", team1: "Australia", team2: "Afghanistan", matchDate: "7-Nov", matchTime: "2:00 PM" },
-            { description: "England vs Netherlands", team1: "England", team2: "Netherlands", matchDate: "8-Nov", matchTime: "2:00 PM" },
-            { description: "New Zealand vs Sri Lanka", team1: "New Zealand", team2: "Sri Lanka", matchDate: "9-Nov", matchTime: "2:00 PM" },
-            { description: "South Africa vs Afghanistan", team1: "South Africa", team2: "Afghanistan", matchDate: "10-Nov", matchTime: "2:00 PM" },
-            { description: "Australia vs Bangladesh", team1: "Australia", team2: "Bangladesh", matchDate: "11-Nov", matchTime: "10:30 AM" },
-            { description: "England vs Pakistan", team1: "England", team2: "Pakistan", matchDate: "11-Nov", matchTime: "2:00 PM" },
-            { description: "India vs Netherlands", team1: "India", team2: "Netherlands", matchDate: "12-Nov", matchTime: "2:00 PM" },
-            { description: "1st Semi-Final T.B.C. vs T.B.C.", team1: "T.B.C", team2: "T.B.C", matchDate: "15-Nov", matchTime: "2:00 PM" },
-            { description: "2nd Semi-Final T.B.C. vs T.B.C.", team1: "T.B.C", team2: "T.B.C", matchDate: "16-Nov", matchTime: "2:00 PM" },
-            { description: "Final T.B.C. vs T.B.C.", team1: "T.B.C", team2: "T.B.C", matchDate: "19-Nov", matchTime: "2:00 PM" }
+            { description: "England vs New Zealand", team1: "England", team2: "New Zealand", matchDate: "5-Oct", matchTime: "2:00 PM", winningTeam: "team1" },
+            { description: "Pakistan vs Netherlands", team1: "Pakistan", team2: "Netherlands", matchDate: "6-Oct", matchTime: "2:00 PM", winningTeam: "team1" },
+            { description: "Bangladesh vs Afghanistan", team1: "Bangladesh", team2: "Afghanistan", matchDate: "7-Oct", matchTime: "10:30 AM", winningTeam: "team1" },
+            { description: "South Africa vs Sri Lanka", team1: "South Africa", team2: "Sri Lanka", matchDate: "7-Oct", matchTime: "2:00 PM", winningTeam: "team2" },
+            { description: "Australia vs India", team1: "Australia", team2: "India", matchDate: "8-Oct", matchTime: "2:00 PM", winningTeam: "team1" },
+            { description: "New Zealand vs Netherlands", team1: "New Zealand", team2: "Netherlands", matchDate: "9-Oct", matchTime: "2:00 PM", winningTeam: null },
+            { description: "England vs Bangladesh", team1: "England", team2: "Bangladesh", matchDate: "10-Oct", matchTime: "10:30 AM", winningTeam: null },
+            { description: "Pakistan vs Sri Lanka", team1: "Pakistan", team2: "Sri Lanka", matchDate: "10-Oct", matchTime: "2:00 PM", winningTeam: null },
+            { description: "India vs Afghanistan", team1: "India", team2: "Afghanistan", matchDate: "11-Oct", matchTime: "2:00 PM", winningTeam: null },
+            { description: "Australia vs South Africa", team1: "Australia", team2: "South Africa", matchDate: "12-Oct", matchTime: "2:00 PM", winningTeam: null },
+            { description: "New Zealand vs Bangladesh", team1: "New Zealand", team2: "Bangladesh", matchDate: "13-Oct", matchTime: "2:00 PM", winningTeam: null },
+            { description: "India vs Pakistan", team1: "India", team2: "Pakistan", matchDate: "14-Oct", matchTime: "2:00 PM", winningTeam: null },
+            { description: "England vs Afghanistan", team1: "England", team2: "Afghanistan", matchDate: "15-Oct", matchTime: "2:00 PM", winningTeam: null },
+            { description: "Australia vs Sri Lanka", team1: "Australia", team2: "Sri Lanka", matchDate: "16-Oct", matchTime: "2:00 PM", winningTeam: null },
+            { description: "South Africa vs Netherlands", team1: "South Africa", team2: "Netherlands", matchDate: "17-Oct", matchTime: "2:00 PM", winningTeam: null },
+            { description: "New Zealand vs Afghanistan", team1: "New Zealand", team2: "Afghanistan", matchDate: "18-Oct", matchTime: "2:00 PM", winningTeam: null },
+            { description: "India vs Bangladesh", team1: "India", team2: "Bangladesh", matchDate: "19-Oct", matchTime: "2:00 PM", winningTeam: null },
+            { description: "Australia vs Pakistan", team1: "Australia", team2: "Pakistan", matchDate: "20-Oct", matchTime: "2:00 PM", winningTeam: null },
+            { description: "Netherlands vs Sri Lanka", team1: "Netherlands", team2: "Sri Lanka", matchDate: "21-Oct", matchTime: "10:30 AM", winningTeam: null },
+            { description: "England vs South Africa", team1: "England", team2: "South Africa", matchDate: "21-Oct", matchTime: "2:00 PM", winningTeam: null },
+            { description: "India vs New Zealand", team1: "India", team2: "New Zealand", matchDate: "22-Oct", matchTime: "2:00 PM", winningTeam: null },
+            { description: "Pakistan vs Afghanistan", team1: "Pakistan", team2: "Afghanistan", matchDate: "23-Oct", matchTime: "2:00 PM", winningTeam: null },
+            { description: "South Africa vs Bangladesh", team1: "South Africa", team2: "Bangladesh", matchDate: "24-Oct", matchTime: "2:00 PM", winningTeam: null },
+            { description: "Australia vs Netherlands", team1: "Australia", team2: "Netherlands", matchDate: "25-Oct", matchTime: "2:00 PM", winningTeam: null },
+            { description: "England vs Sri Lanka", team1: "England", team2: "Sri Lanka", matchDate: "26-Oct", matchTime: "2:00 PM", winningTeam: null },
+            { description: "Pakistan vs South Africa", team1: "Pakistan", team2: "South Africa", matchDate: "27-Oct", matchTime: "2:00 PM", winningTeam: null },
+            { description: "Australia vs New Zealand", team1: "Australia", team2: "New Zealand", matchDate: "28-Oct", matchTime: "10:30 AM", winningTeam: null },
+            { description: "Netherlands vs Bangladesh", team1: "Netherlands", team2: "Bangladesh", matchDate: "28-Oct", matchTime: "2:00 PM", winningTeam: null },
+            { description: "India vs England", team1: "India", team2: "England", matchDate: "29-Oct", matchTime: "2:00 PM", winningTeam: null },
+            { description: "Afghanistan vs Sri Lanka", team1: "Afghanistan", team2: "Sri Lanka", matchDate: "30-Oct", matchTime: "2:00 PM", winningTeam: null },
+            { description: "Pakistan vs Bangladesh", team1: "Pakistan", team2: "Bangladesh", matchDate: "31-Oct", matchTime: "2:00 PM", winningTeam: null },
+            { description: "New Zealand vs South Africa", team1: "New Zealand", team2: "South Africa", matchDate: "1-Nov", matchTime: "2:00 PM", winningTeam: null },
+            { description: "India vs Sri Lanka", team1: "India", team2: "Sri Lanka", matchDate: "2-Nov", matchTime: "2:00 PM", winningTeam: null },
+            { description: "Netherlands vs Afghanistan", team1: "Netherlands", team2: "Afghanistan", matchDate: "3-Nov", matchTime: "2:00 PM", winningTeam: null },
+            { description: "New Zealand vs Pakistan", team1: "New Zealand", team2: "Pakistan", matchDate: "4-Nov", matchTime: "10:30 AM", winningTeam: null },
+            { description: "England vs Australia", team1: "England", team2: "Australia", matchDate: "4-Nov", matchTime: "2:00 PM", winningTeam: null },
+            { description: "India vs South Africa", team1: "India", team2: "South Africa", matchDate: "5-Nov", matchTime: "2:00 PM", winningTeam: null },
+            { description: "Bangladesh vs Sri Lanka", team1: "Bangladesh", team2: "Sri Lanka", matchDate: "6-Nov", matchTime: "2:00 PM", winningTeam: null },
+            { description: "Australia vs Afghanistan", team1: "Australia", team2: "Afghanistan", matchDate: "7-Nov", matchTime: "2:00 PM", winningTeam: null },
+            { description: "England vs Netherlands", team1: "England", team2: "Netherlands", matchDate: "8-Nov", matchTime: "2:00 PM", winningTeam: null },
+            { description: "New Zealand vs Sri Lanka", team1: "New Zealand", team2: "Sri Lanka", matchDate: "9-Nov", matchTime: "2:00 PM", winningTeam: null },
+            { description: "South Africa vs Afghanistan", team1: "South Africa", team2: "Afghanistan", matchDate: "10-Nov", matchTime: "2:00 PM", winningTeam: null },
+            { description: "Australia vs Bangladesh", team1: "Australia", team2: "Bangladesh", matchDate: "11-Nov", matchTime: "10:30 AM", winningTeam: null },
+            { description: "England vs Pakistan", team1: "England", team2: "Pakistan", matchDate: "11-Nov", matchTime: "2:00 PM", winningTeam: null },
+            { description: "India vs Netherlands", team1: "India", team2: "Netherlands", matchDate: "12-Nov", matchTime: "2:00 PM", winningTeam: null },
+            { description: "1st Semi-Final T.B.C. vs T.B.C.", team1: "T.B.C", team2: "T.B.C", matchDate: "15-Nov", matchTime: "2:00 PM", winningTeam: null },
+            { description: "2nd Semi-Final T.B.C. vs T.B.C.", team1: "T.B.C", team2: "T.B.C", matchDate: "16-Nov", matchTime: "2:00 PM", winningTeam: null },
+            { description: "Final T.B.C. vs T.B.C.", team1: "T.B.C", team2: "T.B.C", matchDate: "19-Nov", matchTime: "2:00 PM", winningTeam: null }
         ];
+
 
 
 
@@ -1027,7 +1587,9 @@
 
 
                     copyLinkImg.addEventListener("click", async () => {
-                        const groupLink = `https://polllify-icc-wc-23-india.netlify.app/memberAuthentication.html?groupKey=${adminUid}`;
+                        // const groupLink = `https://polllify-icc-wc-23-india.netlify.app/memberAuthentication.html?groupKey=${adminUid}`;
+                        const groupLink = `https://192.168.0.116:5500/memberAuthentication.html?groupKey=${adminUid}`;
+
 
                         try {
                             await navigator.share({
@@ -1068,6 +1630,28 @@
                     //         console.log("User's name not found.");
                     //     }
                     // });
+
+
+
+
+
+
+                    // Call the function to calculate and print sorted user scores
+                    calculateUserScoresAndSort(adminUid, matchDataArray)
+                        .then(sortedUserScores => {
+                            updateTableWithUserScores(sortedUserScores);
+                        })
+                        .catch(error => {
+                            console.error("Error calculating and sorting user scores:", error);
+                        });
+
+
+
+
+
+
+
+
 
                 } else {
                     // Reference to the Adminkeys node for the current user
@@ -1301,8 +1885,8 @@
 
 
                                 copyLinkImg.addEventListener("click", async () => {
-                                    const groupLink = `https://polllify-icc-wc-23-india.netlify.app/memberAuthentication.html?groupKey=${adminUid}`;
-
+                                    // const groupLink = `https://polllify-icc-wc-23-india.netlify.app/memberAuthentication.html?groupKey=${adminUid}`;
+                                    const groupLink = `https://192.168.0.116:5500/memberAuthentication.html?groupKey=${adminUid}`
 
                                     try {
                                         await navigator.share({
@@ -1348,6 +1932,14 @@
 
 
 
+                                // Call the function to calculate and print sorted user scores
+                                calculateUserScoresAndSort(adminUid, matchDataArray)
+                                    .then(sortedUserScores => {
+                                        updateTableWithUserScores(sortedUserScores);
+                                    })
+                                    .catch(error => {
+                                        console.error("Error calculating and sorting user scores:", error);
+                                    });
 
 
 
@@ -1451,6 +2043,133 @@
                 console.error("Error updating vote count:", error);
             }
         }
+
+
+
+        async function calculateUserScoresAndSort(adminUid, matchDataArray) {
+
+            const memberUidsRef = database.ref(`Admin/${adminUid}/memberUids`);
+            const snapshot = await memberUidsRef.once('value');
+            const memberUids = snapshot.val() || [];
+
+            const userScores = {};
+
+            await Promise.all(memberUids.map(async (memberUid) => {
+                let userScore = 0;
+
+                for (let matchIndex = 0; matchIndex < matchDataArray.length; matchIndex++) {
+                    const match = matchDataArray[matchIndex];
+                    const matchProgressRef = database.ref(`Admin/${adminUid}/groups/groupMembers/${memberUid}/matchProgress/${matchIndex}`);
+                    const progressSnapshot = await matchProgressRef.once('value');
+                    const matchProgress = progressSnapshot.val();
+
+                    if (matchProgress) {
+                        const selectedTeam = Object.keys(matchProgress).find(option => matchProgress[option] === true);
+                        if (selectedTeam === match.winningTeam) {
+                            // Increase the user's score for a correct vote
+                            userScore += 100;
+                        }
+                    }
+                }
+
+                userScores[memberUid] = {
+                    score: userScore,
+                    uid: memberUid
+                };
+            }));
+
+            const sortedUserScores = Object.entries(userScores)
+                .sort((a, b) => b[1].score - a[1].score || a[1].uid.localeCompare(b[1].uid))
+                .map(([uid, data]) => ({ uid, score: data.score }));
+
+            // Print the sorted user scores
+            sortedUserScores.forEach(({ uid, score }) => {
+                const userNameRef = database.ref(`Admin/${adminUid}/groups/groupMembers/${uid}/displayName`);
+                userNameRef.once('value', snapshot => {
+                    const userName = snapshot.val();
+                    console.log(`User UID: ${uid}, Name: ${userName}, Score: ${score}`);
+                });
+            });
+
+
+
+            return sortedUserScores;
+        }
+
+
+
+        function updateTableWithUserScores(sortedUserScores) {
+            const rows = document.querySelectorAll('.row');
+
+            sortedUserScores.forEach((userData, index) => {
+                const row = rows[index + 1]; // Skip the header row
+                const userNameRef = database.ref(`Admin/${adminUid}/groups/groupMembers/${userData.uid}/displayName`);
+                userNameRef.once('value', snapshot => {
+                    const userName = snapshot.val();
+                    if (row) {
+                        const cells = row.querySelectorAll('li');
+                        if (cells.length >= 3) {
+                            cells[0].textContent = userName;
+                            cells[1].textContent = `${userData.score}`;
+                            cells[2].textContent = `#${index + 1}`;
+                        }
+                    }
+                });
+            });
+        }
+
+
+
+
+
+
+
+
+
+
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const seeResultsBtns = document.querySelectorAll('.seeResultsBtn');
+            const modalOverlay = document.querySelector('.modal-overlay');
+            const closeModalBtn = document.querySelector('.closeModalBtn');
+
+            seeResultsBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    modalOverlay.style.display = 'flex';
+                    document.querySelector(".backdrop").classList.add("active");
+                });
+            });
+
+            closeModalBtn.addEventListener('click', () => {
+                modalOverlay.style.display = 'none';
+                document.querySelector(".backdrop").classList.remove("active");
+            });
+
+            modalOverlay.addEventListener('click', (event) => {
+                if (event.target === modalOverlay) {
+                    modalOverlay.style.display = 'none';
+                    document.querySelector(".backdrop").classList.remove("active");
+                }
+            });
+        });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
