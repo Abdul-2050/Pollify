@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Match Data</title>
+    <!-- Include the Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+</head>
+
+<body>
+    <h1>Update Match Data</h1>
+    <button id="updateButton">Update Match Data</button>
+
+    <script>
+        // Initialize Firebase with your Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyC6QbAS32BJ8DS26rlWAKke8Mai63TujNg",
+            authDomain: "polify-42ea4.firebaseapp.com",
+            databaseURL: "https://polify-42ea4-default-rtdb.europe-west1.firebasedatabase.app",
+            projectId: "polify-42ea4",
+            storageBucket: "polify-42ea4.appspot.com",
+            messagingSenderId: "92933707190",
+            appId: "1:92933707190:web:814cbac948fec6f9089d17"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+
+        // Get a reference to the database
+        const database = firebase.database();
+
+        // Define the matchDataArray
+        const matchDataArray = [
+            { description: "England vs New Zealand", team1: "England", team2: "New Zealand", matchDate: "5-Oct", matchTime: "2:00 PM", winningTeam: "team2"},
+            { description: "Pakistan vs Netherlands", team1: "Pakistan", team2: "Netherlands", matchDate: "6-Oct", matchTime: "2:00 PM", winningTeam: "match_not_started"},
+            { description: "Bangladesh vs Afghanistan", team1: "Bangladesh", team2: "Afghanistan", matchDate: "7-Oct", matchTime: "10:30 AM", winningTeam: "match_not_started"},
+            { description: "South Africa vs Sri Lanka", team1: "South Africa", team2: "Sri Lanka", matchDate: "7-Oct", matchTime: "2:00 PM", winningTeam: "match_not_started" },
+            { description: "Australia vs India", team1: "Australia", team2: "India", matchDate: "8-Oct", matchTime: "2:00 PM", winningTeam: "match_not_started" },
+            { description: "New Zealand vs Netherlands", team1: "New Zealand", team2: "Netherlands", matchDate: "9-Oct", matchTime: "2:00 PM", winningTeam: "match_not_started"},
+            { description: "England vs Bangladesh", team1: "England", team2: "Bangladesh", matchDate: "10-Oct", matchTime: "10:30 AM", winningTeam: "match_not_started"},
+            { description: "Pakistan vs Sri Lanka", team1: "Pakistan", team2: "Sri Lanka", matchDate: "10-Oct", matchTime: "2:00 PM", winningTeam: "match_not_started" },
+            { description: "India vs Afghanistan", team1: "India", team2: "Afghanistan", matchDate: "11-Oct", matchTime: "2:00 PM", winningTeam: "match_not_started" },
+            { description: "Australia vs South Africa", team1: "Australia", team2: "South Africa", matchDate: "12-Oct", matchTime: "2:00 PM", winningTeam: "match_not_started" },
+            { description: "New Zealand vs Bangladesh", team1: "New Zealand", team2: "Bangladesh", matchDate: "13-Oct", matchTime: "2:00 PM", winningTeam: "match_not_started"},
+            { description: "India vs Pakistan", team1: "India", team2: "Pakistan", matchDate: "14-Oct", matchTime: "2:00 PM", winningTeam: "match_not_started"},
+            { description: "England vs Afghanistan", team1: "England", team2: "Afghanistan", matchDate: "15-Oct", matchTime: "2:00 PM", winningTeam: "match_not_started"},
+            { description: "Australia vs Sri Lanka", team1: "Australia", team2: "Sri Lanka", matchDate: "16-Oct", matchTime: "2:00 PM", winningTeam: "match_not_started" },
+            { description: "South Africa vs Netherlands", team1: "South Africa", team2: "Netherlands", matchDate: "17-Oct", matchTime: "2:00 PM", winningTeam: "match_not_started"},
+            { description: "New Zealand vs Afghanistan", team1: "New Zealand", team2: "Afghanistan", matchDate: "18-Oct", matchTime: "2:00 PM", winningTeam: "match_not_started" },
+            { description: "India vs Bangladesh", team1: "India", team2: "Bangladesh", matchDate: "19-Oct", matchTime: "2:00 PM", winningTeam: "match_not_started" },
+            { description: "Australia vs Pakistan", team1: "Australia", team2: "Pakistan", matchDate: "20-Oct", matchTime: "2:00 PM", winningTeam: "match_not_started"},
+            { description: "Netherlands vs Sri Lanka", team1: "Netherlands", team2: "Sri Lanka", matchDate: "21-Oct", matchTime: "10:30 AM", winningTeam: "match_not_started"},
+            { description: "England vs South Africa", team1: "England", team2: "South Africa", matchDate: "21-Oct", matchTime: "2:00 PM", winningTeam: "match_not_started" },
+            { description: "India vs New Zealand", team1: "India", team2: "New Zealand", matchDate: "22-Oct", matchTime: "2:00 PM", winningTeam: "match_not_started" },
+            { description: "Pakistan vs Afghanistan", team1: "Pakistan", team2: "Afghanistan", matchDate: "23-Oct", matchTime: "2:00 PM", winningTeam: "match_not_started" },
+            { description: "South Africa vs Bangladesh", team1: "South Africa", team2: "Bangladesh", matchDate: "24-Oct", matchTime: "2:00 PM", winningTeam: "match_not_started"},
+            { description: "Australia vs Netherlands", team1: "Australia", team2: "Netherlands", matchDate: "25-Oct", matchTime: "2:00 PM", winningTeam: "match_not_started" },
+            { description: "England vs Sri Lanka", team1: "England", team2: "Sri Lanka", matchDate: "26-Oct", matchTime: "2:00 PM", winningTeam: "match_not_started" },
+            { description: "Pakistan vs South Africa", team1: "Pakistan", team2: "South Africa", matchDate: "27-Oct", matchTime: "2:00 PM", winningTeam: "match_not_started"},
+            { description: "Australia vs New Zealand", team1: "Australia", team2: "New Zealand", matchDate: "28-Oct", matchTime: "10:30 AM", winningTeam: "match_not_started" },
+            { description: "Netherlands vs Bangladesh", team1: "Netherlands", team2: "Bangladesh", matchDate: "28-Oct", matchTime: "2:00 PM", winningTeam: "match_not_started" },
+            { description: "India vs England", team1: "India", team2: "England", matchDate: "29-Oct", matchTime: "2:00 PM", winningTeam:  "match_not_started" },
+            { description: "Afghanistan vs Sri Lanka", team1: "Afghanistan", team2: "Sri Lanka", matchDate: "30-Oct", matchTime: "2:00 PM", winningTeam: "match_not_started" },
+            { description: "Pakistan vs Bangladesh", team1: "Pakistan", team2: "Bangladesh", matchDate: "31-Oct", matchTime: "2:00 PM", winningTeam: "match_not_started"},
+            { description: "New Zealand vs South Africa", team1: "New Zealand", team2: "South Africa", matchDate: "1-Nov", matchTime: "2:00 PM", winningTeam: "match_not_started" },
+            { description: "India vs Sri Lanka", team1: "India", team2: "Sri Lanka", matchDate: "2-Nov", matchTime: "2:00 PM", winningTeam: "match_not_started"},
+            { description: "Netherlands vs Afghanistan", team1: "Netherlands", team2: "Afghanistan", matchDate: "3-Nov", matchTime: "2:00 PM", winningTeam: "match_not_started"},
+            { description: "New Zealand vs Pakistan", team1: "New Zealand", team2: "Pakistan", matchDate: "4-Nov", matchTime: "10:30 AM", winningTeam: "match_not_started"},
+            { description: "England vs Australia", team1: "England", team2: "Australia", matchDate: "4-Nov", matchTime: "2:00 PM", winningTeam: "match_not_started" },
+            { description: "India vs South Africa", team1: "India", team2: "South Africa", matchDate: "5-Nov", matchTime: "2:00 PM", winningTeam: "match_not_started" },
+            { description: "Bangladesh vs Sri Lanka", team1: "Bangladesh", team2: "Sri Lanka", matchDate: "6-Nov", matchTime: "2:00 PM", winningTeam: "match_not_started" },
+            { description: "Australia vs Afghanistan", team1: "Australia", team2: "Afghanistan", matchDate: "7-Nov", matchTime: "2:00 PM", winningTeam: "match_not_started"},
+            { description: "England vs Netherlands", team1: "England", team2: "Netherlands", matchDate: "8-Nov", matchTime: "2:00 PM", winningTeam: "match_not_started" },
+            { description: "New Zealand vs Sri Lanka", team1: "New Zealand", team2: "Sri Lanka", matchDate: "9-Nov", matchTime: "2:00 PM", winningTeam: "match_not_started"},
+            { description: "South Africa vs Afghanistan", team1: "South Africa", team2: "Afghanistan", matchDate: "10-Nov", matchTime: "2:00 PM", winningTeam: "match_not_started"},
+            { description: "Australia vs Bangladesh", team1: "Australia", team2: "Bangladesh", matchDate: "11-Nov", matchTime: "10:30 AM", winningTeam: "match_not_started"},
+            { description: "England vs Pakistan", team1: "England", team2: "Pakistan", matchDate: "11-Nov", matchTime: "2:00 PM", winningTeam: "match_not_started"},
+            { description: "India vs Netherlands", team1: "India", team2: "Netherlands", matchDate: "12-Nov", matchTime: "2:00 PM", winningTeam: "match_not_started"},
+            { description: "1st Semi-Final T.B.C. vs T.B.C.", team1: "T.B.C", team2: "T.B.C", matchDate: "15-Nov", matchTime: "2:00 PM", winningTeam: "match_not_started" },
+            { description: "2nd Semi-Final T.B.C. vs T.B.C.", team1: "T.B.C", team2: "T.B.C", matchDate: "16-Nov", matchTime: "2:00 PM", winningTeam: "match_not_started" },
+            { description: "Final T.B.C. vs T.B.C.", team1: "T.B.C", team2: "T.B.C", matchDate: "19-Nov", matchTime: "2:00 PM", winningTeam: "match_not_started" }
+        ];
+
+        // Get a reference to the "public" node in the database
+        const publicMatchDataArrayRef = database.ref('public');
+
+        // Function to update match data in the database
+        function updateMatchData() {
+            publicMatchDataArrayRef.set(matchDataArray)
+                .then(() => {
+                    console.log("Match data updated in the database.");
+                })
+                .catch((error) => {
+                    console.error("Error updating match data:", error);
+                });
+        }
+
+        // Add a click event listener to the button
+        const updateButton = document.getElementById('updateButton');
+        updateButton.addEventListener('click', updateMatchData);
+    </script>
+</body>
+
+</html>
