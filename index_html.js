@@ -946,7 +946,7 @@ auth.onAuthStateChanged((user) => {
       notification.innerHTML = "Group link copied!";
 
       copyLinkImg.addEventListener("click", async () => {
-        const groupLink = `https://polllify-icc-wc-23-india.netlify.app/memberAuthentication.html?groupKey=${adminUid}`;
+        const groupLink = `https://pickx.online/memberAuthentication.html?groupKey=${adminUid}`;
         // const groupLink = `https://192.168.0.116:5500/memberAuthentication.html?groupKey=${adminUid}`;
 
         try {
@@ -1240,7 +1240,7 @@ auth.onAuthStateChanged((user) => {
             notification.innerHTML = "Group link copied!";
 
             copyLinkImg.addEventListener("click", async () => {
-              const groupLink = `https://polllify-icc-wc-23-india.netlify.app/memberAuthentication.html?groupKey=${adminUid}`;
+              const groupLink = `https://pickx.online/memberAuthentication.html?groupKey=${adminUid}`;
               // const groupLink = `https://192.168.0.116:5500/memberAuthentication.html?groupKey=${adminUid}`
 
               try {
