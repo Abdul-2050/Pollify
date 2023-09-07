@@ -588,6 +588,32 @@ function fetchMatchDataFromDatabase() {
     });
 }
 
+// Get the current date and time
+const currentDate = new Date();
+
+// Get the current year
+const currentYear = currentDate.getFullYear();
+
+// Sort the matchDataArray based on the match date
+matchDataArray.sort((a, b) => {
+  // Parse the match date and time, including the current year
+  const dateA = new Date(`${currentYear}-${a.matchDate} ${a.matchTime}`);
+  const dateB = new Date(`${currentYear}-${b.matchDate} ${b.matchTime}`);
+
+  // Compare the dates
+  if (dateA < currentDate && dateB < currentDate) {
+    return 0; // If both are in the past, keep their relative order
+  } else if (dateA < currentDate) {
+    return 1; // Move match A with a past date to the end
+  } else if (dateB < currentDate) {
+    return -1; // Move match B with a past date to the end
+  } else {
+    return dateA - dateB; // Keep future matches in chronological order
+  }
+});
+
+// Now, matchDataArray is sorted with future matches first and past matches at the end.
+
 for (let i = 0; i < matchDataArray.length; i++) {
   const matchDiv = createMatch(matchDataArray[i], i);
   matchesContainer.appendChild(matchDiv);
