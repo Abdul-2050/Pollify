@@ -9,11 +9,88 @@
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        form {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+
+        fieldset {
+            border: none;
+            padding: 0;
+        }
+
+        legend {
+            font-weight: bold;
+            font-size: 1.2em;
+            margin-bottom: 10px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        input[type="radio"] {
+            margin-right: 5px;
+        }
+
+        button[type="submit"],
+        button[type="button"] {
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button[type="submit"]:hover,
+        button[type="button"]:hover {
+            background-color: #0056b3;
+        }
+
+        /* Add borders for each match */
+        .match-border {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+    </style>
+
 </head>
 
 <body>
     <h1>Update Match Data</h1>
-    <button id="updateButton">Update Match Data</button>
+
+    <!-- Add a form to update winning teams -->
+    <form id="updateForm">
+        <fieldset>
+            <legend>Update Winning Team</legend>
+            <div id="matchRadioButtons">
+                <!-- Radio buttons for each match -->
+            </div>
+            <button type="submit">Update</button>
+            <button type="button" id="resetButton">Reset</button>
+        </fieldset>
+    </form>
 
     <script>
         // Initialize Firebase with your Firebase configuration
@@ -34,51 +111,51 @@
 
         // Define the matchDataArray
         const matchDataArray = [
-            { description: "England vs New Zealand", team1: "England", team2: "New Zealand", matchDate: "5-Oct", matchTime: "2:00 PM", winningTeam: "match_not_started"},
-            { description: "Pakistan vs Netherlands", team1: "Pakistan", team2: "Netherlands", matchDate: "6-Oct", matchTime: "2:00 PM", winningTeam: "match_not_started"},
-            { description: "Bangladesh vs Afghanistan", team1: "Bangladesh", team2: "Afghanistan", matchDate: "7-Oct", matchTime: "10:30 AM", winningTeam: "match_not_started"},
+            { description: "England vs New Zealand", team1: "England", team2: "New Zealand", matchDate: "5-Oct", matchTime: "2:00 PM", winningTeam: "match_not_started" },
+            { description: "Pakistan vs Netherlands", team1: "Pakistan", team2: "Netherlands", matchDate: "6-Oct", matchTime: "2:00 PM", winningTeam: "match_not_started" },
+            { description: "Bangladesh vs Afghanistan", team1: "Bangladesh", team2: "Afghanistan", matchDate: "7-Oct", matchTime: "10:30 AM", winningTeam: "match_not_started" },
             { description: "South Africa vs Sri Lanka", team1: "South Africa", team2: "Sri Lanka", matchDate: "7-Oct", matchTime: "2:00 PM", winningTeam: "match_not_started" },
             { description: "Australia vs India", team1: "Australia", team2: "India", matchDate: "8-Oct", matchTime: "2:00 PM", winningTeam: "match_not_started" },
-            { description: "New Zealand vs Netherlands", team1: "New Zealand", team2: "Netherlands", matchDate: "9-Oct", matchTime: "2:00 PM", winningTeam: "match_not_started"},
-            { description: "England vs Bangladesh", team1: "England", team2: "Bangladesh", matchDate: "10-Oct", matchTime: "10:30 AM", winningTeam: "match_not_started"},
+            { description: "New Zealand vs Netherlands", team1: "New Zealand", team2: "Netherlands", matchDate: "9-Oct", matchTime: "2:00 PM", winningTeam: "match_not_started" },
+            { description: "England vs Bangladesh", team1: "England", team2: "Bangladesh", matchDate: "10-Oct", matchTime: "10:30 AM", winningTeam: "match_not_started" },
             { description: "Pakistan vs Sri Lanka", team1: "Pakistan", team2: "Sri Lanka", matchDate: "10-Oct", matchTime: "2:00 PM", winningTeam: "match_not_started" },
             { description: "India vs Afghanistan", team1: "India", team2: "Afghanistan", matchDate: "11-Oct", matchTime: "2:00 PM", winningTeam: "match_not_started" },
             { description: "Australia vs South Africa", team1: "Australia", team2: "South Africa", matchDate: "12-Oct", matchTime: "2:00 PM", winningTeam: "match_not_started" },
-            { description: "New Zealand vs Bangladesh", team1: "New Zealand", team2: "Bangladesh", matchDate: "13-Oct", matchTime: "2:00 PM", winningTeam: "match_not_started"},
-            { description: "India vs Pakistan", team1: "India", team2: "Pakistan", matchDate: "14-Oct", matchTime: "2:00 PM", winningTeam: "match_not_started"},
-            { description: "England vs Afghanistan", team1: "England", team2: "Afghanistan", matchDate: "15-Oct", matchTime: "2:00 PM", winningTeam: "match_not_started"},
+            { description: "New Zealand vs Bangladesh", team1: "New Zealand", team2: "Bangladesh", matchDate: "13-Oct", matchTime: "2:00 PM", winningTeam: "match_not_started" },
+            { description: "India vs Pakistan", team1: "India", team2: "Pakistan", matchDate: "14-Oct", matchTime: "2:00 PM", winningTeam: "match_not_started" },
+            { description: "England vs Afghanistan", team1: "England", team2: "Afghanistan", matchDate: "15-Oct", matchTime: "2:00 PM", winningTeam: "match_not_started" },
             { description: "Australia vs Sri Lanka", team1: "Australia", team2: "Sri Lanka", matchDate: "16-Oct", matchTime: "2:00 PM", winningTeam: "match_not_started" },
-            { description: "South Africa vs Netherlands", team1: "South Africa", team2: "Netherlands", matchDate: "17-Oct", matchTime: "2:00 PM", winningTeam: "match_not_started"},
+            { description: "South Africa vs Netherlands", team1: "South Africa", team2: "Netherlands", matchDate: "17-Oct", matchTime: "2:00 PM", winningTeam: "match_not_started" },
             { description: "New Zealand vs Afghanistan", team1: "New Zealand", team2: "Afghanistan", matchDate: "18-Oct", matchTime: "2:00 PM", winningTeam: "match_not_started" },
             { description: "India vs Bangladesh", team1: "India", team2: "Bangladesh", matchDate: "19-Oct", matchTime: "2:00 PM", winningTeam: "match_not_started" },
-            { description: "Australia vs Pakistan", team1: "Australia", team2: "Pakistan", matchDate: "20-Oct", matchTime: "2:00 PM", winningTeam: "match_not_started"},
-            { description: "Netherlands vs Sri Lanka", team1: "Netherlands", team2: "Sri Lanka", matchDate: "21-Oct", matchTime: "10:30 AM", winningTeam: "match_not_started"},
+            { description: "Australia vs Pakistan", team1: "Australia", team2: "Pakistan", matchDate: "20-Oct", matchTime: "2:00 PM", winningTeam: "match_not_started" },
+            { description: "Netherlands vs Sri Lanka", team1: "Netherlands", team2: "Sri Lanka", matchDate: "21-Oct", matchTime: "10:30 AM", winningTeam: "match_not_started" },
             { description: "England vs South Africa", team1: "England", team2: "South Africa", matchDate: "21-Oct", matchTime: "2:00 PM", winningTeam: "match_not_started" },
             { description: "India vs New Zealand", team1: "India", team2: "New Zealand", matchDate: "22-Oct", matchTime: "2:00 PM", winningTeam: "match_not_started" },
             { description: "Pakistan vs Afghanistan", team1: "Pakistan", team2: "Afghanistan", matchDate: "23-Oct", matchTime: "2:00 PM", winningTeam: "match_not_started" },
-            { description: "South Africa vs Bangladesh", team1: "South Africa", team2: "Bangladesh", matchDate: "24-Oct", matchTime: "2:00 PM", winningTeam: "match_not_started"},
+            { description: "South Africa vs Bangladesh", team1: "South Africa", team2: "Bangladesh", matchDate: "24-Oct", matchTime: "2:00 PM", winningTeam: "match_not_started" },
             { description: "Australia vs Netherlands", team1: "Australia", team2: "Netherlands", matchDate: "25-Oct", matchTime: "2:00 PM", winningTeam: "match_not_started" },
             { description: "England vs Sri Lanka", team1: "England", team2: "Sri Lanka", matchDate: "26-Oct", matchTime: "2:00 PM", winningTeam: "match_not_started" },
-            { description: "Pakistan vs South Africa", team1: "Pakistan", team2: "South Africa", matchDate: "27-Oct", matchTime: "2:00 PM", winningTeam: "match_not_started"},
+            { description: "Pakistan vs South Africa", team1: "Pakistan", team2: "South Africa", matchDate: "27-Oct", matchTime: "2:00 PM", winningTeam: "match_not_started" },
             { description: "Australia vs New Zealand", team1: "Australia", team2: "New Zealand", matchDate: "28-Oct", matchTime: "10:30 AM", winningTeam: "match_not_started" },
             { description: "Netherlands vs Bangladesh", team1: "Netherlands", team2: "Bangladesh", matchDate: "28-Oct", matchTime: "2:00 PM", winningTeam: "match_not_started" },
-            { description: "India vs England", team1: "India", team2: "England", matchDate: "29-Oct", matchTime: "2:00 PM", winningTeam:  "match_not_started" },
+            { description: "India vs England", team1: "India", team2: "England", matchDate: "29-Oct", matchTime: "2:00 PM", winningTeam: "match_not_started" },
             { description: "Afghanistan vs Sri Lanka", team1: "Afghanistan", team2: "Sri Lanka", matchDate: "30-Oct", matchTime: "2:00 PM", winningTeam: "match_not_started" },
-            { description: "Pakistan vs Bangladesh", team1: "Pakistan", team2: "Bangladesh", matchDate: "31-Oct", matchTime: "2:00 PM", winningTeam: "match_not_started"},
+            { description: "Pakistan vs Bangladesh", team1: "Pakistan", team2: "Bangladesh", matchDate: "31-Oct", matchTime: "2:00 PM", winningTeam: "match_not_started" },
             { description: "New Zealand vs South Africa", team1: "New Zealand", team2: "South Africa", matchDate: "1-Nov", matchTime: "2:00 PM", winningTeam: "match_not_started" },
-            { description: "India vs Sri Lanka", team1: "India", team2: "Sri Lanka", matchDate: "2-Nov", matchTime: "2:00 PM", winningTeam: "match_not_started"},
-            { description: "Netherlands vs Afghanistan", team1: "Netherlands", team2: "Afghanistan", matchDate: "3-Nov", matchTime: "2:00 PM", winningTeam: "match_not_started"},
-            { description: "New Zealand vs Pakistan", team1: "New Zealand", team2: "Pakistan", matchDate: "4-Nov", matchTime: "10:30 AM", winningTeam: "match_not_started"},
+            { description: "India vs Sri Lanka", team1: "India", team2: "Sri Lanka", matchDate: "2-Nov", matchTime: "2:00 PM", winningTeam: "match_not_started" },
+            { description: "Netherlands vs Afghanistan", team1: "Netherlands", team2: "Afghanistan", matchDate: "3-Nov", matchTime: "2:00 PM", winningTeam: "match_not_started" },
+            { description: "New Zealand vs Pakistan", team1: "New Zealand", team2: "Pakistan", matchDate: "4-Nov", matchTime: "10:30 AM", winningTeam: "match_not_started" },
             { description: "England vs Australia", team1: "England", team2: "Australia", matchDate: "4-Nov", matchTime: "2:00 PM", winningTeam: "match_not_started" },
             { description: "India vs South Africa", team1: "India", team2: "South Africa", matchDate: "5-Nov", matchTime: "2:00 PM", winningTeam: "match_not_started" },
             { description: "Bangladesh vs Sri Lanka", team1: "Bangladesh", team2: "Sri Lanka", matchDate: "6-Nov", matchTime: "2:00 PM", winningTeam: "match_not_started" },
-            { description: "Australia vs Afghanistan", team1: "Australia", team2: "Afghanistan", matchDate: "7-Nov", matchTime: "2:00 PM", winningTeam: "match_not_started"},
+            { description: "Australia vs Afghanistan", team1: "Australia", team2: "Afghanistan", matchDate: "7-Nov", matchTime: "2:00 PM", winningTeam: "match_not_started" },
             { description: "England vs Netherlands", team1: "England", team2: "Netherlands", matchDate: "8-Nov", matchTime: "2:00 PM", winningTeam: "match_not_started" },
-            { description: "New Zealand vs Sri Lanka", team1: "New Zealand", team2: "Sri Lanka", matchDate: "9-Nov", matchTime: "2:00 PM", winningTeam: "match_not_started"},
-            { description: "South Africa vs Afghanistan", team1: "South Africa", team2: "Afghanistan", matchDate: "10-Nov", matchTime: "2:00 PM", winningTeam: "match_not_started"},
-            { description: "Australia vs Bangladesh", team1: "Australia", team2: "Bangladesh", matchDate: "11-Nov", matchTime: "10:30 AM", winningTeam: "match_not_started"},
-            { description: "England vs Pakistan", team1: "England", team2: "Pakistan", matchDate: "11-Nov", matchTime: "2:00 PM", winningTeam: "match_not_started"},
-            { description: "India vs Netherlands", team1: "India", team2: "Netherlands", matchDate: "12-Nov", matchTime: "2:00 PM", winningTeam: "match_not_started"},
+            { description: "New Zealand vs Sri Lanka", team1: "New Zealand", team2: "Sri Lanka", matchDate: "9-Nov", matchTime: "2:00 PM", winningTeam: "match_not_started" },
+            { description: "South Africa vs Afghanistan", team1: "South Africa", team2: "Afghanistan", matchDate: "10-Nov", matchTime: "2:00 PM", winningTeam: "match_not_started" },
+            { description: "Australia vs Bangladesh", team1: "Australia", team2: "Bangladesh", matchDate: "11-Nov", matchTime: "10:30 AM", winningTeam: "match_not_started" },
+            { description: "England vs Pakistan", team1: "England", team2: "Pakistan", matchDate: "11-Nov", matchTime: "2:00 PM", winningTeam: "match_not_started" },
+            { description: "India vs Netherlands", team1: "India", team2: "Netherlands", matchDate: "12-Nov", matchTime: "2:00 PM", winningTeam: "match_not_started" },
             { description: "1st Semi-Final T.B.C. vs T.B.C.", team1: "T.B.C", team2: "T.B.C", matchDate: "15-Nov", matchTime: "2:00 PM", winningTeam: "match_not_started" },
             { description: "2nd Semi-Final T.B.C. vs T.B.C.", team1: "T.B.C", team2: "T.B.C", matchDate: "16-Nov", matchTime: "2:00 PM", winningTeam: "match_not_started" },
             { description: "Final T.B.C. vs T.B.C.", team1: "T.B.C", team2: "T.B.C", matchDate: "19-Nov", matchTime: "2:00 PM", winningTeam: "match_not_started" }
@@ -100,7 +177,90 @@
 
         // Add a click event listener to the button
         const updateButton = document.getElementById('updateButton');
-        updateButton.addEventListener('click', updateMatchData);
+        // updateButton.addEventListener('click', updateMatchData);
+
+
+
+
+
+
+
+         // Function to populate radio buttons for each match
+         function populateRadioButtons() {
+            const matchRadioButtons = document.getElementById('matchRadioButtons');
+            matchDataArray.forEach((match, index) => {
+                const matchDiv = document.createElement('div');
+                matchDiv.classList.add('match-border');
+
+                const radioLabelTeam1 = document.createElement('label');
+                radioLabelTeam1.textContent = `${match.description} - ${match.team1}`;
+                const radioInputTeam1 = document.createElement('input');
+                radioInputTeam1.type = 'radio';
+                radioInputTeam1.name = `winningTeam_${index}`;
+                radioInputTeam1.value = `team1_${index}`;
+                radioLabelTeam1.appendChild(radioInputTeam1);
+
+                const radioLabelTeam2 = document.createElement('label');
+                radioLabelTeam2.textContent = `${match.description} - ${match.team2}`;
+                const radioInputTeam2 = document.createElement('input');
+                radioInputTeam2.type = 'radio';
+                radioInputTeam2.name = `winningTeam_${index}`;
+                radioInputTeam2.value = `team2_${index}`;
+                radioLabelTeam2.appendChild(radioInputTeam2);
+
+                matchDiv.appendChild(radioLabelTeam1);
+                matchDiv.appendChild(radioLabelTeam2);
+                matchRadioButtons.appendChild(matchDiv);
+            });
+        }
+
+        // Function to reset all matches to "match_not_started"
+        function resetMatches() {
+            matchDataArray.forEach((match) => {
+                match.winningTeam = "match_not_started";
+            });
+            updateMatchData();
+        }
+
+        // Function to load the winning teams from the database and pre-select radio buttons
+        function loadWinningTeams() {
+            publicMatchDataArrayRef.once('value')
+                .then((snapshot) => {
+                    const data = snapshot.val();
+                    if (data) {
+                        data.forEach((match, index) => {
+                            const team = match.winningTeam;
+                            if (team === 'team1' || team === 'team2') {
+                                document.querySelector(`input[name="winningTeam_${index}"][value="${team}_${index}"]`).checked = true;
+                            }
+                        });
+                    }
+                })
+                .catch((error) => {
+                    console.error("Error loading winning teams:", error);
+                });
+        }
+
+        // Add a submit event listener to the form
+        const updateForm = document.getElementById('updateForm');
+        updateForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const formData = new FormData(updateForm);
+            formData.forEach((value, key) => {
+                const [team, index] = value.split('_');
+                matchDataArray[index].winningTeam = team;
+            });
+            updateMatchData();
+        });
+
+        // Add a click event listener to the Reset button
+        const resetButton = document.getElementById('resetButton');
+        resetButton.addEventListener('click', resetMatches);
+
+        // Call the function to populate radio buttons and load winning teams
+        populateRadioButtons();
+        loadWinningTeams();
+
     </script>
 </body>
 
