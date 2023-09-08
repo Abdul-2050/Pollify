@@ -110,7 +110,7 @@
             letter-spacing: 2px
         }
 
-        .btn{
+        .btn {
             background: #289bb8;
             color: #fff;
             border-radius: 5px;
@@ -118,7 +118,7 @@
                 0 0 10px #289bb8,
                 0 0 15px #289bb8,
                 0 0 20px #289bb8;
-                cursor: pointer;
+            cursor: pointer;
         }
 
         .btn span {
@@ -320,6 +320,7 @@
                         <span></span>
                         create
                     </a>
+
                     <!-- <p class="message">Not registered? <a href="#">Create an account</a></p> -->
                 </form>
             </div>
@@ -346,6 +347,8 @@
         // Import the functions you need from the SDKs you need
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-app.js";
         import { getAuth, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-auth.js";
+        import { getDatabase, ref, push, set, get } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-database.js";
+
 
 
         // This is for firebase taxi-unternehmerschein
@@ -365,6 +368,7 @@
         const app = initializeApp(firebaseConfig);
         const provider = new GoogleAuthProvider(app);
         const auth = getAuth(app);
+        const database = getDatabase(app); // Initialize Firebase Realtime Database
         const googleBtn = document.getElementById("googleBtn");
 
         // Check if user is already signed in on page load
@@ -378,7 +382,6 @@
         //         window.location.href = "authentication.html";
         //     }
         // });
-
         googleBtn.addEventListener('click', function () {
             // Code to execute when the button is clicked
             console.log('Button clicked!');
@@ -390,13 +393,25 @@
                     const token = credential.accessToken;
                     // The signed-in user info.
                     const user = result.user;
-                    // ...
 
+                    // Check if the user's data exists in the database
+                    const userRef = ref(database, 'Admin/' + user.uid);
 
-
-                    // Redirect to index.html and pass user details as query parameters
-                    const redirectURL = "login.html?" + getUserQueryParams(user);
-                    window.location.href = redirectURL;
+                    get(userRef)
+                        .then((snapshot) => {
+                            if (snapshot.exists()) {
+                                // User's data exists, redirect to index.html
+                                const redirectURL = "index.html?" + getUserQueryParams(user);
+                                window.location.href = redirectURL;
+                            } else {
+                                // User's data doesn't exist, redirect to login.html
+                                window.location.href = "login.html";
+                            }
+                        })
+                        .catch((error) => {
+                            // Handle any database read error here
+                            console.error("Error checking user data:", error);
+                        });
                 })
                 .catch((error) => {
                     // Handle Errors here.
@@ -404,9 +419,12 @@
                     const errorMessage = error.message;
                     // ...
 
-                    alert(errorMessage);
+                    console.error(errorMessage);
                 });
         });
+
+
+
 
         function getUserQueryParams(user) {
             const params = {
