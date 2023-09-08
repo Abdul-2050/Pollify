@@ -7,17 +7,28 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Poll 2-version</title>
+    <title>ICC-WC-23-India | pick your fav team</title>
+    <meta name="description"
+        content="Stay updated with the latest ICC Cricket World Cup 2023 India news, match schedules, team profiles, and more. Vote for your favorite teams and get a chance to win exciting prizes and money. Get all the cricket action in one place.">
+
+    <!-- Link to Favicon (if desired) -->
+    <link rel="icon" type="image/png" href="PickX-logos_transparent.png" sizes="16x16">
+
+
+    <!-- Open Graph Meta Tags (for social sharing) -->
+    <meta property="og:title" content="ICC-WC-23_India | vote for you fav teams get rewards">
+    <meta property="og:description"
+        content="Stay updated with the latest ICC Cricket World Cup 2023 India news, match schedules, team profiles, and more. Get all the cricket action in one place.">
+    <meta property="og:image" content="PickX-logos_transparent">
+    <meta property="og:url" content="https://pickx.online/memberAuthentication.html?groupKey=${adminUid}">
+    
 
     <link rel="stylesheet" href="index.css" />
     <link rel="stylesheet" href="gradient-border.css" />
     <link rel="stylesheet" href="gradient-text-color.css" />
-
     <link rel="stylesheet" href="createNowPoll.css" />
-
     <link rel="stylesheet" href="awesome_nav.css" />
     <link rel="stylesheet" href="awesome_nav.js" />
-
     <link rel="stylesheet" hrefl="index.JS" />
 
     <script src="https://cdn.jsdelivr.net/npm/luxon@2.0.2/build/global/luxon.min.js"></script>
@@ -750,7 +761,7 @@
                     <a href="index.html">
 
                         <h2 class="grandient-tex">PickX</h2>
-                        <span class="wc grandient-tex">ICC WC 23 India</span>
+                        <span  class="wc grandient-tex">ICC WC 23 India <img src="PickX-logos_transparent.png" style="width: 16px;" alt=""></span>
 
                     </a>
                 </div>
@@ -773,6 +784,9 @@
                         padding: 3px;
                         /* border: 1px solid rgb(4, 234, 0); */
                         background-image: linear-gradient(315deg, #ff256e 15%, #5122b8 80%);
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
                     }
 
 
@@ -1059,7 +1073,7 @@
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
 
 
-   <script type="module" src="index_html.js"></script>
+    <script type="module" src="index_html.js"></script>
 
 
 
