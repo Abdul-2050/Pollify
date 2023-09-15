@@ -92,6 +92,29 @@
 
 
 
+    <!-- Include the header using JavaScript -->
+    <script>
+        // Function to include the header
+        function includeHeader() {
+            const headerPlaceholder = document.getElementById('header-placeholder');
+            const xhr = new XMLHttpRequest();
+            xhr.open('GET', 'header.html', true);
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    headerPlaceholder.innerHTML = xhr.responseText;
+                }
+            };
+            xhr.send();
+        }
+
+        // Call the includeHeader function to load the header
+        includeHeader();
+    </script>
+
+
+
+
+
     <link rel="stylesheet" href="index.css" />
     <link rel="stylesheet" href="awesome_nav.css" />
     <link href="awesome_nav.js" />

@@ -1,3 +1,6 @@
+document.addEventListener("DOMContentLoaded", function() {
+
+
 // MENU OPEN CLOSE JS
 const openMenu = () => {
   document.querySelector(".backdrop").className = "backdrop active";
@@ -21,3 +24,5 @@ document.querySelector("aside button.close").onclick = (e) => {
 document.querySelector(".backdrop").onclick = (e) => {
   closeMenu();
 };
+
+});

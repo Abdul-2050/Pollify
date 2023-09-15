@@ -136,6 +136,8 @@ function getLocalizedTime(matchData) {
   return localMatchDateTime.toFormat("h:mm a");
 }
 
+
+
 // Function to create a countdown timer string
 // function getCountdownTime(matchData) {
 //     const now = luxon.DateTime.local();
@@ -1311,6 +1313,8 @@ auth.onAuthStateChanged((user) => {
   }
 });
 
+
+
 // Function to add member UID to admin's array
 function addMemberToAdmin(adminUid, memberUid) {
   const memberUidsRef = database.ref("Admin/" + adminUid + "/memberUids");
@@ -1489,6 +1493,7 @@ async function calculateUserScoresAndSort(adminUid, matchDataArray) {
 
   return sortedUserScores;
 }
+
 
 function checkVoteTimeOut(matchDataArray) {
   // Get the match date and time from the matchDataArray

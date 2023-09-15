@@ -69,7 +69,7 @@
       position: relative;
       z-index: 1;
       text-align: center;
-      position: absolute;
+      /* position: absolute; */
       top: 50%;
       left: 50%;
       width: 400px;
@@ -238,72 +238,8 @@
 <body>
 
 
-  
-  <header>
-    <nav class="nav">
-        <div class="navigation-bar container">
-            <div class="item-left">
-                <a href="index.html">
-
-                    <h2 class="grandient-tex">PickX</h2>
-                    <span  class="wc grandient-tex">ICC WC 23 India <img src="PickX-logos_transparent.png" style="width: 16px;" alt=""></span>
-
-                </a>
-            </div>
-
-            <style>
-                .item-left {
-                    display: flex;
-                    align-items: center;
-                }
-
-                .wc {
-                    color: white;
-                    font-size: 8px;
-                    background-color: rgb(255, 255, 255);
-                    border-radius: 3px;
-                    position: absolute;
-                    top: 23px;
-                    /* left: 73px; */
-                    left: 80px;
-                    padding: 3px;
-                    /* border: 1px solid rgb(4, 234, 0); */
-                    background-image: linear-gradient(315deg, #ff256e 15%, #5122b8 80%);
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                }
-
-
-                .navigation-bar .item-left .logo {
-                    display: flex;
-                    align-items: center;
-                }
-            </style>
-
-            <div class="item-center desktop">
-                <ul class="menu-list">
-                    <li><a href="comingSoon.html">Create Poll</a></li>
-                    <li><a href="comingSoon.html">Sport Poll</a></li>
-                    <li><a href="comingSoon.html">Dashboard</a></li>
-                    <li><a href="comingSoon.html">Schedule Meeting</a></li>
-                    <li><a href="comingSoon.html">Pricing</a></li>
-                </ul>
-            </div>
-
-            <div class="item-right">
-                <ul class="menu-list desktop">
-                    <li><a href="javascript:void(0)">Support </a></li>
-                    <li><a href="javascript:void(0)">Login</a></li>
-                </ul>
-                <ul class="menu-list menu">
-                    <li class="menu-btn-backdrop"><a href="javascript:void(0)" id="menuBtn">Menu</a></li>
-                </ul>
-            </div>
-        </div>
-        <div class="menu-backdrop"></div>
-    </nav>
-</header>
+<!-- Create a placeholder for the header -->
+<div id="header-placeholder"></div>
 
 
 
@@ -333,7 +269,7 @@
   </div> -->
 
 
-  <div class="login_container">
+  <div class="login_container" style="min-height: 100%;">
     <div class="login-page">
       <div class="form">
         <form class="register-form" method="POST">
@@ -374,10 +310,52 @@
   </div>
 
 
+
+  
+    <!-- Container for the footer -->
+    <div id="footer-container"></div>
+
+
+
+
   <script src="index.JS"></script>
   <script src="awesome_nav.js"></script>
   <!-- <script type="module" src="login_check.js"></script> -->
 
+
+  <!-- Include the header using JavaScript -->
+  <script>
+    // Function to include the header
+    function includeHeader() {
+        const headerPlaceholder = document.getElementById('header-placeholder');
+        const xhr = new XMLHttpRequest();
+        xhr.open('GET', 'header.html', true);
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                headerPlaceholder.innerHTML = xhr.responseText;
+            }
+        };
+        xhr.send();
+    }
+
+    // Call the includeHeader function to load the header
+    includeHeader();
+</script>
+
+
+
+<!-- Load and insert the footer using JavaScript -->
+<script>
+  const footerContainer = document.getElementById('footer-container');
+  const footerRequest = new XMLHttpRequest();
+  footerRequest.open('GET', 'footer.html', true);
+  footerRequest.onreadystatechange = function () {
+      if (footerRequest.readyState === 4 && footerRequest.status === 200) {
+          footerContainer.innerHTML = footerRequest.responseText;
+      }
+  };
+  footerRequest.send();
+</script>
 
 
 
