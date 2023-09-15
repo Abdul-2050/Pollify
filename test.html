@@ -5,235 +5,90 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;1,300&family=Roboto:ital,wght@0,400;0,500;0,700;1,400;1,500&display=swap');
-
-
-        body {
-            background-color: #1b1a1a;
-        }
-
-        .discription {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 5px;
-
-        }
-
-        .discription p {
-            margin: 0
-        }
-
-
-
-        .match {
-            /* border: 1px solid red; */
-            padding: 10px;
-            border-radius: 10px;
-            background-color: #1b1a1a;
-            box-shadow: rgba(224, 218, 218, 0.35) 0px 5px 15px;
-            font-family: 'Poppins', sans-serif;
-            font-size: 14px;
-        }
-
-        .first_team_container1 .flag_section {
-            display: flex;
-            width: 80px;
-            justify-content: space-between;
-            align-self: center;
-            /* border: 1px solid red; */
-        }
-
-        .first_team_container1 {
-            /* border: 1px solid yellow; */
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-
-
-
-
-
-
-
-
-
-        /* Radio button styles */
-        input[type="radio"] {
-            width: 20px;
-            height: 20px;
-            appearance: none;
-            -webkit-appearance: none;
-            /* border: 1px solid #ffffff; */
-            /* Border color */
-            border-radius: 50%;
-            /* Make it circular */
-            background-color: white;
-            /* Background color */
-            outline: none;
-        }
-
-        /* Radio button styles when checked */
-        input[type="radio"]:checked {
-            /* background-color: #f8ceec; */
-            background-image: linear-gradient(315deg, #ff256e 15%, #5122b8 80%);
-
-            /* Checked background color */
-        }
-
-        /* Hide default radio button appearance */
-        input[type="radio"]::-webkit-inner-spin-button,
-        input[type="radio"]::-webkit-outer-spin-button {
-            -webkit-appearance: none;
-            margin: 0;
-        }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        .first_team_container2 {
-            display: flex;
-        }
-
-        .progress {
-            width: 100%;
-            -webkit-appearance: none;
-            appearance: none;
-            border: none;
-            border-radius: 10px;
-            height: 8px;
-        }
-
-        .progress::-webkit-progress-bar {
-            background-color: #f0f0f0;
-        }
-
-        .progress::-webkit-progress-bar,
-        .progress::-webkit-progress-value {
-            border-radius: 10px;
-        }
-
-        .progress::-moz-progress-bar {
-            border-radius: 10px;
-        }
-
-        .progress1::-webkit-progress-value {
-            background: #56b6ff;
-            /* background-image: linear-gradient(315deg,
-
-                    #304352,
-                    #d7d2cc); */
-            background-image: linear-gradient(315deg, #ff256e 10%, #5122b8 80%);
-
-
-            transition: width 1s ease-in-out 0.3s;
-            /* Smooth transition over 1 second with a 0.5s delay */
-        }
-
-
-        .matchinfo {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .matchinfo .gap {
-            width: 58px;
-            /* border: 1px solid red; */
-            /* margin: 3px 3px 0 5px; */
-        }
-
-        .matchinfo_container {
-            width: 100%;
-            margin-top: 5px;
-        }
-
-        .matchinfo_container p {
-            margin: 0;
-        }
-    </style>
-
 </head>
 
 <body>
-    <div class="discription">
-        <div class="teamsname">
-            <p style="margin-left: 6px; margin-top: 0;">${matchData.description}</p>
-        </div>
-        <div class="date">
-            <p>${matchData.matchDate}</p>
-        </div>
+    <div class="center">
+        <div class="wave"></div>
+        <div class="wave"></div>
+        <div class="wave"></div>
+        <div class="wave"></div>
+        <div class="wave"></div>
+        <div class="wave"></div>
+        <div class="wave"></div>
+        <div class="wave"></div>
+        <div class="wave"></div>
+        <div class="wave"></div>
     </div>
+    <style>
 
-    <label for="team1_${uniqueId}">
-        <div class="first_team" style="margin-bottom: 5px;">
-            <div class="first_team_container1">
-                <div class="flag_section">
-                    <input type="radio" name="match_${uniqueId}" id="team1_${uniqueId}">
-                    <label for="team1_${uniqueId}"><img src="${matchData.team1.replace(/ /g, '-').toLowerCase()}.png"
-                            alt="" style="width: 25px;"></label>
-                </div>
-                <!--  This is for how many persons -->
-                <span class="members" data-match-index="" data-team="team1">0</span>
-            </div>
+        .center {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
 
+        .wave {
+            width: 5px;
+            height: 100px;
+            background: linear-gradient(315deg, #ff256e 15%, #5122b8 80%);
+            margin: 10px;
+            animation: wave 1s linear infinite;
+            border-radius: 20px;
+        }
 
+        .wave:nth-child(2) {
+            animation-delay: 0.1s;
+        }
 
-            <div class="first_team_container2">
-                <div style="min-width: 55px;"></div>
-                <progress class="first_team_progress progress progress1" max="100" value="0"
-                    id="progress_${matchIndex}_team1"></progress>
-            </div>
+        .wave:nth-child(3) {
+            animation-delay: 0.2s;
+        }
 
+        .wave:nth-child(4) {
+            animation-delay: 0.3s;
+        }
 
-        </div>
-    </label>
+        .wave:nth-child(5) {
+            animation-delay: 0.4s;
+        }
 
+        .wave:nth-child(6) {
+            animation-delay: 0.5s;
+        }
 
-    <label for="team2_${uniqueId}">
-        <div class="first_team">
-            <div class="first_team_container1">
-                <div class="flag_section">
-                    <input type="radio" name="match_${uniqueId}" id="team2_${uniqueId}">
-                    <label for="team2_${uniqueId}"><img src="${matchData.team2.replace(/ /g, '-').toLowerCase()}.png"
-                            alt="" style="width: 25px;"></label>
-                </div>
-                <!--  This is for how many persons -->
-                <span class="members" data-match-index="" data-team="team2">0</span>
-            </div>
-            <div class="first_team_container2">
-                <div style="min-width: 55px;"></div>
-                <progress class="first_team_progress progress progress1" max="100" value="0"
-                    id="progress_${matchIndex}_team2"></progress>
-            </div>
-        </div>
-    </label>
-    <div class="matchinfo" style="border: 1px solid red;">
-        <div class="gap" style="border: 1px solid red;"></div>
-        <div class="matchinfo_container" style="border: 1px solid yellow;">
-            <div>
-                <p>Starts at: ${getLocalizedTime(matchData)}</p>
-            </div>
-            <div class="results">
-                <p style="
-                    color: #56b6ff; font-size: 10px;">results</p>
-            </div>
-        </div>
-    </div>
+        .wave:nth-child(7) {
+            animation-delay: 0.6s;
+        }
+
+        .wave:nth-child(8) {
+            animation-delay: 0.7s;
+        }
+
+        .wave:nth-child(9) {
+            animation-delay: 0.8s;
+        }
+
+        .wave:nth-child(10) {
+            animation-delay: 0.9s;
+        }
+
+        @keyframes wave {
+            0% {
+                transform: scale(0);
+            }
+
+            50% {
+                transform: scale(1);
+            }
+
+            100% {
+                transform: scale(0);
+            }
+        }
+    </style>
+
 </body>
 
 </html>

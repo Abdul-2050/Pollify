@@ -313,6 +313,110 @@
     </div>
 
 
+    <div class="center" id="loading-container">
+        <div class="wave"></div>
+        <div class="wave"></div>
+        <div class="wave"></div>
+        <div class="wave"></div>
+        <div class="wave"></div>
+        <div class="wave"></div>
+        <div class="wave"></div>
+        <div class="wave"></div>
+        <div class="wave"></div>
+        <div class="wave"></div>
+    </div>
+
+    <style>
+        #loading-container {
+            display: none;
+        }
+
+        .center {
+            width: 100%;
+            height: 100vh;
+            z-index: 999;
+            position: absolute;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: transparent;
+        }
+
+        .wave {
+            width: 5px;
+            height: 100px;
+            background: linear-gradient(315deg, #ff256e 15%, #5122b8 80%);
+            margin: 10px;
+            animation: wave 1s linear infinite;
+            border-radius: 20px;
+        }
+
+        .wave:nth-child(2) {
+            animation-delay: 0.1s;
+        }
+
+        .wave:nth-child(3) {
+            animation-delay: 0.2s;
+        }
+
+        .wave:nth-child(4) {
+            animation-delay: 0.3s;
+        }
+
+        .wave:nth-child(5) {
+            animation-delay: 0.4s;
+        }
+
+        .wave:nth-child(6) {
+            animation-delay: 0.5s;
+        }
+
+        .wave:nth-child(7) {
+            animation-delay: 0.6s;
+        }
+
+        .wave:nth-child(8) {
+            animation-delay: 0.7s;
+        }
+
+        .wave:nth-child(9) {
+            animation-delay: 0.8s;
+        }
+
+        .wave:nth-child(10) {
+            animation-delay: 0.9s;
+        }
+
+        @keyframes wave {
+            0% {
+                transform: scale(0);
+            }
+
+            50% {
+                transform: scale(1);
+            }
+
+            100% {
+                transform: scale(0);
+            }
+        }
+    </style>
+
+    <!-- JavaScript to control the loading animation -->
+    <script>
+        // Function to start the loading animation
+        function startLoading() {
+            const loadingContainer = document.getElementById('loading-container');
+            loadingContainer.style.display = 'flex';
+        }
+
+        // Function to end the loading animation
+        function endLoading() {
+            const loadingContainer = document.getElementById('loading-container');
+            loadingContainer.style.display = 'none';
+        }
+    </script>
+
 
 
 
@@ -358,6 +462,7 @@
 
 
 
+
     <!-- bootrap -->
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
         integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
@@ -368,7 +473,6 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js"
         integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
         crossorigin="anonymous"></script>
-
 
 
     <script type="module">
@@ -416,6 +520,9 @@
 
             signInWithPopup(auth, provider)
                 .then((result) => {
+                    // Call startLoading to start the loading animation (you can call this when you want to start loading)
+                    startLoading();
+
                     // This gives you a Google Access Token. You can use it to access the Google API.
                     const credential = GoogleAuthProvider.credentialFromResult(result);
                     const token = credential.accessToken;
@@ -431,9 +538,13 @@
                                 // User's data exists, redirect to index.html
                                 const redirectURL = "index.html?" + getUserQueryParams(user);
                                 window.location.href = redirectURL;
+                                //end the loading
+                                endLoading();
                             } else {
                                 // User's data doesn't exist, redirect to login.html
                                 window.location.href = "login.html";
+                                //end the loading
+                                endLoading();
                             }
                         })
                         .catch((error) => {
