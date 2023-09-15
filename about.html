@@ -71,37 +71,36 @@
 
 
     <div class="contentContainer">
-        <div class="contentContainerWrapper">
-            <div class="contentContainerMainContainer">
 
-                <div class="box  element">
+        <div class="contentContainerMainContainer  element">
+
+            <div class="box">
 
 
-                    <div class="box-header" style="display: flex; align-items: center;">
-                        <img src="info.png" alt="" style="width: 45px;">
-                        <h2 style="margin-left: 20px;">About</h2>
-                    </div>
+                <div class="box-header" style="display: flex; align-items: center;">
+                    <img src="info.png" alt="" style="width: 45px;">
+                    <h2 style="margin-left: 20px;">About</h2>
+                </div>
 
-                    <div class="box-main">
-                        <p>PickX.online is your gateway to sports excitement. Our platform is designed for avid sports
-                            fans who want to participate actively in the games they love, including cricket, baseball,
-                            football, and more.</p>
-                        <ul>
-                            <li>Sports Voting Simplified: Easily select your favorite teams and make predictions.</li>
-                            <li>Rewards for Accuracy: When your predictions hit the mark, unlock exciting rewards.</li>
-                            <li>Create and Connect: Form groups with friends and family, vote for your cherished teams,
-                                and share the thrill of the game.</li>
-                        </ul>
+                <div class="box-main">
+                    <p>PickX.online is your gateway to sports excitement. Our platform is designed for avid sports
+                        fans who want to participate actively in the games they love, including cricket, baseball,
+                        football, and more.</p>
+                    <ul>
+                        <li>Sports Voting Simplified: Easily select your favorite teams and make predictions.</li>
+                        <li>Rewards for Accuracy: When your predictions hit the mark, unlock exciting rewards.</li>
+                        <li>Create and Connect: Form groups with friends and family, vote for your cherished teams,
+                            and share the thrill of the game.</li>
+                    </ul>
 
-                        Join us at PickX.online and elevate your sports enthusiasm to a whole new level. It's more than
-                        just voting; it's about bonding, predicting, and being rewarded for your passion for sports.
-
-                    </div>
-
+                    Join us at PickX.online and elevate your sports enthusiasm to a whole new level. It's more than
+                    just voting; it's about bonding, predicting, and being rewarded for your passion for sports.
 
                 </div>
 
+
             </div>
+
         </div>
     </div>
 
@@ -109,7 +108,7 @@
         .contentContainer {
             display: flex;
             justify-content: center;
-            align-items: center;
+            /* align-items: center; */
             width: 100%;
             height: 100vh;
             /* border: 1px solid red; */
@@ -125,11 +124,9 @@
 
         /* Media query for screens with a max width of 800px */
         @media (max-width: 800px) {
-            .contentContainerMainContainer {
-                max-width: none;
-                /* Reset the max-width */
-                width: 94vw;
-                /* Set the width for screens narrower than 800px */
+            .element {
+                max-width:  94vw;
+                /* border: 1px solid red; */
             }
         }
 
@@ -143,7 +140,7 @@
 
         .element {
             width: 700px;
-            height: 350px;
+            height: fit-content;
             /* background-color: rgba(255, 255, 255, 1); */
             /* color: #000; */
             border-radius: 10px;
