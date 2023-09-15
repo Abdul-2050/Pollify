@@ -134,13 +134,7 @@ function getLocalizedTime(matchData) {
 
   const localMatchDateTime = matchDateTime.toLocal();
   return localMatchDateTime.toFormat("h:mm a");
-
 }
-
-
-
-
-
 
 // Function to create a countdown timer string
 // function getCountdownTime(matchData) {
@@ -718,9 +712,25 @@ radioButtons.forEach((radio) => {
   });
 });
 
+// JavaScript to control the loading animation
+
+// Function to start the loading animation
+function startLoading() {
+  const loadingContainer = document.getElementById("loading-container");
+  loadingContainer.style.display = "flex";
+}
+
+// Function to end the loading animation
+function endLoading() {
+  const loadingContainer = document.getElementById("loading-container");
+  loadingContainer.style.display = "none";
+}
+
 // Get current user info
 auth.onAuthStateChanged((user) => {
   if (user) {
+    //start the loading
+    startLoading();
     // Call the function to fetch and initialize matchDataArray
     fetchMatchDataFromDatabase();
 
@@ -920,6 +930,9 @@ auth.onAuthStateChanged((user) => {
         }
       });
 
+      // end the loading
+      endLoading();
+
       // Listen for changes to match progress data
       groupRef.on("value", (snapshot) => {
         const matchProgressData = snapshot.val();
@@ -1005,6 +1018,8 @@ auth.onAuthStateChanged((user) => {
       // Reference to the Adminkeys node for the current user
       const adminkeysRef = database.ref("Adminkeys/" + user.uid);
 
+      // start the loadinf
+      startLoading();
       adminkeysRef
         .once("value")
         .then((snapshot) => {
@@ -1211,6 +1226,9 @@ auth.onAuthStateChanged((user) => {
               }
             });
 
+            // end the loading
+            endLoading();
+
             // Listen for changes to match progress data
             groupRef.on("value", (snapshot) => {
               const matchProgressData = snapshot.val();
@@ -1316,8 +1334,6 @@ auth.onAuthStateChanged((user) => {
     window.location.href = redirectURL;
   }
 });
-
-
 
 // Function to add member UID to admin's array
 function addMemberToAdmin(adminUid, memberUid) {
@@ -1497,7 +1513,6 @@ async function calculateUserScoresAndSort(adminUid, matchDataArray) {
 
   return sortedUserScores;
 }
-
 
 function checkVoteTimeOut(matchDataArray) {
   // Get the match date and time from the matchDataArray
