@@ -124,28 +124,20 @@ id="progress_${matchIndex}_team2"></progress>
   return matchDiv;
 }
 
+// Function to create a localized time string
 function getLocalizedTime(matchData) {
-  try {
-    // Parse the input date and time using Luxon
-    const matchDateTime = luxon.DateTime.fromFormat(
-      `${matchData.matchDate} ${matchData.matchTime}`,
-      "d-MMM h:mm a"
-    );
+  const matchDateTime = luxon.DateTime.fromFormat(
+    `${matchData.matchDate} ${matchData.matchTime}`,
+    "d-MMM h:mm a",
+    { zone: "Asia/Kolkata" } // Indian Standard Time (IST)
+  );
 
-    // Determine the user's local time zone dynamically
-    const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  const localMatchDateTime = matchDateTime.toLocal();
+  return localMatchDateTime.toFormat("h:mm a");
 
-    // Convert to the user's local time zone
-    const localMatchDateTime = matchDateTime.setZone(userTimeZone);
-
-    // Format the localized time
-    const formattedTime = localMatchDateTime.toFormat("h:mm a");
-    return formattedTime;
-  } catch (error) {
-    console.error("Error parsing or formatting the date and time:", error.message);
-    return "Error"; // Return an error message or handle it as needed
-  }
 }
+
+
 
 
 
