@@ -1677,29 +1677,56 @@ function getRandomColor() {
   return vibrantColors[Math.floor(Math.random() * vibrantColors.length)];
 }
 
+
 function updateTableWithUserScores(sortedUserScores) {
-  const rows = document.querySelectorAll(".row");
+  const table = document.querySelector(".tableWrapper");
 
   sortedUserScores.forEach((userData, index) => {
-    const row = rows[index + 1]; // Skip the header row
+    const newRow = document.createElement("article");
+    newRow.className = "row nfl";
+
+    const ul1 = document.createElement("ul");
+    const ul2 = document.createElement("ul");
+
+    const li1 = document.createElement("li");
+    const li2 = document.createElement("li");
+    const li3 = document.createElement("li");
+
+    ul1.appendChild(li1);
+    ul1.appendChild(li2);
+    ul1.appendChild(li3);
+
+    newRow.appendChild(ul1);
+    newRow.appendChild(ul2);
+
     const userNameRef = database.ref(
       `Admin/${adminUid}/groups/groupMembers/${userData.uid}/displayName`
     );
 
     userNameRef.once("value", (snapshot) => {
       const userName = snapshot.val();
-      if (row) {
-        const cells = row.querySelectorAll("li");
-        if (cells.length >= 3) {
-          cells[0].textContent = userName;
-          cells[0].style.color = getRandomColor(); // Apply random color to the name
-          cells[1].textContent = `${userData.score}`;
-          cells[2].textContent = `#${index + 1}`;
-        }
-      }
+      li1.textContent = userName;
+      li1.style.color = getRandomColor(); // Apply random color to the name
+      li2.textContent = `${userData.score}`;
+      li3.textContent = `#${index + 1}`;
     });
+
+    // Create the section element for the first row and add the class
+    if (index === 0) {
+      const section = document.createElement("section");
+      section.className = "row-fadeIn-wrapper";
+      section.appendChild(newRow);
+      table.appendChild(section);
+    } else {
+      // For subsequent rows, directly add to the table
+      table.appendChild(newRow);
+    }
   });
 }
+
+
+
+
 
 document.addEventListener("DOMContentLoaded", () => {
   const seeResultsBtns = document.querySelectorAll(".seeResultsBtn");
