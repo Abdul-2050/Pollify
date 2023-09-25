@@ -1535,16 +1535,12 @@ async function calculateUserScoresAndSort(adminUid, matchDataArray) {
 
           // Convert matchDate and matchTime to a Date object
           const currentYear = new Date().getFullYear(); // Get the current year
-          const matchDateTimeString = `${currentYear}-${matchDate}-${matchTime}`;
+          const matchDateTimeString = `Sun Nov 19 2023 09:30:00 GMT+0100`;
 
-          // Assuming matchDate and matchTime are already defined
-const isoDate = `${currentYear}-${matchDate.padStart(2, '0')}-${matchTime}`;
-
-
-          console.log(matchDateTimeString); // output 2023-19-Nov-9:30 AM
+          console.log(matchDateTimeString); //2023-19-Nov-9:30 AM
 
          
-          const matchDateTime = new Date(isoDate);
+          const matchDateTime = new Date(matchDateTimeString);
 
           // console.log("Match Date "+ matchDate);
           // console.log("Match Time "+ matchTime);
