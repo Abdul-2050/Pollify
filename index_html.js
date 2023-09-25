@@ -1521,6 +1521,10 @@ async function calculateUserScoresAndSort(adminUid, matchDataArray) {
             (option) => matchProgress[option] === true
           );
 
+          console.log(selectedTeam);
+
+
+
           // Get the match date and time from the matchDataArray
           const matchDate = match.matchDate;
           const matchTime = getLocalizedTime(matchDataArray[matchIndex]);
