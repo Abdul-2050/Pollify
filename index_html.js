@@ -1535,7 +1535,7 @@ async function calculateUserScoresAndSort(adminUid, matchDataArray) {
 
 
           Date.parse(matchDateTimeString);
-          const matchDateTime = new Date(matchDateTimeString.replace(/-/g, "/"));
+          const matchDateTime = luxon.DateTime.fromISO(matchDateTimeString);
 
           // console.log("Match Date "+ matchDate);
           // console.log("Match Time "+ matchTime);
@@ -1551,7 +1551,7 @@ async function calculateUserScoresAndSort(adminUid, matchDataArray) {
             (matchDateTime - currentTime) / (1000 * 60)
           );
 
-          // console.log("CurrentDate "+ currentDate);
+          console.log("CurrentDate "+ currentDate);
 
           // console.log(timeDifferenceMinutes);
 
