@@ -840,10 +840,8 @@
 
 
         async function calculateUserScoresAndSort(adminUid, matchDataArray) {
-            // console.log("cal function", matchDataArray);
-
-            // fetchMatchDataFromDatabase();
-
+            // console.log(adminUid);
+            // console.log(matchDataArray);
 
             const memberUidsRef = database.ref(`Admin/${adminUid}/memberUids`);
             const snapshot = await memberUidsRef.once("value");
@@ -881,8 +879,48 @@
 
                             // Convert matchDate and matchTime to a Date object
                             const currentYear = new Date().getFullYear(); // Get the current year
-                            const matchDateTimeString = `${currentYear}-${matchDate} ${matchTime}`;
-                            const matchDateTime = new Date(matchDateTimeString);
+                            const matchDateTimeString = `${currentYear}-${matchDate}-${matchTime}`;
+
+                            // Split the string into its components
+                            const [year, day, month, time] = matchDateTimeString.split("-");
+
+                            // Parse the month abbreviation into a numeric value (assuming Nov is November)
+                            const monthMap = {
+                                Jan: 0,
+                                Feb: 1,
+                                Mar: 2,
+                                Apr: 3,
+                                May: 4,
+                                Jun: 5,
+                                Jul: 6,
+                                Aug: 7,
+                                Sep: 8,
+                                Oct: 9,
+                                Nov: 10,
+                                Dec: 11,
+                            };
+                            const monthIndex = monthMap[month];
+
+                            // Split the time and AM/PM components
+                            const [timeString, ampm] = time.split(" ");
+
+                            // Split the time into hours and minutes
+                            const [hours, minutes] = timeString.split(":").map(Number);
+
+                            // Adjust hours for AM/PM
+                            if (ampm === "PM" && hours !== 12) {
+                                hours += 12;
+                            } else if (ampm === "AM" && hours === 12) {
+                                hours = 0;
+                            }
+
+                            // Create a Date object
+                            const matchDateTime = new Date(year, monthIndex, day, hours, minutes);
+
+                            // console.log("Match Date "+ matchDate);
+                            // console.log("Match Time "+ matchTime);
+                            // console.log(matchDateTimeString);
+                            // console.log(matchDateTime);
 
                             // console.log("Match Time " + matchDateTime);
                             // console.log("Current Time " + currentTime);
@@ -892,7 +930,11 @@
                                 (matchDateTime - currentTime) / (1000 * 60)
                             );
 
+                            // console.log("CurrentDate "+ currentDate);
+
                             // console.log(timeDifferenceMinutes);
+
+                            // console.log(selectedTeam);
 
                             if (timeDifferenceMinutes < -30) {
                                 // The match has already started and it's more than 30 minutes past the match time
@@ -935,7 +977,6 @@
 
             return sortedUserScores;
         }
-
 
         function updateTableWithUserScores(sortedUserScores) {
             const table = document.querySelector(".tableWrapper");
