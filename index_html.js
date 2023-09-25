@@ -1491,6 +1491,8 @@ async function updateVoteCount(adminUid, matchIndex, selectedTeam) {
 
 async function calculateUserScoresAndSort(adminUid, matchDataArray) {
 
+  console.log(adminUid);
+  console.log(matchDataArray);
 
   const memberUidsRef = database.ref(`Admin/${adminUid}/memberUids`);
   const snapshot = await memberUidsRef.once("value");
