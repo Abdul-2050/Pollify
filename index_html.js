@@ -551,6 +551,8 @@ let matchDataArray = [
   },
 ];
 
+console.log(matchDataArray.length);
+
 
 // Get the current date and time
 const currentDate = new Date();
@@ -591,7 +593,7 @@ for (let i = 0; i < matchDataArray.length; i++) {
 // Get the group key from the URL parameters
 const urlParams = new URLSearchParams(window.location.search);
 var adminUid = urlParams.get("groupKey"); // Make sure you pass the groupKey as a parameter when redirecting
-console.log(adminUid);
+// console.log(adminUid);
 
 // Keep track of selected options and their progress bars for each match
 const selectedOptions = {};
@@ -732,6 +734,9 @@ auth.onAuthStateChanged((user) => {
           if (databaseMatchDataArray) {
             // Assign the formatted data to matchDataArray
             matchDataArray = formattedMatchDataArray;
+            
+
+            console.log(matchDataArray);
 
             if (adminUid != null) {
               console.log("user uid is not null");
