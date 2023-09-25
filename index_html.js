@@ -1542,9 +1542,11 @@ async function calculateUserScoresAndSort(adminUid, matchDataArray) {
             (matchDateTime - currentTime) / (1000 * 60)
           );
 
+          console.log("CurrentDate "+ currentDate);
+
           console.log(timeDifferenceMinutes);
 
-          console.log(selectedTeam);
+          // console.log(selectedTeam);
 
           if (timeDifferenceMinutes < -30) {
             // The match has already started and it's more than 30 minutes past the match time
