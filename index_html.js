@@ -1531,7 +1531,9 @@ async function calculateUserScoresAndSort(adminUid, matchDataArray) {
 
           // Convert matchDate and matchTime to a Date object
           const currentYear = new Date().getFullYear(); // Get the current year
-          const matchDateTimeString = `${currentYear}-${matchDate} ${matchTime}`;
+          const matchDateTimeString = `${currentYear}-${matchDate}-${matchTime}`;
+
+
           const matchDateTime = new Date(matchDateTimeString);
 
           // console.log("Match Date "+ matchDate);
