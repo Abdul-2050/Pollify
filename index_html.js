@@ -1381,6 +1381,10 @@ auth.onAuthStateChanged((user) => {
                   console.error("Error fetching Adminkey:", error);
                 });
             }
+
+
+
+
           }
 
 
@@ -1574,7 +1578,7 @@ async function calculateUserScoresAndSort(adminUid, matchDataArray) {
     );
     userNameRef.once("value", (snapshot) => {
       const userName = snapshot.val();
-      // console.log(`User UID: ${uid}, Name: ${userName}, Score: ${score}`);
+      console.log(`User UID: ${uid}, Name: ${userName}, Score: ${score}`);
     });
   });
 
