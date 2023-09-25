@@ -553,7 +553,6 @@ let matchDataArray = [
 
 console.log(matchDataArray.length);
 
-
 // Get the current date and time
 const currentDate = new Date();
 
@@ -734,7 +733,6 @@ auth.onAuthStateChanged((user) => {
           if (databaseMatchDataArray) {
             // Assign the formatted data to matchDataArray
             matchDataArray = formattedMatchDataArray;
-            
 
             console.log(matchDataArray);
 
@@ -1381,13 +1379,7 @@ auth.onAuthStateChanged((user) => {
                   console.error("Error fetching Adminkey:", error);
                 });
             }
-
-
-
-
           }
-
-
         } else {
           console.error("Data retrieved from the database is not an array.");
         }
@@ -1395,8 +1387,6 @@ auth.onAuthStateChanged((user) => {
       .catch((error) => {
         console.error("Error fetching match data from the database:", error);
       });
-
-
   } else {
     alert("This group doesn't exits.");
     const redirectURL = `authentication.html`;
@@ -1490,7 +1480,6 @@ async function updateVoteCount(adminUid, matchIndex, selectedTeam) {
 }
 
 async function calculateUserScoresAndSort(adminUid, matchDataArray) {
-
   console.log(adminUid);
   console.log(matchDataArray);
 
@@ -1499,10 +1488,6 @@ async function calculateUserScoresAndSort(adminUid, matchDataArray) {
   const memberUids = snapshot.val() || [];
 
   const userScores = {};
-
-
-
-  
 
   await Promise.all(
     memberUids.map(async (memberUid) => {
@@ -1525,7 +1510,6 @@ async function calculateUserScoresAndSort(adminUid, matchDataArray) {
             (option) => matchProgress[option] === true
           );
 
-
           // Get the match date and time from the matchDataArray
           const matchDate = match.matchDate;
           const matchTime = getLocalizedTime(matchDataArray[matchIndex]);
@@ -1535,18 +1519,48 @@ async function calculateUserScoresAndSort(adminUid, matchDataArray) {
 
           // Convert matchDate and matchTime to a Date object
           const currentYear = new Date().getFullYear(); // Get the current year
-          const matchDateTimeString = `Sun Nov 19 2023 09:30:00 GMT+0100`;
+          const matchDateTimeString = `${currentYear}-${matchDate}-${matchTime}`;
 
-          console.log(matchDateTimeString); //2023-19-Nov-9:30 AM
+          // Split the string into its components
+          const [year, day, month, time] = matchDateTimeString.split("-");
 
-         
-          const matchDateTime = new Date(matchDateTimeString);
+          // Parse the month abbreviation into a numeric value (assuming Nov is November)
+          const monthMap = {
+            Jan: 0,
+            Feb: 1,
+            Mar: 2,
+            Apr: 3,
+            May: 4,
+            Jun: 5,
+            Jul: 6,
+            Aug: 7,
+            Sep: 8,
+            Oct: 9,
+            Nov: 10,
+            Dec: 11,
+          };
+          const monthIndex = monthMap[month];
+
+          // Split the time and AM/PM components
+          const [timeString, ampm] = time.split(" ");
+
+          // Split the time into hours and minutes
+          const [hours, minutes] = timeString.split(":").map(Number);
+
+          // Adjust hours for AM/PM
+          if (ampm === "PM" && hours !== 12) {
+            hours += 12;
+          } else if (ampm === "AM" && hours === 12) {
+            hours = 0;
+          }
+
+          // Create a Date object
+          const matchDateTime = new Date(year, monthIndex, day, hours, minutes);
 
           // console.log("Match Date "+ matchDate);
           // console.log("Match Time "+ matchTime);
-          console.log(matchDateTimeString);
+          // console.log(matchDateTimeString);
           console.log(matchDateTime);
-
 
           // console.log("Match Time " + matchDateTime);
           // console.log("Current Time " + currentTime);
@@ -1705,7 +1719,6 @@ function getRandomColor() {
   return vibrantColors[Math.floor(Math.random() * vibrantColors.length)];
 }
 
-
 function updateTableWithUserScores(sortedUserScores) {
   const table = document.querySelector(".tableWrapper");
 
@@ -1751,10 +1764,6 @@ function updateTableWithUserScores(sortedUserScores) {
     }
   });
 }
-
-
-
-
 
 document.addEventListener("DOMContentLoaded", () => {
   const seeResultsBtns = document.querySelectorAll(".seeResultsBtn");
