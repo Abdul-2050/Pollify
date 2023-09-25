@@ -1521,9 +1521,6 @@ async function calculateUserScoresAndSort(adminUid, matchDataArray) {
             (option) => matchProgress[option] === true
           );
 
-          console.log(selectedTeam);
-
-
 
           // Get the match date and time from the matchDataArray
           const matchDate = match.matchDate;
@@ -1545,9 +1542,9 @@ async function calculateUserScoresAndSort(adminUid, matchDataArray) {
             (matchDateTime - currentTime) / (1000 * 60)
           );
 
-          // console.log(timeDifferenceMinutes);
+          console.log(timeDifferenceMinutes);
 
-          // console.log(selectedTeam);
+          console.log(selectedTeam);
 
           if (timeDifferenceMinutes < -30) {
             // The match has already started and it's more than 30 minutes past the match time
