@@ -734,7 +734,7 @@ auth.onAuthStateChanged((user) => {
             // Assign the formatted data to matchDataArray
             matchDataArray = formattedMatchDataArray;
 
-            console.log(matchDataArray);
+            // console.log(matchDataArray);
 
             if (adminUid != null) {
               console.log("user uid is not null");
@@ -1480,8 +1480,8 @@ async function updateVoteCount(adminUid, matchIndex, selectedTeam) {
 }
 
 async function calculateUserScoresAndSort(adminUid, matchDataArray) {
-  console.log(adminUid);
-  console.log(matchDataArray);
+  // console.log(adminUid);
+  // console.log(matchDataArray);
 
   const memberUidsRef = database.ref(`Admin/${adminUid}/memberUids`);
   const snapshot = await memberUidsRef.once("value");
@@ -1560,7 +1560,7 @@ async function calculateUserScoresAndSort(adminUid, matchDataArray) {
           // console.log("Match Date "+ matchDate);
           // console.log("Match Time "+ matchTime);
           // console.log(matchDateTimeString);
-          console.log(matchDateTime);
+          // console.log(matchDateTime);
 
           // console.log("Match Time " + matchDateTime);
           // console.log("Current Time " + currentTime);
@@ -1611,7 +1611,7 @@ async function calculateUserScoresAndSort(adminUid, matchDataArray) {
     );
     userNameRef.once("value", (snapshot) => {
       const userName = snapshot.val();
-      console.log(`User UID: ${uid}, Name: ${userName}, Score: ${score}`);
+      // console.log(`User UID: ${uid}, Name: ${userName}, Score: ${score}`);
     });
   });
 
