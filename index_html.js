@@ -1534,7 +1534,11 @@ async function calculateUserScoresAndSort(adminUid, matchDataArray) {
           const matchDateTimeString = `${currentYear}-${matchDate} ${matchTime}`;
           const matchDateTime = new Date(matchDateTimeString);
 
-          console.log("Match Time " + matchDateTime);
+          console.log("Match Date "+ matchDate);
+          console.log("Match Time "+ matchTime);
+
+
+          // console.log("Match Time " + matchDateTime);
           console.log("Current Time " + currentTime);
 
           // Calculate the time difference in minutes
