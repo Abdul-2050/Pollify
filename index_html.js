@@ -1500,6 +1500,10 @@ async function calculateUserScoresAndSort(adminUid, matchDataArray) {
 
   const userScores = {};
 
+
+
+  
+
   await Promise.all(
     memberUids.map(async (memberUid) => {
       let userScore = 0;
@@ -1533,9 +1537,14 @@ async function calculateUserScoresAndSort(adminUid, matchDataArray) {
           const currentYear = new Date().getFullYear(); // Get the current year
           const matchDateTimeString = `${currentYear}-${matchDate}-${matchTime}`;
 
+          // Assuming matchDate and matchTime are already defined
+const isoDate = `${currentYear}-${matchDate.padStart(2, '0')}-${matchTime}`;
 
-          Date.parse(matchDateTimeString);
-          const matchDateTime = luxon.DateTime.fromISO(matchDateTimeString);
+
+          console.log(matchDateTimeString); // output 2023-19-Nov-9:30 AM
+
+         
+          const matchDateTime = new Date(isoDate);
 
           // console.log("Match Date "+ matchDate);
           // console.log("Match Time "+ matchTime);
@@ -1551,7 +1560,7 @@ async function calculateUserScoresAndSort(adminUid, matchDataArray) {
             (matchDateTime - currentTime) / (1000 * 60)
           );
 
-          console.log("CurrentDate "+ currentDate);
+          // console.log("CurrentDate "+ currentDate);
 
           // console.log(timeDifferenceMinutes);
 
