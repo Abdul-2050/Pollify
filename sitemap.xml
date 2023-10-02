@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+    <url>
+        <loc>https://pickx.online</loc>
+        <lastmod>2023-10-02</lastmod>
+        <changefreq>always</changefreq>
+        <priority>0.5</priority>
+    </url>
+    <url>
+        <loc>https://pickx.online/authentication</loc>
+        <lastmod>2023-10-02</lastmod>
+        <changefreq>always</changefreq>
+        <priority>0.5</priority>
+    </url>
+    <url>
+        <loc>https://pickx.online/dashboard</loc>
+        <lastmod>2023-10-02</lastmod>
+        <changefreq>always</changefreq>
+        <priority>0.5</priority>
+    </url>
+    <url>
+        <loc>https://pickx.online/standings</loc>
+        <lastmod>2023-10-02</lastmod>
+        <changefreq>always</changefreq>
+        <priority>0.5</priority>
+    </url>
+    <url>
+        <loc>https://pickx.online/comingsoon</loc>
+        <lastmod>2023-10-02</lastmod>
+        <changefreq>always</changefreq>
+        <priority>0.5</priority>
+    </url>
+    <url>
+        <loc>https://pickx.online/about</loc>
+        <lastmod>2023-10-02</lastmod>
+        <changefreq>always</changefreq>
+        <priority>0.5</priority>
+    </url>
+    <url>
+        <loc>https://pickx.online/settings</loc>
+        <lastmod>2023-10-02</lastmod>
+        <changefreq>always</changefreq>
+        <priority>0.5</priority>
+    </url>
+</urlset>
