@@ -1,3 +1,77 @@
+<div class="announcement">
+    <div class="marquee-container">
+        <div class="marquee">
+            <div><a href="standings.html">Icc world cup India 2023</a></div>
+            <div><a href="standings.html">Icc world cup India 2023</a></div>
+            <div><a href="standings.html">Icc world cup India 2023</a></div>
+        </div>
+    </div>
+</div>
+
+<style>
+    :root {
+        --marquee-speed: 40s;
+        --marquee-hover-offset: -50px;
+        --marquee-hover-transition-speed: 0.7s;
+        --marquee-fade-edges: 30%;
+    }
+
+    .marquee-container {
+        overflow: hidden;
+        position: relative;
+        width: 100%;
+    }
+
+    .marquee {
+        display: flex;
+        white-space: nowrap;
+        gap: 30px;
+        animation: animate-marquee var(--marquee-speed) infinite linear;
+        transition: var(--marquee-hover-transition-speed) transform ease-out;
+        will-change: transform;
+    }
+
+    .marquee:hover {
+        animation-play-state: paused;
+        transform: translateX(var(--marquee-hover-offset));
+    }
+
+    @keyframes animate-marquee {
+        0% {
+            transform: translateX(0%);
+        }
+
+        100% {
+            transform: translateX(-100%);
+        }
+    }
+
+    .announcement {
+        padding: 2px 5%;
+        background: var(--primary-header_txt-background);
+        color: rgb(0, 0, 0);
+        color: rgb(255, 255, 255);
+        cursor: pointer;
+    }
+
+    .announcement a {
+        text-decoration: none;
+        color: rgb(255, 255, 255);
+        font-size: 12px;
+        font-weight: bold;
+    }
+
+    .announcement a {
+        font-size: 1rem;
+        font-weight: 600;
+        background: linear-gradient(315deg, #ff256e 15%, #5122b8 80%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+</style>
+
+
+
 
 <header>
     <nav class="nav">
@@ -6,7 +80,8 @@
                 <a href="index.html">
 
                     <h2 class="grandient-tex">PickX</h2>
-                    <span  class="wc grandient-tex">ICC WC 23 India <img src="PickX-logos_transparent.png" style="width: 16px;" alt=""></span>
+                    <span class="wc grandient-tex">ICC WC 23 India <img src="PickX-logos_transparent.png"
+                            style="width: 16px;" alt=""></span>
 
                 </a>
             </div>
@@ -61,7 +136,8 @@
                 </ul>
             </div>
         </div>
+
+
         <div class="menu-backdrop"></div>
     </nav>
 </header>
-
