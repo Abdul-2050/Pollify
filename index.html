@@ -915,7 +915,12 @@
             </div>
 
             <style>
-
+                .blur-container {
+                    /* Add your blur effect here */
+                    filter: blur(5px);
+                    z-index: 1000;
+                    pointer-events: none; 
+                }
             </style>
 
 
@@ -1063,7 +1068,7 @@
         includeHeader();
     </script>
 
-    
+
     <!-- Load and insert the footer using JavaScript -->
     <script>
         const footerContainer = document.getElementById('footer-container');
@@ -1076,7 +1081,7 @@
         };
         footerRequest.send();
     </script>
-    
+
 
 
 

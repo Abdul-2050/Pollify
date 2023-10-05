@@ -23,7 +23,11 @@ function createMatch(matchData, matchIndex) {
   const uniqueId = `${matchIndex}_${matchData.team1
     .replace(/ /g, "-")
     .toLowerCase()}_${matchData.team2.replace(/ /g, "-").toLowerCase()}`;
+
   const matchDiv = document.createElement("div");
+  matchDiv.id = "match"+matchIndex;
+
+
   matchDiv.className = "match";
   matchDiv.style.marginBottom = "10px";
 
@@ -45,6 +49,7 @@ function createMatch(matchData, matchIndex) {
 <div class="first_team_container1">
 <div class="flag_section">
 <input type="radio" name="match_${uniqueId}" id="team1_${uniqueId}">
+
 <label for="team1_${uniqueId}"><img src="${matchData.team1
     .replace(/ /g, "-")
     .toLowerCase()}.png" alt=""
@@ -560,22 +565,22 @@ const currentDate = new Date();
 const currentYear = currentDate.getFullYear();
 
 // Sort the matchDataArray based on the match date
-matchDataArray.sort((a, b) => {
-  // Parse the match date and time, including the current year
-  const dateA = new Date(`${currentYear}-${a.matchDate} ${a.matchTime}`);
-  const dateB = new Date(`${currentYear}-${b.matchDate} ${b.matchTime}`);
+// matchDataArray.sort((a, b) => {
+//   // Parse the match date and time, including the current year
+//   const dateA = new Date(`${currentYear}-${a.matchDate} ${a.matchTime}`);
+//   const dateB = new Date(`${currentYear}-${b.matchDate} ${b.matchTime}`);
 
-  // Compare the dates
-  if (dateA < currentDate && dateB < currentDate) {
-    return 0; // If both are in the past, keep their relative order
-  } else if (dateA < currentDate) {
-    return 1; // Move match A with a past date to the end
-  } else if (dateB < currentDate) {
-    return -1; // Move match B with a past date to the end
-  } else {
-    return dateA - dateB; // Keep future matches in chronological order
-  }
-});
+//   // Compare the dates
+//   if (dateA < currentDate && dateB < currentDate) {
+//     return 0; // If both are in the past, keep their relative order
+//   } else if (dateA < currentDate) {
+//     return 1; // Move match A with a past date to the end
+//   } else if (dateB < currentDate) {
+//     return -1; // Move match B with a past date to the end
+//   } else {
+//     return dateA - dateB; // Keep future matches in chronological order
+//   }
+// });
 
 // Now, matchDataArray is sorted with future matches first and past matches at the end.
 
@@ -904,6 +909,12 @@ auth.onAuthStateChanged((user) => {
                       const team2Selection = userSelections.team2;
 
                       if (team1Selection) {
+                        const uniqueId = `${matchIndex}_${matchData.team1
+                          .replace(/ /g, "-")
+                          .toLowerCase()}_${matchData.team2
+                          .replace(/ /g, "-")
+                          .toLowerCase()}`;
+
                         const selectedRadioButton = document.getElementById(
                           `team1_${matchIndex}_${matchDataArray[
                             matchIndex
@@ -913,6 +924,7 @@ auth.onAuthStateChanged((user) => {
                             .replace(/ /g, "-")
                             .toLowerCase()}`
                         );
+
                         if (selectedRadioButton) {
                           selectedRadioButton.checked = true;
                         }
@@ -1241,6 +1253,9 @@ auth.onAuthStateChanged((user) => {
                                     .replace(/ /g, "-")
                                     .toLowerCase()}`
                                 );
+
+                            
+
                               if (selectedRadioButton) {
                                 selectedRadioButton.checked = true;
                               }
@@ -1579,17 +1594,36 @@ async function calculateUserScoresAndSort(adminUid, matchDataArray) {
           if (timeDifferenceMinutes < -30) {
             // The match has already started and it's more than 30 minutes past the match time
             // Mark the vote as invalid
-          } else if (timeDifferenceMinutes <= 0 || timeDifferenceMinutes >= 0) {
-            // User voted within the time limit (30 minutes)
-            if (selectedTeam === match.winningTeam) {
-              // User's vote matches the winning team
-              userScore += 100;
-            } else {
-              // User's vote does not match the winning team
-            }
+  
+            const matchElement = document.getElementById("match"+matchIndex);
+            blurMatchElement(matchElement);
+  
+            // console.log(matchDateTime);
+            // console.log(timeDifferenceMinutes);
+  
+            } 
+
+          // if (timeDifferenceMinutes < -30) {
+          // The match has already started and it's more than 30 minutes past the match time
+          // Mark the vote as invalid
+
+          // const matchElement = document.getElementById("match"+matchIndex);
+          // blurMatchElement(matchElement);
+
+          // console.log(matchDateTime);
+          // console.log(timeDifferenceMinutes);
+
+          // } else if (timeDifferenceMinutes <= 0 || timeDifferenceMinutes >= 0) {
+          // User voted within the time limit (30 minutes)
+          if (selectedTeam === match.winningTeam) {
+            // User's vote matches the winning team
+            userScore += 100;
           } else {
-            // User voted after the time limit, invalidate the vote
+            // User's vote does not match the winning team
           }
+          // } else {
+          // User voted after the time limit, invalidate the vote
+          // }
         }
       }
 
@@ -1618,6 +1652,12 @@ async function calculateUserScoresAndSort(adminUid, matchDataArray) {
   return sortedUserScores;
 }
 
+// Function to apply blur effect and disable interaction for a specific match element
+function blurMatchElement(matchElement) {
+  matchElement.style.filter = "blur(2px)"; // Adjust the blur amount as needed
+  matchElement.style.pointerEvents = "none";
+}
+
 function checkVoteTimeOut(matchDataArray) {
   // Get the match date and time from the matchDataArray
   const matchDate = matchDataArray.matchDate;
@@ -1641,25 +1681,25 @@ function checkVoteTimeOut(matchDataArray) {
 
   console.log(timeDifferenceMinutes);
 
-  if (timeDifferenceMinutes < -30) {
-    // The match has already started and it's more than 30 minutes past the match time
-    // Mark the vote as invalid
+  // if (timeDifferenceMinutes < -30) {
+  // The match has already started and it's more than 30 minutes past the match time
+  // Mark the vote as invalid
 
-    // User voted after the time limit, invalidate the vote
+  // User voted after the time limit, invalidate the vote
 
-    console.log("Time out");
+  // console.log("Time out");
 
-    const notification = document.getElementById("notification");
-    notification.innerHTML = "Match started vote not valid";
+  // const notification = document.getElementById("notification");
+  // notification.innerHTML = "Match started vote not valid";
 
-    // Show the notification
-    notification.classList.add("show-notification");
+  // Show the notification
+  // notification.classList.add("show-notification");
 
-    // Hide the notification after a delay
-    setTimeout(() => {
-      notification.classList.remove("show-notification");
-    }, 2000); // Hide after 2 seconds
-  }
+  // Hide the notification after a delay
+  // setTimeout(() => {
+  // notification.classList.remove("show-notification");
+  // }, 2000); // Hide after 2 seconds
+  // }
 }
 
 function updateMatchStatus(matchDataArray) {
