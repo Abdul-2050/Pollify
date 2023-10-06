@@ -935,10 +935,10 @@
 
                             // console.log(selectedTeam);
 
-                            if (timeDifferenceMinutes < -30) {
+                            // if (timeDifferenceMinutes < -30) {
                                 // The match has already started and it's more than 30 minutes past the match time
                                 // Mark the vote as invalid
-                            } else if (timeDifferenceMinutes <= 0 || timeDifferenceMinutes >= 0) {
+                            // } else if (timeDifferenceMinutes <= 0 || timeDifferenceMinutes >= 0) {
                                 // User voted within the time limit (30 minutes)
                                 if (selectedTeam === match.winningTeam) {
                                     // User's vote matches the winning team
@@ -946,9 +946,9 @@
                                 } else {
                                     // User's vote does not match the winning team
                                 }
-                            } else {
+                            // } else {
                                 // User voted after the time limit, invalidate the vote
-                            }
+                            // }
                         }
                     }
 
