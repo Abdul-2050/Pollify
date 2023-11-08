@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        body {
+            background-color: #555888;
+            font-family: sans-serif;
+            color: #fff;
+            text-align: center;
+        }
+
+        code {
+            display: inline-block;
+            max-width: 600px;
+            padding: 80px 0 0;
+            line-height: 1.5;
+            font-family: monospace;
+            font-size: 30px;
+            color: #ccc;
+        }
+
+        .sc-gauge {
+            width: 200px;
+            height: 200px;
+            margin: 200px auto;
+        }
+
+        .sc-background {
+            position: relative;
+            height: 100px;
+            margin-bottom: 10px;
+            background-color: #fff;
+            border-radius: 150px 150px 0 0;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        .sc-mask {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            left: 20px;
+            height: 80px;
+            background-color: #555888;
+            border-radius: 150px 150px 0 0;
+        }
+
+        .sc-percentage {
+            position: absolute;
+            top: 100px;
+            left: -200%;
+            width: 400%;
+            height: 400%;
+            margin-left: 100px;
+            background-color: #00aeef;
+        }
+
+        .sc-percentage {
+            transform: rotate(20deg);
+            transform-origin: top center;
+        }
+
+        .sc-min {
+            float: left;
+        }
+
+        .sc-max {
+            float: right;
+        }
+
+        .sc-value {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width: 100%;
+            font-size: 30px;
+            font-weight: 700;
+        }
+    </style>
+</head>
+
+<body>
+
+
+    <code>
+Brambosch IT
+</code>
+
+
+
+    <div class="sc-gauge">
+        <div class="sc-background">
+            <div class="sc-percentage"></div>
+            <div class="sc-mask"></div>
+            <span class="sc-value">0 V</span>
+        </div>
+        <span class="sc-min">0</span>
+        <span class="sc-max">250</span>
+    </div>
+
+
+
+    <!-- firebase -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+
+
+    <script>
+
+        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+        const firebaseConfig = {
+            apiKey: "AIzaSyATGUPat5RBkp93HennkubZnZr1eIVVbAk",
+            authDomain: "project-flughafen.firebaseapp.com",
+            databaseURL: "https://project-flughafen-default-rtdb.europe-west1.firebasedatabase.app",
+            projectId: "project-flughafen",
+            storageBucket: "project-flughafen.appspot.com",
+            messagingSenderId: "1053881169161",
+            appId: "1:1053881169161:web:e4ede70d8eb59082f68fd8",
+            measurementId: "G-M1FTTEF628"
+        };
+
+
+
+
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+
+        // Get a reference to the database service
+        const database = firebase.database();
+
+        // Initialize Firebase Authentication
+        const auth = firebase.auth();
+
+
+
+        const databaseRef = database.ref(`voltage/current`);
+
+
+
+        databaseRef.on('value', (snapshot) => {
+            if (snapshot.exists) {
+
+                // Data exists, you can retrieve and store it in a variable
+                const data = snapshot.val();
+                console.log("Data:", data);
+
+                const spanElement = document.querySelector('.sc-value');
+
+                spanElement.textContent = data + 'V';
+
+
+
+            } else {
+
+            }
+        }, (error) => {
+            // Handle errors
+            console.error("Admin Error checking group membership:", error);
+        });
+
+
+
+    </script>
+
+
+
+</body>
+
+</html>
