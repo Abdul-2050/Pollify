@@ -176,7 +176,7 @@ let matchDataArray = [
     team2: "New Zealand",
     matchDate: "5-Oct",
     matchTime: "2:00 PM",
-    winningTeam: null,
+    winningTeam: team2,
   },
   {
     description: "Pakistan vs Netherlands",
@@ -184,7 +184,7 @@ let matchDataArray = [
     team2: "Netherlands",
     matchDate: "6-Oct",
     matchTime: "2:00 PM",
-    winningTeam: null,
+    winningTeam: team1,
   },
   {
     description: "Bangladesh vs Afghanistan",
@@ -192,7 +192,7 @@ let matchDataArray = [
     team2: "Afghanistan",
     matchDate: "7-Oct",
     matchTime: "10:30 AM",
-    winningTeam: null,
+    winningTeam: team1,
   },
   {
     description: "South Africa vs Sri Lanka",
@@ -200,7 +200,7 @@ let matchDataArray = [
     team2: "Sri Lanka",
     matchDate: "7-Oct",
     matchTime: "2:00 PM",
-    winningTeam: null,
+    winningTeam: team1,
   },
   {
     description: "Australia vs India",
@@ -208,7 +208,7 @@ let matchDataArray = [
     team2: "India",
     matchDate: "8-Oct",
     matchTime: "2:00 PM",
-    winningTeam: null,
+    winningTeam: team2,
   },
   {
     description: "New Zealand vs Netherlands",
@@ -216,7 +216,7 @@ let matchDataArray = [
     team2: "Netherlands",
     matchDate: "9-Oct",
     matchTime: "2:00 PM",
-    winningTeam: null,
+    winningTeam: team1,
   },
   {
     description: "England vs Bangladesh",
@@ -224,7 +224,7 @@ let matchDataArray = [
     team2: "Bangladesh",
     matchDate: "10-Oct",
     matchTime: "10:30 AM",
-    winningTeam: null,
+    winningTeam: team1,
   },
   {
     description: "Pakistan vs Sri Lanka",
@@ -232,7 +232,7 @@ let matchDataArray = [
     team2: "Sri Lanka",
     matchDate: "10-Oct",
     matchTime: "2:00 PM",
-    winningTeam: null,
+    winningTeam: team1,
   },
   {
     description: "India vs Afghanistan",
@@ -240,7 +240,7 @@ let matchDataArray = [
     team2: "Afghanistan",
     matchDate: "11-Oct",
     matchTime: "2:00 PM",
-    winningTeam: null,
+    winningTeam: team1,
   },
   {
     description: "Australia vs South Africa",
@@ -248,7 +248,7 @@ let matchDataArray = [
     team2: "South Africa",
     matchDate: "12-Oct",
     matchTime: "2:00 PM",
-    winningTeam: null,
+    winningTeam: team2,
   },
   {
     description: "New Zealand vs Bangladesh",
@@ -256,7 +256,7 @@ let matchDataArray = [
     team2: "Bangladesh",
     matchDate: "13-Oct",
     matchTime: "2:00 PM",
-    winningTeam: null,
+    winningTeam: team1,
   },
   {
     description: "India vs Pakistan",
@@ -264,7 +264,7 @@ let matchDataArray = [
     team2: "Pakistan",
     matchDate: "14-Oct",
     matchTime: "2:00 PM",
-    winningTeam: null,
+    winningTeam: team1,
   },
   {
     description: "England vs Afghanistan",
@@ -272,7 +272,7 @@ let matchDataArray = [
     team2: "Afghanistan",
     matchDate: "15-Oct",
     matchTime: "2:00 PM",
-    winningTeam: null,
+    winningTeam: team2,
   },
   {
     description: "Australia vs Sri Lanka",
@@ -280,7 +280,7 @@ let matchDataArray = [
     team2: "Sri Lanka",
     matchDate: "16-Oct",
     matchTime: "2:00 PM",
-    winningTeam: null,
+    winningTeam: team1,
   },
   {
     description: "South Africa vs Netherlands",
@@ -288,7 +288,7 @@ let matchDataArray = [
     team2: "Netherlands",
     matchDate: "17-Oct",
     matchTime: "2:00 PM",
-    winningTeam: null,
+    winningTeam: team2,
   },
   {
     description: "New Zealand vs Afghanistan",
@@ -296,7 +296,7 @@ let matchDataArray = [
     team2: "Afghanistan",
     matchDate: "18-Oct",
     matchTime: "2:00 PM",
-    winningTeam: null,
+    winningTeam: team1,
   },
   {
     description: "India vs Bangladesh",
@@ -304,7 +304,7 @@ let matchDataArray = [
     team2: "Bangladesh",
     matchDate: "19-Oct",
     matchTime: "2:00 PM",
-    winningTeam: null,
+    winningTeam: team1,
   },
   {
     description: "Australia vs Pakistan",
@@ -312,7 +312,7 @@ let matchDataArray = [
     team2: "Pakistan",
     matchDate: "20-Oct",
     matchTime: "2:00 PM",
-    winningTeam: null,
+    winningTeam: team1,
   },
   {
     description: "Netherlands vs Sri Lanka",
@@ -320,7 +320,7 @@ let matchDataArray = [
     team2: "Sri Lanka",
     matchDate: "21-Oct",
     matchTime: "10:30 AM",
-    winningTeam: null,
+    winningTeam: team2,
   },
   {
     description: "England vs South Africa",
@@ -328,7 +328,7 @@ let matchDataArray = [
     team2: "South Africa",
     matchDate: "21-Oct",
     matchTime: "2:00 PM",
-    winningTeam: null,
+    winningTeam: team2,
   },
   {
     description: "India vs New Zealand",
@@ -336,7 +336,7 @@ let matchDataArray = [
     team2: "New Zealand",
     matchDate: "22-Oct",
     matchTime: "2:00 PM",
-    winningTeam: null,
+    winningTeam: team1,
   },
   {
     description: "Pakistan vs Afghanistan",
@@ -344,7 +344,7 @@ let matchDataArray = [
     team2: "Afghanistan",
     matchDate: "23-Oct",
     matchTime: "2:00 PM",
-    winningTeam: null,
+    winningTeam: team2,
   },
   {
     description: "South Africa vs Bangladesh",
@@ -352,7 +352,7 @@ let matchDataArray = [
     team2: "Bangladesh",
     matchDate: "24-Oct",
     matchTime: "2:00 PM",
-    winningTeam: null,
+    winningTeam: team1,
   },
   {
     description: "Australia vs Netherlands",
@@ -360,7 +360,7 @@ let matchDataArray = [
     team2: "Netherlands",
     matchDate: "25-Oct",
     matchTime: "2:00 PM",
-    winningTeam: null,
+    winningTeam: team1,
   },
   {
     description: "England vs Sri Lanka",
@@ -368,7 +368,7 @@ let matchDataArray = [
     team2: "Sri Lanka",
     matchDate: "26-Oct",
     matchTime: "2:00 PM",
-    winningTeam: null,
+    winningTeam: team2,
   },
   {
     description: "Pakistan vs South Africa",
@@ -376,7 +376,7 @@ let matchDataArray = [
     team2: "South Africa",
     matchDate: "27-Oct",
     matchTime: "2:00 PM",
-    winningTeam: null,
+    winningTeam: team2,
   },
   {
     description: "Australia vs New Zealand",
@@ -384,7 +384,7 @@ let matchDataArray = [
     team2: "New Zealand",
     matchDate: "28-Oct",
     matchTime: "10:30 AM",
-    winningTeam: null,
+    winningTeam: team1,
   },
   {
     description: "Netherlands vs Bangladesh",
@@ -392,7 +392,7 @@ let matchDataArray = [
     team2: "Bangladesh",
     matchDate: "28-Oct",
     matchTime: "2:00 PM",
-    winningTeam: null,
+    winningTeam: team1,
   },
   {
     description: "India vs England",
@@ -400,7 +400,7 @@ let matchDataArray = [
     team2: "England",
     matchDate: "29-Oct",
     matchTime: "2:00 PM",
-    winningTeam: null,
+    winningTeam: team1,
   },
   {
     description: "Afghanistan vs Sri Lanka",
@@ -408,7 +408,7 @@ let matchDataArray = [
     team2: "Sri Lanka",
     matchDate: "30-Oct",
     matchTime: "2:00 PM",
-    winningTeam: null,
+    winningTeam: team1,
   },
   {
     description: "Pakistan vs Bangladesh",
@@ -416,7 +416,7 @@ let matchDataArray = [
     team2: "Bangladesh",
     matchDate: "31-Oct",
     matchTime: "2:00 PM",
-    winningTeam: null,
+    winningTeam: team1,
   },
   {
     description: "New Zealand vs South Africa",
@@ -424,7 +424,7 @@ let matchDataArray = [
     team2: "South Africa",
     matchDate: "1-Nov",
     matchTime: "2:00 PM",
-    winningTeam: null,
+    winningTeam: team2,
   },
   {
     description: "India vs Sri Lanka",
@@ -432,7 +432,7 @@ let matchDataArray = [
     team2: "Sri Lanka",
     matchDate: "2-Nov",
     matchTime: "2:00 PM",
-    winningTeam: null,
+    winningTeam: team1,
   },
   {
     description: "Netherlands vs Afghanistan",
@@ -440,7 +440,7 @@ let matchDataArray = [
     team2: "Afghanistan",
     matchDate: "3-Nov",
     matchTime: "2:00 PM",
-    winningTeam: null,
+    winningTeam: team2,
   },
   {
     description: "New Zealand vs Pakistan",
@@ -448,7 +448,7 @@ let matchDataArray = [
     team2: "Pakistan",
     matchDate: "4-Nov",
     matchTime: "10:30 AM",
-    winningTeam: null,
+    winningTeam: team2,
   },
   {
     description: "England vs Australia",
@@ -456,7 +456,7 @@ let matchDataArray = [
     team2: "Australia",
     matchDate: "4-Nov",
     matchTime: "2:00 PM",
-    winningTeam: null,
+    winningTeam: team2,
   },
   {
     description: "India vs South Africa",
@@ -464,7 +464,7 @@ let matchDataArray = [
     team2: "South Africa",
     matchDate: "5-Nov",
     matchTime: "2:00 PM",
-    winningTeam: null,
+    winningTeam: team1,
   },
   {
     description: "Bangladesh vs Sri Lanka",
@@ -472,7 +472,7 @@ let matchDataArray = [
     team2: "Sri Lanka",
     matchDate: "6-Nov",
     matchTime: "2:00 PM",
-    winningTeam: null,
+    winningTeam: team1,
   },
   {
     description: "Australia vs Afghanistan",
@@ -480,7 +480,7 @@ let matchDataArray = [
     team2: "Afghanistan",
     matchDate: "7-Nov",
     matchTime: "2:00 PM",
-    winningTeam: null,
+    winningTeam: team1,
   },
   {
     description: "England vs Netherlands",
@@ -488,7 +488,7 @@ let matchDataArray = [
     team2: "Netherlands",
     matchDate: "8-Nov",
     matchTime: "2:00 PM",
-    winningTeam: null,
+    winningTeam: team1,
   },
   {
     description: "New Zealand vs Sri Lanka",
@@ -496,7 +496,7 @@ let matchDataArray = [
     team2: "Sri Lanka",
     matchDate: "9-Nov",
     matchTime: "2:00 PM",
-    winningTeam: null,
+    winningTeam: team1,
   },
   {
     description: "South Africa vs Afghanistan",
@@ -504,7 +504,7 @@ let matchDataArray = [
     team2: "Afghanistan",
     matchDate: "10-Nov",
     matchTime: "2:00 PM",
-    winningTeam: null,
+    winningTeam: team1,
   },
   {
     description: "Australia vs Bangladesh",
@@ -512,7 +512,7 @@ let matchDataArray = [
     team2: "Bangladesh",
     matchDate: "11-Nov",
     matchTime: "10:30 AM",
-    winningTeam: null,
+    winningTeam: team1,
   },
   {
     description: "England vs Pakistan",
@@ -520,7 +520,7 @@ let matchDataArray = [
     team2: "Pakistan",
     matchDate: "11-Nov",
     matchTime: "2:00 PM",
-    winningTeam: null,
+    winningTeam: team1,
   },
   {
     description: "India vs Netherlands",
@@ -528,7 +528,7 @@ let matchDataArray = [
     team2: "Netherlands",
     matchDate: "12-Nov",
     matchTime: "2:00 PM",
-    winningTeam: null,
+    winningTeam: team1,
   },
   {
     description: "1st Semi-Final India vs New Zealand",
@@ -536,7 +536,7 @@ let matchDataArray = [
     team2: "New Zealand",
     matchDate: "15-Nov",
     matchTime: "2:00 PM",
-    winningTeam: null,
+    winningTeam: team1,
   },
   {
     description: "2nd Semi-Final Australia vs South Africa",
@@ -544,12 +544,12 @@ let matchDataArray = [
     team2: "South Africa",
     matchDate: "16-Nov",
     matchTime: "2:00 PM",
-    winningTeam: null,
+    winningTeam: team1,
   },
   {
-    description: "Final T.B.C. vs T.B.C.",
-    team1: "T.B.C",
-    team2: "T.B.C",
+    description: "Final India vs Australia",
+    team1: "India",
+    team2: "Australia",
     matchDate: "19-Nov",
     matchTime: "2:00 PM",
     winningTeam: null,
